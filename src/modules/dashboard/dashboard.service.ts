@@ -1,7 +1,14 @@
 import { prisma } from '../../lib/prisma';
 
 const getUserDashboardData = async (userId: string) => {
-  const [enrolledCourses, savedCourses, quizAttempts, notifications, recentActivity] = await Promise.all([
+  const [
+    enrolledCourses,
+    savedCourses,
+    quizAttempts,
+    notifications,
+    assignments,
+    upcomingClasses,
+  ] = await Promise.all([
     prisma.enrollment.findMany({
       where: { userId },
       include: {
@@ -9,10 +16,14 @@ const getUserDashboardData = async (userId: string) => {
           include: {
             instructor: { select: { name: true } },
             category: { select: { name: true } },
+            lessons: { select: { id: true, duration: true } },
           },
         },
+        lessonProgress: {
+          where: { isCompleted: true },
+          select: { completedAt: true },
+        },
       },
-      take: 7,
       orderBy: { updatedAt: 'desc' },
     }),
     prisma.savedCourse.findMany({
@@ -22,15 +33,8 @@ const getUserDashboardData = async (userId: string) => {
     }),
     prisma.quizAttempt.findMany({
       where: { userId },
-      include: {
-        quiz: {
-          select: {
-            title: true,
-            course: { select: { title: true } },
-          },
-        },
-      },
-      take: 5,
+      include: { quiz: { select: { title: true, course: { select: { title: true } } } } },
+      take: 10,
       orderBy: { createdAt: 'desc' },
     }),
     prisma.notification.findMany({
@@ -38,36 +42,92 @@ const getUserDashboardData = async (userId: string) => {
       take: 5,
       orderBy: { createdAt: 'desc' },
     }),
-    prisma.auditLog.findMany({
-      where: { actorId: userId },
-      take: 10,
-      orderBy: { createdAt: 'desc' },
+    prisma.assignment.findMany({
+      where: {
+        course: { enrollments: { some: { userId } } },
+        dueDate: { gte: new Date() },
+        submissions: { none: { studentId: userId } },
+      },
+      include: { course: { select: { title: true } } },
+      orderBy: { dueDate: 'asc' },
+      take: 5,
+    }),
+    prisma.liveClass.findMany({
+      where: {
+        course: { enrollments: { some: { userId } } },
+        startTime: { gte: new Date() },
+      },
+      include: {
+        course: {
+          select: {
+            title: true,
+            instructor: { select: { name: true } },
+          },
+        },
+      },
+      orderBy: { startTime: 'asc' },
+      take: 5,
     }),
   ]);
 
-  // Calculate progress summary
+  const toIsoDate = (d: Date) => d.toISOString().split('T')[0];
+
+  // Completed lesson timestamps (for all courses)
+  const allCompletedAt: Date[] = enrolledCourses.flatMap((e) =>
+    e.lessonProgress.map((lp) => lp.completedAt).filter((d): d is Date => Boolean(d))
+  );
+
+  // Compute REAL study hours from weekly lesson completions (estimate: 15min per completion)
+  const thisWeekStart = new Date();
+  thisWeekStart.setDate(thisWeekStart.getDate() - 7);
+  const thisWeekCompletions = allCompletedAt.filter((d) => d >= thisWeekStart).length;
+  const studyHoursThisWeek = Number((thisWeekCompletions * 0.25).toFixed(1));
+
+  // Weekly activity chart (last 7 days)
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return toIsoDate(d);
+  });
+
+  const weeklyActivity = last7Days.map((date) => ({
+    date: new Date(date).toLocaleDateString('en-US', { weekday: 'short' }),
+    lessons: allCompletedAt.filter((d) => toIsoDate(d) === date).length,
+  }));
+
+  // Quiz score trend
+  const quizTrend = quizAttempts
+    .slice()
+    .reverse()
+    .map((qa) => ({
+      date: new Date(qa.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      score: Math.round(qa.score),
+    }));
+
+  // Learning streak (consecutive days with >= 1 lesson completed)
+  const uniqueDatesDesc = [...new Set(allCompletedAt.map(toIsoDate))].sort().reverse();
+  let streak = 0;
+  for (let i = 0; i < uniqueDatesDesc.length; i++) {
+    const expected = new Date();
+    expected.setDate(expected.getDate() - i);
+    if (uniqueDatesDesc[i] === toIsoDate(expected)) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  // Real announcements
+  const announcements = await prisma.notification.findMany({
+    where: { userId, type: 'ANNOUNCEMENT' },
+    take: 3,
+    orderBy: { createdAt: 'desc' },
+  });
+
   const progressStats = await prisma.enrollment.aggregate({
     where: { userId },
     _avg: { progress: true },
     _count: { id: true },
-  });
-
-  // Calculate Quiz Score Trend
-  const quizTrend = quizAttempts.map(qa => ({
-    date: qa.createdAt.toISOString().split('T')[0],
-    score: qa.score
-  })).reverse();
-
-  // Weekly Activity (mocking 7 days based on recentActivity)
-  const last7Days = Array.from({length: 7}, (_, i) => {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    return d.toISOString().split('T')[0];
-  }).reverse();
-  
-  const weeklyActivity = last7Days.map(date => {
-    const count = recentActivity.filter(a => a.createdAt.toISOString().split('T')[0] === date).length;
-    return { date, count };
   });
 
   return {
@@ -75,16 +135,25 @@ const getUserDashboardData = async (userId: string) => {
     savedCourses,
     quizAttempts,
     notifications,
-    recentActivity,
+    assignments,
+    upcomingClasses,
+    announcements,
     stats: {
       averageProgress: progressStats._avg.progress ? Number(progressStats._avg.progress.toFixed(1)) : 0,
       totalEnrolled: progressStats._count.id,
+      studyHoursThisWeek,
+      learningStreak: streak,
+      quizzesPassed: quizAttempts.filter((qa) => qa.score >= 70).length,
+      pendingAssignments: assignments.length,
     },
     charts: {
       weeklyActivity,
       quizTrend,
-      courseProgress: enrolledCourses.map(e => ({ name: e.course.title.substring(0,15)+'...', progress: e.progress }))
-    }
+      courseProgress: enrolledCourses.map((e) => ({
+        name: e.course.title.substring(0, 15) + '...',
+        progress: e.progress,
+      })),
+    },
   };
 };
 

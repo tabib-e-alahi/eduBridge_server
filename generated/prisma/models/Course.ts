@@ -333,6 +333,7 @@ export type CourseWhereInput = {
   lessons?: Prisma.LessonListRelationFilter
   quizzes?: Prisma.QuizListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
+  certificates?: Prisma.CertificateListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   savedBy?: Prisma.SavedCourseListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
@@ -367,6 +368,7 @@ export type CourseOrderByWithRelationInput = {
   lessons?: Prisma.LessonOrderByRelationAggregateInput
   quizzes?: Prisma.QuizOrderByRelationAggregateInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
+  certificates?: Prisma.CertificateOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   savedBy?: Prisma.SavedCourseOrderByRelationAggregateInput
   assignments?: Prisma.AssignmentOrderByRelationAggregateInput
@@ -404,6 +406,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   lessons?: Prisma.LessonListRelationFilter
   quizzes?: Prisma.QuizListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
+  certificates?: Prisma.CertificateListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   savedBy?: Prisma.SavedCourseListRelationFilter
   assignments?: Prisma.AssignmentListRelationFilter
@@ -492,6 +495,7 @@ export type CourseCreateInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -524,6 +528,7 @@ export type CourseUncheckedCreateInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -556,6 +561,7 @@ export type CourseUpdateInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -588,6 +594,7 @@ export type CourseUncheckedUpdateInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -816,6 +823,20 @@ export type CourseUncheckedUpdateManyWithoutInstructorNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
+export type CourseCreateNestedOneWithoutCertificatesInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutCertificatesInput, Prisma.CourseUncheckedCreateWithoutCertificatesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutCertificatesInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutCertificatesNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutCertificatesInput, Prisma.CourseUncheckedCreateWithoutCertificatesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutCertificatesInput
+  upsert?: Prisma.CourseUpsertWithoutCertificatesInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutCertificatesInput, Prisma.CourseUpdateWithoutCertificatesInput>, Prisma.CourseUncheckedUpdateWithoutCertificatesInput>
+}
+
 export type CourseCreategalleryUrlsInput = {
   set: string[]
 }
@@ -844,14 +865,6 @@ export type CourseUpdategalleryUrlsInput = {
 export type CourseUpdategalleryPublicIdsInput = {
   set?: string[]
   push?: string | string[]
-}
-
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type EnumCourseStatusFieldUpdateOperationsInput = {
@@ -1038,6 +1051,7 @@ export type CourseCreateWithoutAssignmentsInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
@@ -1069,6 +1083,7 @@ export type CourseUncheckedCreateWithoutAssignmentsInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
@@ -1116,6 +1131,7 @@ export type CourseUpdateWithoutAssignmentsInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
@@ -1147,6 +1163,7 @@ export type CourseUncheckedUpdateWithoutAssignmentsInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
@@ -1177,6 +1194,7 @@ export type CourseCreateWithoutInstructorInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1208,6 +1226,7 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -1268,6 +1287,150 @@ export type CourseScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
 }
 
+export type CourseCreateWithoutCertificatesInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutCertificatesInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
+  instructorId: string
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutCertificatesInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutCertificatesInput, Prisma.CourseUncheckedCreateWithoutCertificatesInput>
+}
+
+export type CourseUpsertWithoutCertificatesInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutCertificatesInput, Prisma.CourseUncheckedUpdateWithoutCertificatesInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutCertificatesInput, Prisma.CourseUncheckedCreateWithoutCertificatesInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutCertificatesInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutCertificatesInput, Prisma.CourseUncheckedUpdateWithoutCertificatesInput>
+}
+
+export type CourseUpdateWithoutCertificatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
+  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutCertificatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
+  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
+}
+
 export type CourseCreateWithoutSavedByInput = {
   id?: string
   title: string
@@ -1293,6 +1456,7 @@ export type CourseCreateWithoutSavedByInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
@@ -1324,6 +1488,7 @@ export type CourseUncheckedCreateWithoutSavedByInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
@@ -1371,6 +1536,7 @@ export type CourseUpdateWithoutSavedByInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
@@ -1402,6 +1568,7 @@ export type CourseUncheckedUpdateWithoutSavedByInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
@@ -1432,6 +1599,7 @@ export type CourseCreateWithoutCategoryInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1463,6 +1631,7 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -1520,6 +1689,7 @@ export type CourseCreateWithoutEnrollmentsInput = {
   category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1551,6 +1721,7 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   updatedAt?: Date | string
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -1598,6 +1769,7 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -1629,6 +1801,7 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -1660,6 +1833,7 @@ export type CourseCreateWithoutLessonsInput = {
   category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1691,6 +1865,7 @@ export type CourseUncheckedCreateWithoutLessonsInput = {
   updatedAt?: Date | string
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -1738,6 +1913,7 @@ export type CourseUpdateWithoutLessonsInput = {
   category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -1769,6 +1945,7 @@ export type CourseUncheckedUpdateWithoutLessonsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -1801,6 +1978,7 @@ export type CourseCreateWithoutLiveClassesInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1832,6 +2010,7 @@ export type CourseUncheckedCreateWithoutLiveClassesInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -1879,6 +2058,7 @@ export type CourseUpdateWithoutLiveClassesInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -1910,6 +2090,7 @@ export type CourseUncheckedUpdateWithoutLiveClassesInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -1941,6 +2122,7 @@ export type CourseCreateWithoutOrdersInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -1972,6 +2154,7 @@ export type CourseUncheckedCreateWithoutOrdersInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -2019,6 +2202,7 @@ export type CourseUpdateWithoutOrdersInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -2050,6 +2234,7 @@ export type CourseUncheckedUpdateWithoutOrdersInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -2080,6 +2265,7 @@ export type CourseCreateWithoutQuizzesInput = {
   category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
@@ -2111,6 +2297,7 @@ export type CourseUncheckedCreateWithoutQuizzesInput = {
   updatedAt?: Date | string
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
@@ -2158,6 +2345,7 @@ export type CourseUpdateWithoutQuizzesInput = {
   category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -2189,6 +2377,7 @@ export type CourseUncheckedUpdateWithoutQuizzesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -2221,6 +2410,7 @@ export type CourseCreateWithoutReviewsInput = {
   lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
@@ -2252,6 +2442,7 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  certificates?: Prisma.CertificateUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
   liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
@@ -2299,6 +2490,7 @@ export type CourseUpdateWithoutReviewsInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
@@ -2330,6 +2522,7 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
   liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
@@ -2383,6 +2576,7 @@ export type CourseUpdateWithoutInstructorInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -2414,6 +2608,7 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -2491,6 +2686,7 @@ export type CourseUpdateWithoutCategoryInput = {
   lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
@@ -2522,6 +2718,7 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  certificates?: Prisma.CertificateUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
@@ -2561,6 +2758,7 @@ export type CourseCountOutputType = {
   lessons: number
   quizzes: number
   enrollments: number
+  certificates: number
   reviews: number
   savedBy: number
   assignments: number
@@ -2572,6 +2770,7 @@ export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   lessons?: boolean | CourseCountOutputTypeCountLessonsArgs
   quizzes?: boolean | CourseCountOutputTypeCountQuizzesArgs
   enrollments?: boolean | CourseCountOutputTypeCountEnrollmentsArgs
+  certificates?: boolean | CourseCountOutputTypeCountCertificatesArgs
   reviews?: boolean | CourseCountOutputTypeCountReviewsArgs
   savedBy?: boolean | CourseCountOutputTypeCountSavedByArgs
   assignments?: boolean | CourseCountOutputTypeCountAssignmentsArgs
@@ -2608,6 +2807,13 @@ export type CourseCountOutputTypeCountQuizzesArgs<ExtArgs extends runtime.Types.
  */
 export type CourseCountOutputTypeCountEnrollmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EnrollmentWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountCertificatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CertificateWhereInput
 }
 
 /**
@@ -2673,6 +2879,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   lessons?: boolean | Prisma.Course$lessonsArgs<ExtArgs>
   quizzes?: boolean | Prisma.Course$quizzesArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
+  certificates?: boolean | Prisma.Course$certificatesArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   savedBy?: boolean | Prisma.Course$savedByArgs<ExtArgs>
   assignments?: boolean | Prisma.Course$assignmentsArgs<ExtArgs>
@@ -2764,6 +2971,7 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   lessons?: boolean | Prisma.Course$lessonsArgs<ExtArgs>
   quizzes?: boolean | Prisma.Course$quizzesArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
+  certificates?: boolean | Prisma.Course$certificatesArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   savedBy?: boolean | Prisma.Course$savedByArgs<ExtArgs>
   assignments?: boolean | Prisma.Course$assignmentsArgs<ExtArgs>
@@ -2788,6 +2996,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     lessons: Prisma.$LessonPayload<ExtArgs>[]
     quizzes: Prisma.$QuizPayload<ExtArgs>[]
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
+    certificates: Prisma.$CertificatePayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     savedBy: Prisma.$SavedCoursePayload<ExtArgs>[]
     assignments: Prisma.$AssignmentPayload<ExtArgs>[]
@@ -3215,6 +3424,7 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
   lessons<T extends Prisma.Course$lessonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   quizzes<T extends Prisma.Course$quizzesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$quizzesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   enrollments<T extends Prisma.Course$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  certificates<T extends Prisma.Course$certificatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$certificatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Course$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   savedBy<T extends Prisma.Course$savedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignments<T extends Prisma.Course$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3740,6 +3950,30 @@ export type Course$enrollmentsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.EnrollmentScalarFieldEnum | Prisma.EnrollmentScalarFieldEnum[]
+}
+
+/**
+ * Course.certificates
+ */
+export type Course$certificatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Certificate
+   */
+  select?: Prisma.CertificateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Certificate
+   */
+  omit?: Prisma.CertificateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CertificateInclude<ExtArgs> | null
+  where?: Prisma.CertificateWhereInput
+  orderBy?: Prisma.CertificateOrderByWithRelationInput | Prisma.CertificateOrderByWithRelationInput[]
+  cursor?: Prisma.CertificateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CertificateScalarFieldEnum | Prisma.CertificateScalarFieldEnum[]
 }
 
 /**

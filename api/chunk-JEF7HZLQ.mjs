@@ -1,7 +1,9 @@
 // src/config/index.ts
-import dotenv from "dotenv";
 import path from "path";
-dotenv.config({ path: path.join(process.cwd(), ".env") });
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = await import("dotenv");
+  dotenv.default.config({ path: path.join(process.cwd(), ".env") });
+}
 var envConfig = {
   NODE_ENV: process.env.NODE_ENV || "development",
   PORT: Number(process.env.PORT) || 5e3,

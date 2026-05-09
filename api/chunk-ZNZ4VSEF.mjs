@@ -1,6 +1,6 @@
 import {
   config_default
-} from "./chunk-Y6NVD232.mjs";
+} from "./chunk-JEF7HZLQ.mjs";
 
 // src/utils/upload.service.ts
 import { v2 as cloudinary } from "cloudinary";

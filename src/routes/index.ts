@@ -20,6 +20,7 @@ import { SupportRoutes } from '../modules/support/support.route';
 import { ReviewRoutes } from '../modules/review/review.route';
 import { BlogRoutes } from '../modules/blog/blog.route';
 import { QuizRoutes } from '../modules/quiz/quiz.route';
+import { CertificateRoutes } from '../modules/certificate/certificate.route';
 
 const router : Router = Router();
 
@@ -103,6 +104,10 @@ const moduleRoutes = [
   {
     path: '/blogs',
     route: BlogRoutes,
+  },
+  {
+    path: '/certificates',
+    route: CertificateRoutes,
   },
 ];
 

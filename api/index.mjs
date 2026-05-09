@@ -1,13 +1,18 @@
 import {
-  notification_service_default,
+  notification_service_default
+} from "./chunk-2T6CRCKF.mjs";
+import {
+  CertificateService
+} from "./chunk-KZGYDQ75.mjs";
+import {
   prisma
-} from "./chunk-3IWMRWQB.mjs";
+} from "./chunk-W7XWHOM4.mjs";
 import {
   upload_service_default
-} from "./chunk-UMC2Z43O.mjs";
+} from "./chunk-ZNZ4VSEF.mjs";
 import {
   config_default
-} from "./chunk-Y6NVD232.mjs";
+} from "./chunk-JEF7HZLQ.mjs";
 
 // src/app.ts
 import express16 from "express";
@@ -29,7 +34,7 @@ var auth = betterAuth({
     enabled: true,
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, token }) => {
-      const EmailService = (await import("./email-EC6XRB27.mjs")).default;
+      const EmailService = (await import("./email-65BLRWC5.mjs")).default;
       await EmailService.sendVerificationEmail(user.email, token);
     }
   },
@@ -67,7 +72,7 @@ var auth = betterAuth({
           return { data: user };
         },
         after: async (user) => {
-          const EmailService = (await import("./email-EC6XRB27.mjs")).default;
+          const EmailService = (await import("./email-65BLRWC5.mjs")).default;
           await EmailService.sendWelcomeEmail(user.email, user.name || "Learner");
         }
       }
@@ -80,7 +85,7 @@ import { toNodeHandler } from "better-auth/node";
 import { rateLimit } from "express-rate-limit";
 
 // src/routes/index.ts
-import { Router as Router19 } from "express";
+import { Router as Router22 } from "express";
 
 // src/modules/ai/ai.route.ts
 import { Router } from "express";
@@ -197,7 +202,8 @@ var ROLE_PERMISSIONS = {
     PERMISSIONS.ANALYTICS_VIEW,
     PERMISSIONS.ASSIGNMENT_CREATE,
     PERMISSIONS.ASSIGNMENT_GRADE,
-    PERMISSIONS.CLASS_MANAGE
+    PERMISSIONS.CLASS_MANAGE,
+    PERMISSIONS.NOTIFICATION_ANNOUNCE
   ],
   MANAGER: [
     // Inherits INSTRUCTOR permissions
@@ -224,6 +230,7 @@ var ROLE_PERMISSIONS = {
     PERMISSIONS.ASSIGNMENT_CREATE,
     PERMISSIONS.ASSIGNMENT_GRADE,
     PERMISSIONS.CLASS_MANAGE,
+    PERMISSIONS.NOTIFICATION_ANNOUNCE,
     // Manager-specific
     PERMISSIONS.COURSE_PUBLISH,
     PERMISSIONS.COURSE_DELETE,
@@ -341,13 +348,14 @@ var sendResponse_default = sendResponse;
 // src/lib/ai.ts
 import { GoogleGenerativeAI } from "@google/generative-ai";
 var genAI = new GoogleGenerativeAI(config_default.GEMINI_API_KEY || "");
-var geminiModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+var GEMINI_MODEL_NAME = "gemini-2.5-flash";
+var geminiModel = genAI.getGenerativeModel({ model: GEMINI_MODEL_NAME });
 
 // src/modules/ai/ai.service.ts
 var sanitizeInput = (str) => {
   return str.trim().slice(0, 2e3).replace(/```/g, "").replace(/\$\{/g, "").replace(/<script[^>]*>/gi, "").replace(/<\/script>/gi, "");
 };
-var logAIRequest = async (userId, feature, promptTokens = 0, completionTokens = 0, model = "gemini-1.5-flash") => {
+var logAIRequest = async (userId, feature, promptTokens = 0, completionTokens = 0, model = GEMINI_MODEL_NAME) => {
   return await prisma.aIRequestLog.create({
     data: {
       userId,
@@ -364,6 +372,15 @@ var extractTokenUsage = (result) => {
     promptTokens: usage?.promptTokenCount || 0,
     completionTokens: usage?.candidatesTokenCount || 0
   };
+};
+var cleanJsonText = (text) => text.replace(/```json|```/g, "").trim();
+var parseJsonResponse = (text) => {
+  const cleanedText = cleanJsonText(text);
+  try {
+    return JSON.parse(cleanedText);
+  } catch {
+    return { raw: cleanedText, parseError: true };
+  }
 };
 var generateLearningPath = async (userId, payload) => {
   const goal = sanitizeInput(payload.goal || "");
@@ -398,7 +415,7 @@ var generateLearningPath = async (userId, payload) => {
       steps: roadmapData
     }
   });
-  const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
+  const NotificationService = (await import("./notification.service-2CNJ7762.mjs")).default;
   NotificationService.notifyLearningPathGenerated(userId, roadmapData.roadmapTitle);
   return learningPath;
 };
@@ -424,10 +441,11 @@ var getCourseRecommendations = async (userId, interests, level) => {
   await logAIRequest(userId, "course-recommendations", promptTokens, completionTokens);
   return data;
 };
-var generateQuiz = async (userId, topic, difficulty = "Medium", count = 5) => {
-  const sanitizedTopic = sanitizeInput(topic);
-  const sanitizedDifficulty = sanitizeInput(difficulty);
-  const safeCount = Math.min(Math.max(Number(count) || 5, 1), 20);
+var generateQuiz = async (userId, topicOrPayload, difficulty = "Medium", count = 5) => {
+  const payload = typeof topicOrPayload === "string" ? { topic: topicOrPayload, difficulty, count } : topicOrPayload;
+  const sanitizedTopic = sanitizeInput(payload.topic || "");
+  const sanitizedDifficulty = sanitizeInput(payload.difficulty || "Medium");
+  const safeCount = Math.min(Math.max(Number(payload.count) || 5, 1), 20);
   const prompt = `Generate a quiz about ${sanitizedTopic} with ${safeCount} questions at ${sanitizedDifficulty} difficulty.
   Return ONLY a JSON object:
   {
@@ -444,9 +462,137 @@ var generateQuiz = async (userId, topic, difficulty = "Medium", count = 5) => {
   const result = await geminiModel.generateContent(prompt);
   const { promptTokens, completionTokens } = extractTokenUsage(result);
   const text = result.response.text();
-  const quizData = JSON.parse(text.replace(/```json|```/g, "").trim());
+  const quizData = parseJsonResponse(text);
   await logAIRequest(userId, "quiz-generator", promptTokens, completionTokens);
-  return quizData;
+  if ("parseError" in quizData || !payload.saveToDb) {
+    return quizData;
+  }
+  if (!payload.courseId) {
+    return quizData;
+  }
+  const course = await prisma.course.findFirst({
+    where: { id: payload.courseId, instructorId: userId },
+    select: { id: true }
+  });
+  if (!course) {
+    throw new Error("Course not found");
+  }
+  const savedQuiz = await prisma.quiz.create({
+    data: {
+      title: quizData.quizTitle,
+      courseId: payload.courseId,
+      questions: {
+        create: quizData.questions.map((question) => ({
+          question: question.question,
+          options: question.options,
+          correctAnswer: question.correctAnswer,
+          explanation: question.explanation ?? null
+        }))
+      }
+    },
+    include: { questions: true }
+  });
+  return { ...quizData, savedQuiz };
+};
+var generateCourseOutline = async (userId, payload) => {
+  const topic = sanitizeInput(payload.topic || "");
+  const targetAudience = sanitizeInput(payload.targetAudience || "");
+  const durationWeeks = Number(payload.durationWeeks) || 8;
+  const level = sanitizeInput(payload.level || "Beginner");
+  const prompt = `You are an expert instructional designer. Create a complete course outline for:
+  - Topic: "${topic}"
+  - Target Audience: "${targetAudience}"
+  - Duration: ${durationWeeks} weeks
+  - Level: "${level}"
+  
+  Return ONLY valid JSON:
+  {
+    "courseTitle": string,
+    "courseDescription": string,
+    "learningObjectives": string[],
+    "modules": [
+      {
+        "moduleNumber": number,
+        "title": string,
+        "description": string,
+        "lessons": [
+          { "lessonNumber": number, "title": string, "duration": string, "objectives": string[] }
+        ]
+      }
+    ],
+    "assessmentStrategy": string,
+    "prerequisites": string[]
+  }`;
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse(result.response.text());
+  await logAIRequest(userId, "course-outline-generator", promptTokens, completionTokens);
+  return data;
+};
+var generateLessonDescription = async (userId, payload) => {
+  const lessonTitle = sanitizeInput(payload.lessonTitle || "");
+  const keyConcepts = sanitizeInput(payload.keyConcepts || "");
+  const prompt = `Write an engaging, informative lesson description for an online course lesson:
+  - Lesson Title: "${lessonTitle}"
+  - Key Concepts: ${keyConcepts}
+  
+  Return ONLY valid JSON:
+  {
+    "description": string,
+    "whatYouWillLearn": string[],
+    "estimatedTime": string
+  }`;
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse(result.response.text());
+  await logAIRequest(userId, "lesson-description", promptTokens, completionTokens);
+  return data;
+};
+var analyzeInstructorEngagement = async (userId) => {
+  const courses = await prisma.course.findMany({
+    where: { instructorId: userId, status: "PUBLISHED" },
+    include: {
+      enrollments: {
+        include: {
+          lessonProgress: { where: { isCompleted: true } },
+          user: { select: { name: true, email: true } }
+        }
+      },
+      lessons: { select: { id: true } },
+      _count: { select: { reviews: true } }
+    }
+  });
+  const courseData = courses.map((course) => ({
+    title: course.title,
+    enrollmentCount: course.enrollments.length,
+    avgProgress: course.enrollments.length > 0 ? course.enrollments.reduce((sum, enrollment) => sum + enrollment.progress, 0) / course.enrollments.length : 0,
+    atRiskStudents: course.enrollments.filter((enrollment) => enrollment.progress < 20).map((enrollment) => ({
+      name: enrollment.user.name,
+      email: enrollment.user.email,
+      progress: enrollment.progress
+    })),
+    lessonCount: course.lessons.length,
+    reviewCount: course._count.reviews
+  }));
+  const prompt = `Analyze this instructor's course engagement data and provide actionable insights:
+  ${JSON.stringify(courseData)}
+  
+  Return ONLY valid JSON:
+  {
+    "overallEngagementScore": number,
+    "summary": string,
+    "courseInsights": [{ "courseTitle": string, "engagementScore": number, "insight": string, "recommendation": string }],
+    "topRecommendations": string[],
+    "atRiskAlert": string
+  }`;
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse(result.response.text());
+  const atRiskStudents = courseData.flatMap(
+    (course) => course.atRiskStudents.map((student) => ({ ...student, course: course.title }))
+  );
+  await logAIRequest(userId, "engagement-analyzer", promptTokens, completionTokens);
+  return { ...data, atRiskStudents };
 };
 var chatWithAI = async (userId, payload) => {
   const message = sanitizeInput(payload.message || "");
@@ -578,6 +724,9 @@ var AIService = {
   generateLearningPath,
   getCourseRecommendations,
   generateQuiz,
+  generateCourseOutline,
+  generateLessonDescription,
+  analyzeInstructorEngagement,
   chatWithAI,
   analyzeProgress,
   getConversations,
@@ -615,6 +764,46 @@ var generateQuiz2 = catchAsync_default(async (req, res) => {
     statusCode: httpStatus2.OK,
     success: true,
     message: "Quiz generated successfully",
+    data: result
+  });
+});
+var generateInstructorQuiz = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await AIService.generateQuiz(userId, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus2.OK,
+    success: true,
+    message: "Instructor quiz generated successfully",
+    data: result
+  });
+});
+var generateCourseOutline2 = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await AIService.generateCourseOutline(userId, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus2.OK,
+    success: true,
+    message: "Course outline generated successfully",
+    data: result
+  });
+});
+var generateLessonDescription2 = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await AIService.generateLessonDescription(userId, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus2.OK,
+    success: true,
+    message: "Lesson description generated successfully",
+    data: result
+  });
+});
+var analyzeInstructorEngagement2 = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await AIService.analyzeInstructorEngagement(userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus2.OK,
+    success: true,
+    message: "Instructor engagement analysis completed",
     data: result
   });
 });
@@ -673,6 +862,10 @@ var AIController = {
   generateLearningPath: generateLearningPath2,
   getCourseRecommendations: getCourseRecommendations2,
   generateQuiz: generateQuiz2,
+  generateInstructorQuiz,
+  generateCourseOutline: generateCourseOutline2,
+  generateLessonDescription: generateLessonDescription2,
+  analyzeInstructorEngagement: analyzeInstructorEngagement2,
   chatWithAI: chatWithAI2,
   analyzeProgress: analyzeProgress2,
   getConversations: getConversations2,
@@ -700,7 +893,23 @@ var quizGeneratorSchema = z.object({
   body: z.object({
     topic: z.string("Topic is required"),
     difficulty: z.enum(["Easy", "Medium", "Hard"]).optional(),
-    count: z.number().min(1).max(20).optional()
+    count: z.number().min(1).max(20).optional(),
+    courseId: z.string().optional(),
+    saveToDb: z.boolean().optional()
+  })
+});
+var courseOutlineSchema = z.object({
+  body: z.object({
+    topic: z.string("Topic is required").min(1),
+    targetAudience: z.string("Target audience is required").min(1),
+    durationWeeks: z.number().min(1).max(52).optional(),
+    level: z.string().optional()
+  })
+});
+var lessonDescriptionSchema = z.object({
+  body: z.object({
+    lessonTitle: z.string("Lesson title is required").min(1),
+    keyConcepts: z.string("Key concepts are required").min(1)
   })
 });
 var aiChatSchema = z.object({
@@ -717,6 +926,8 @@ var AIValidations = {
   learningPathSchema,
   courseRecommendationsSchema,
   quizGeneratorSchema,
+  courseOutlineSchema,
+  lessonDescriptionSchema,
   aiChatSchema,
   progressAnalyzerSchema
 };
@@ -745,6 +956,29 @@ router.post(
   requirePermission(PERMISSIONS.AI_QUIZ_USE),
   validateRequest_default(AIValidations.quizGeneratorSchema),
   AIController.generateQuiz
+);
+router.post(
+  "/instructor/generate-quiz",
+  requirePermission(PERMISSIONS.AI_QUIZ_USE),
+  validateRequest_default(AIValidations.quizGeneratorSchema),
+  AIController.generateInstructorQuiz
+);
+router.post(
+  "/instructor/generate-outline",
+  requirePermission(PERMISSIONS.AI_ROADMAP_USE),
+  validateRequest_default(AIValidations.courseOutlineSchema),
+  AIController.generateCourseOutline
+);
+router.post(
+  "/instructor/generate-lesson-description",
+  requirePermission(PERMISSIONS.AI_ROADMAP_USE),
+  validateRequest_default(AIValidations.lessonDescriptionSchema),
+  AIController.generateLessonDescription
+);
+router.get(
+  "/instructor/engagement-analysis",
+  requirePermission(PERMISSIONS.ANALYTICS_VIEW),
+  AIController.analyzeInstructorEngagement
 );
 router.post(
   "/chat",
@@ -952,7 +1186,7 @@ var updateCourseInDB = async (id, payload) => {
     data: payload
   });
   if (payload.status === "PUBLISHED") {
-    const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
+    const NotificationService = (await import("./notification.service-2CNJ7762.mjs")).default;
     NotificationService.notifyNewCoursePublished(result.title);
   }
   return result;
@@ -1013,6 +1247,54 @@ var getRelatedCoursesFromDB = async (courseId) => {
   });
   return result;
 };
+var getMySavedCoursesFromDB = async (userId) => {
+  const result = await prisma.savedCourse.findMany({
+    where: { userId },
+    include: {
+      course: {
+        include: {
+          category: true,
+          instructor: { select: { name: true } },
+          _count: { select: { enrollments: true, reviews: true } }
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  return result;
+};
+var toggleSaveCourseInDB = async (userId, courseId) => {
+  const existing = await prisma.savedCourse.findUnique({
+    where: { userId_courseId: { userId, courseId } }
+  });
+  if (existing) {
+    await prisma.savedCourse.delete({
+      where: { userId_courseId: { userId, courseId } }
+    });
+    return { saved: false };
+  } else {
+    await prisma.savedCourse.create({
+      data: { userId, courseId }
+    });
+    return { saved: true };
+  }
+};
+var submitCourseForReview = async (courseId, instructorId) => {
+  const course = await prisma.course.findFirst({
+    where: { id: courseId, instructorId },
+    include: { lessons: true, category: true }
+  });
+  if (!course) throw new Error("Course not found");
+  if (course.status !== "DRAFT") throw new Error("Only draft courses can be submitted");
+  if (!course.title || !course.description) throw new Error("Course must have a title and description");
+  if (!course.lessons.length) throw new Error("Course must have at least one lesson");
+  if (!course.thumbnailUrl) throw new Error("Course must have a thumbnail");
+  if (!course.categoryId) throw new Error("Course must have a category");
+  return prisma.course.update({
+    where: { id: courseId },
+    data: { status: "IN_REVIEW" }
+  });
+};
 var CourseService = {
   createCourseIntoDB,
   getAllCoursesFromDB,
@@ -1020,6 +1302,9 @@ var CourseService = {
   getMyCoursesFromDB,
   getCourseByIdFromDB,
   getRelatedCoursesFromDB,
+  getMySavedCoursesFromDB,
+  toggleSaveCourseInDB,
+  submitCourseForReview,
   updateCourseInDB,
   deleteCourseFromDB
 };
@@ -1146,6 +1431,38 @@ var getRelatedCourses = catchAsync_default(async (req, res) => {
     data: result
   });
 });
+var getMySavedCourses = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await CourseService.getMySavedCoursesFromDB(userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus4.OK,
+    success: true,
+    message: "Saved courses retrieved successfully",
+    data: result
+  });
+});
+var toggleSaveCourse = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const { courseId } = req.body;
+  const result = await CourseService.toggleSaveCourseInDB(userId, courseId);
+  sendResponse_default(res, {
+    statusCode: httpStatus4.OK,
+    success: true,
+    message: result.saved ? "Course saved successfully" : "Course unsaved successfully",
+    data: result
+  });
+});
+var submitCourseForReview2 = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const result = await CourseService.submitCourseForReview(id, userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus4.OK,
+    success: true,
+    message: "Course submitted for review successfully",
+    data: result
+  });
+});
 var CourseController = {
   createCourse,
   getMyCourses,
@@ -1153,6 +1470,9 @@ var CourseController = {
   getAllCourses,
   getCourseBySlug,
   getRelatedCourses,
+  getMySavedCourses,
+  toggleSaveCourse,
+  submitCourseForReview: submitCourseForReview2,
   updateCourse,
   deleteCourse
 };
@@ -1198,9 +1518,16 @@ var CourseValidations = {
 var router4 = Router4();
 router4.get("/", CourseController.getAllCourses);
 router4.get("/my-courses", requirePermission(PERMISSIONS.COURSE_VIEW_OWN), CourseController.getMyCourses);
+router4.get("/saved", requirePermission(PERMISSIONS.SAVED_COURSE_MANAGE), CourseController.getMySavedCourses);
+router4.post("/saved/toggle", requirePermission(PERMISSIONS.SAVED_COURSE_MANAGE), CourseController.toggleSaveCourse);
 router4.get("/details/:id", requirePermission(PERMISSIONS.COURSE_VIEW_OWN), CourseController.getCourseById);
 router4.get("/related/:id", CourseController.getRelatedCourses);
 router4.get("/:slug", CourseController.getCourseBySlug);
+router4.patch(
+  "/:id/submit-review",
+  requirePermission(PERMISSIONS.COURSE_UPDATE),
+  CourseController.submitCourseForReview
+);
 router4.post(
   "/",
   requirePermission(PERMISSIONS.COURSE_CREATE),
@@ -1303,7 +1630,28 @@ var getUserDashboardData = async (userId) => {
   };
 };
 var getInstructorDashboardData = async (userId) => {
-  const [myCourses, recentReviews, totalEnrollments, recentEnrollments, revenueData] = await Promise.all([
+  const now = /* @__PURE__ */ new Date();
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const [
+    myCourses,
+    recentReviews,
+    totalEnrollments,
+    recentEnrollments,
+    revenueData,
+    currentMonthRevenue,
+    lastMonthRevenue,
+    currentMonthStudents,
+    lastMonthStudents,
+    currentMonthReviews,
+    lastMonthReviews,
+    currentMonthRating,
+    lastMonthRating,
+    atRiskCount,
+    profile,
+    aiUsageCount
+  ] = await Promise.all([
     prisma.course.findMany({
       where: { instructorId: userId },
       include: {
@@ -1338,6 +1686,73 @@ var getInstructorDashboardData = async (userId) => {
         status: "SUCCESS"
       },
       _sum: { amount: true }
+    }),
+    prisma.order.aggregate({
+      where: {
+        course: { instructorId: userId },
+        status: "SUCCESS",
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart }
+      },
+      _sum: { amount: true }
+    }),
+    prisma.order.aggregate({
+      where: {
+        course: { instructorId: userId },
+        status: "SUCCESS",
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart }
+      },
+      _sum: { amount: true }
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart }
+      }
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart }
+      }
+    }),
+    prisma.review.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart }
+      }
+    }),
+    prisma.review.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart }
+      }
+    }),
+    prisma.review.aggregate({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart }
+      },
+      _avg: { rating: true }
+    }),
+    prisma.review.aggregate({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart }
+      },
+      _avg: { rating: true }
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        progress: { lt: 10 }
+      }
+    }),
+    prisma.profile.findUnique({
+      where: { userId },
+      select: { id: true, bio: true, expertise: true }
+    }),
+    prisma.aIRequestLog.count({
+      where: { userId }
     })
   ]);
   let totalRating = 0;
@@ -1386,7 +1801,31 @@ var getInstructorDashboardData = async (userId) => {
       totalStudents: totalEnrollments,
       avgRating: Number(avgRating.toFixed(1)),
       totalReviews: totalReviewCount,
-      totalRevenue: revenueData._sum.amount || 0
+      totalRevenue: revenueData._sum.amount || 0,
+      comparisons: {
+        revenue: {
+          currentMonth: currentMonthRevenue._sum.amount || 0,
+          lastMonth: lastMonthRevenue._sum.amount || 0
+        },
+        students: {
+          currentMonth: currentMonthStudents,
+          lastMonth: lastMonthStudents
+        },
+        reviews: {
+          currentMonth: currentMonthReviews,
+          lastMonth: lastMonthReviews
+        },
+        rating: {
+          currentMonth: Number((currentMonthRating._avg.rating || 0).toFixed(1)),
+          lastMonth: Number((lastMonthRating._avg.rating || 0).toFixed(1))
+        }
+      },
+      atRiskCount,
+      onboarding: {
+        hasProfile: Boolean(profile?.bio || profile?.expertise?.length),
+        hasCourse: myCourses.length > 0,
+        hasAIExplored: aiUsageCount > 0
+      }
     },
     coursePerformance: myCourses.map((c) => {
       const rating = c.reviews.length > 0 ? c.reviews.reduce((sum, r) => sum + r.rating, 0) / c.reviews.length : 0;
@@ -1402,6 +1841,83 @@ var getInstructorDashboardData = async (userId) => {
       ratingDistribution: ratingDist,
       completionRates: completionData
     }
+  };
+};
+var getInstructorEarningsData = async (userId) => {
+  const orders = await prisma.order.findMany({
+    where: {
+      course: { instructorId: userId },
+      status: "SUCCESS"
+    },
+    include: {
+      course: { select: { id: true, title: true, price: true, status: true } },
+      user: { select: { name: true, email: true } }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  const PLATFORM_FEE = 0.2;
+  const totalGross = orders.reduce((sum, order) => sum + order.amount, 0);
+  const totalNet = totalGross * (1 - PLATFORM_FEE);
+  const now = /* @__PURE__ */ new Date();
+  const thisMonthGross = orders.filter((order) => {
+    const orderDate = new Date(order.createdAt);
+    return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
+  }).reduce((sum, order) => sum + order.amount, 0);
+  const monthlyEarnings = Array.from({ length: 12 }, (_, index) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (11 - index), 1);
+    const monthOrders = orders.filter((order) => {
+      const orderDate = new Date(order.createdAt);
+      return orderDate.getMonth() === date.getMonth() && orderDate.getFullYear() === date.getFullYear();
+    });
+    const gross = monthOrders.reduce((sum, order) => sum + order.amount, 0);
+    return {
+      month: date.toLocaleString("default", { month: "short", year: "2-digit" }),
+      gross: Number(gross.toFixed(2)),
+      net: Number((gross * (1 - PLATFORM_FEE)).toFixed(2))
+    };
+  });
+  const courseMap = /* @__PURE__ */ new Map();
+  for (const order of orders) {
+    if (!courseMap.has(order.courseId)) {
+      courseMap.set(order.courseId, {
+        title: order.course.title,
+        price: order.course.price,
+        students: 0,
+        gross: 0,
+        status: order.course.status
+      });
+    }
+    const course = courseMap.get(order.courseId);
+    if (course) {
+      course.students += 1;
+      course.gross += order.amount;
+    }
+  }
+  const courseEarnings = Array.from(courseMap.values()).map((course) => ({
+    ...course,
+    gross: Number(course.gross.toFixed(2)),
+    fee: Number((course.gross * PLATFORM_FEE).toFixed(2)),
+    net: Number((course.gross * (1 - PLATFORM_FEE)).toFixed(2))
+  }));
+  return {
+    stats: {
+      totalGross: Number(totalGross.toFixed(2)),
+      totalNet: Number(totalNet.toFixed(2)),
+      thisMonthGross: Number(thisMonthGross.toFixed(2)),
+      thisMonthNet: Number((thisMonthGross * (1 - PLATFORM_FEE)).toFixed(2)),
+      pendingPayouts: Number(totalNet.toFixed(2)),
+      platformFeePercent: PLATFORM_FEE * 100
+    },
+    monthlyEarnings,
+    courseEarnings,
+    recentTransactions: orders.slice(0, 50).map((order) => ({
+      studentName: order.user.name,
+      studentEmail: order.user.email,
+      courseTitle: order.course.title,
+      amount: order.amount,
+      date: order.createdAt,
+      status: order.status
+    }))
   };
 };
 var getAdminDashboardData = async () => {
@@ -1514,6 +2030,7 @@ var getAdminDashboardData = async () => {
 var DashboardService = {
   getUserDashboardData,
   getInstructorDashboardData,
+  getInstructorEarningsData,
   getAdminDashboardData
 };
 
@@ -1538,6 +2055,16 @@ var getInstructorDashboard = catchAsync_default(async (req, res) => {
     data: result
   });
 });
+var getInstructorEarnings = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await DashboardService.getInstructorEarningsData(userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus5.OK,
+    success: true,
+    message: "Instructor earnings data retrieved successfully",
+    data: result
+  });
+});
 var getAdminDashboard = catchAsync_default(async (req, res) => {
   const result = await DashboardService.getAdminDashboardData();
   sendResponse_default(res, {
@@ -1550,6 +2077,7 @@ var getAdminDashboard = catchAsync_default(async (req, res) => {
 var DashboardController = {
   getUserDashboard,
   getInstructorDashboard,
+  getInstructorEarnings,
   getAdminDashboard
 };
 
@@ -1564,6 +2092,11 @@ router5.get(
   "/instructor",
   requirePermission(PERMISSIONS.ANALYTICS_VIEW),
   DashboardController.getInstructorDashboard
+);
+router5.get(
+  "/instructor/earnings",
+  requirePermission(PERMISSIONS.ANALYTICS_VIEW),
+  DashboardController.getInstructorEarnings
 );
 router5.get(
   "/admin",
@@ -1595,8 +2128,8 @@ var enrollInCourseInDB = async (userId, courseId) => {
       user: true
     }
   });
-  const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
-  const EmailService = (await import("./email-EC6XRB27.mjs")).default;
+  const NotificationService = (await import("./notification.service-2CNJ7762.mjs")).default;
+  const EmailService = (await import("./email-65BLRWC5.mjs")).default;
   NotificationService.notifyEnrollmentSuccess(userId, result.course.title);
   EmailService.sendEnrollmentConfirmation(result.user.email, result.user.name || "Learner", result.course.title);
   return result;
@@ -1657,6 +2190,18 @@ var updateProgressInDB = async (enrollmentId, lessonId, isCompleted) => {
       status: progress === 100 ? "COMPLETED" : "ACTIVE"
     }
   });
+  const completionCriteria = enrollment.course.completionCriteria ?? 100;
+  const isFullyCompleted = totalLessons > 0 && completedLessons >= totalLessons && progress === 100;
+  if (isFullyCompleted && progress >= completionCriteria) {
+    (async () => {
+      try {
+        const { CertificateService: CertificateService2 } = await import("./certificate.service-U4VEGFSY.mjs");
+        await CertificateService2.issueCertificate(enrollmentId);
+      } catch (err) {
+        console.error("Auto-issue certificate failed:", err);
+      }
+    })();
+  }
   return result;
 };
 var getCourseProgressFromDB = async (userId, courseIdentifier) => {
@@ -2020,15 +2565,63 @@ var deleteLessonFromDB = async (id) => {
 var getLessonsByCourseIdFromDB = async (courseId) => {
   const result = await prisma.lesson.findMany({
     where: { courseId },
+    include: { resources: true },
     orderBy: { order: "asc" }
   });
   return result;
+};
+var reorderLessonsInDB = async (courseId, lessonIds) => {
+  const lessonsCount = await prisma.lesson.count({
+    where: {
+      courseId,
+      id: { in: lessonIds }
+    }
+  });
+  if (lessonsCount !== lessonIds.length) {
+    throw new Error("One or more lessons do not belong to this course");
+  }
+  const updates = lessonIds.map(
+    (id, index) => prisma.lesson.update({
+      where: { id },
+      data: { order: index + 1 }
+    })
+  );
+  return await prisma.$transaction(updates);
+};
+var getLessonWithResources = async (lessonId) => {
+  return prisma.lesson.findUnique({
+    where: { id: lessonId },
+    include: { resources: true }
+  });
+};
+var updateLessonWithResources = async (id, payload) => {
+  const { resources, ...lessonData } = payload;
+  const data = {
+    ...lessonData
+  };
+  if (resources) {
+    data.resources = {
+      deleteMany: {},
+      create: resources.map((resource) => ({
+        title: resource.title,
+        url: resource.url
+      }))
+    };
+  }
+  return prisma.lesson.update({
+    where: { id },
+    data,
+    include: { resources: true }
+  });
 };
 var LessonService = {
   createLessonIntoDB,
   updateLessonInDB,
   deleteLessonFromDB,
-  getLessonsByCourseIdFromDB
+  getLessonsByCourseIdFromDB,
+  reorderLessonsInDB,
+  getLessonWithResources,
+  updateLessonWithResources
 };
 
 // src/modules/lesson/lesson.controller.ts
@@ -2090,6 +2683,74 @@ var updateLesson = catchAsync_default(async (req, res) => {
     data: result
   });
 });
+var reorderLessons = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const role = req.user.role;
+  const { courseId, lessonIds } = req.body;
+  const course = await CourseService.getCourseByIdFromDB(courseId);
+  if (!course) {
+    return sendResponse_default(res, {
+      statusCode: httpStatus7.NOT_FOUND,
+      success: false,
+      message: "Course not found",
+      data: null
+    });
+  }
+  if (course.instructorId !== userId && role !== "ADMIN") {
+    return sendResponse_default(res, {
+      statusCode: httpStatus7.FORBIDDEN,
+      success: false,
+      message: "You do not have permission to reorder lessons for this course",
+      data: null
+    });
+  }
+  const result = await LessonService.reorderLessonsInDB(courseId, lessonIds);
+  sendResponse_default(res, {
+    statusCode: httpStatus7.OK,
+    success: true,
+    message: "Lessons reordered successfully",
+    data: result
+  });
+});
+var getLessonById = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const result = await LessonService.getLessonWithResources(id);
+  sendResponse_default(res, {
+    statusCode: httpStatus7.OK,
+    success: true,
+    message: "Lesson retrieved successfully",
+    data: result
+  });
+});
+var updateLessonFull = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  const lesson = await prisma.lesson.findUnique({ where: { id }, include: { course: true } });
+  if (!lesson) {
+    return sendResponse_default(res, {
+      statusCode: httpStatus7.NOT_FOUND,
+      success: false,
+      message: "Lesson not found",
+      data: null
+    });
+  }
+  if (lesson.course.instructorId !== userId && role !== "ADMIN") {
+    return sendResponse_default(res, {
+      statusCode: httpStatus7.FORBIDDEN,
+      success: false,
+      message: "You do not have permission to update this lesson",
+      data: null
+    });
+  }
+  const result = await LessonService.updateLessonWithResources(id, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus7.OK,
+    success: true,
+    message: "Lesson updated successfully",
+    data: result
+  });
+});
 var deleteLesson = catchAsync_default(async (req, res) => {
   const { id } = req.params;
   const userId = req.user.id;
@@ -2122,33 +2783,94 @@ var deleteLesson = catchAsync_default(async (req, res) => {
 var LessonController = {
   createLesson,
   updateLesson,
+  reorderLessons,
+  getLessonById,
+  updateLessonFull,
   deleteLesson
 };
 
-// src/modules/lesson/lesson.route.ts
+// src/modules/lesson/lesson.validation.ts
 import { z as z3 } from "zod";
-var router7 = Router7();
-var lessonSchema = z3.object({
+var createLessonZodSchema = z3.object({
   body: z3.object({
     title: z3.string("Title is required"),
-    slug: z3.string("Slug is required"),
     content: z3.string().optional(),
     videoUrl: z3.string().optional(),
     duration: z3.string().optional(),
-    order: z3.number("Order is required"),
+    order: z3.number().int().min(1),
     courseId: z3.string("Course ID is required")
   })
 });
+var updateLessonZodSchema = z3.object({
+  body: z3.object({
+    title: z3.string().optional(),
+    content: z3.string().optional(),
+    videoUrl: z3.string().optional(),
+    duration: z3.string().optional(),
+    order: z3.number().int().min(1).optional()
+  })
+});
+var reorderLessonsZodSchema = z3.object({
+  body: z3.object({
+    courseId: z3.string("Course ID is required"),
+    lessonIds: z3.array(z3.string()).min(1)
+  })
+});
+var updateLessonFullZodSchema = z3.object({
+  body: z3.object({
+    title: z3.string().optional(),
+    slug: z3.string().optional(),
+    content: z3.string().optional(),
+    videoUrl: z3.string().optional(),
+    duration: z3.string().optional(),
+    order: z3.number().int().min(1).optional(),
+    isFree: z3.boolean().optional(),
+    isPublished: z3.boolean().optional(),
+    resources: z3.array(
+      z3.object({
+        title: z3.string().min(1),
+        url: z3.string().min(1)
+      })
+    ).optional()
+  })
+});
+var LessonValidations = {
+  createLessonZodSchema,
+  updateLessonZodSchema,
+  reorderLessonsZodSchema,
+  updateLessonFullZodSchema
+};
+
+// src/modules/lesson/lesson.route.ts
+var router7 = Router7();
 router7.post(
   "/",
   requirePermission(PERMISSIONS.LESSON_CREATE),
-  validateRequest_default(lessonSchema),
+  validateRequest_default(LessonValidations.createLessonZodSchema),
   LessonController.createLesson
+);
+router7.patch(
+  "/reorder",
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest_default(LessonValidations.reorderLessonsZodSchema),
+  LessonController.reorderLessons
+);
+router7.get(
+  "/:id",
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  LessonController.getLessonById
 );
 router7.patch(
   "/:id",
   requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest_default(LessonValidations.updateLessonZodSchema),
   LessonController.updateLesson
+);
+router7.patch(
+  "/:id/full",
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest_default(LessonValidations.updateLessonFullZodSchema),
+  LessonController.updateLessonFull
 );
 router7.delete(
   "/:id",
@@ -2208,11 +2930,164 @@ var updateMyProfileInDB = async (userId, payload) => {
   }
   return getMyProfileFromDB(userId);
 };
+var updateInstructorProfile = async (userId, payload) => {
+  const {
+    displayName,
+    name,
+    bio,
+    expertise,
+    websiteUrl,
+    linkedinUrl,
+    youtubeUrl,
+    avatarUrl,
+    avatarPublicId,
+    headline,
+    location,
+    isPublic
+  } = payload;
+  if (displayName || name) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { name: displayName || name }
+    });
+  }
+  const profileData = {};
+  if (bio !== void 0) profileData.bio = bio;
+  if (headline !== void 0) profileData.headline = headline;
+  if (expertise !== void 0) profileData.expertise = expertise;
+  if (websiteUrl !== void 0) profileData.websiteUrl = websiteUrl;
+  if (linkedinUrl !== void 0) profileData.linkedinUrl = linkedinUrl;
+  if (youtubeUrl !== void 0) profileData.youtubeUrl = youtubeUrl;
+  if (avatarUrl !== void 0) profileData.avatarUrl = avatarUrl;
+  if (avatarPublicId !== void 0) profileData.avatarPublicId = avatarPublicId;
+  if (location !== void 0) profileData.location = location;
+  if (isPublic !== void 0) profileData.isPublic = isPublic;
+  if (Object.keys(profileData).length > 0) {
+    await prisma.profile.upsert({
+      where: { userId },
+      update: profileData,
+      create: {
+        userId,
+        skills: [],
+        expertise: expertise || [],
+        ...profileData
+      }
+    });
+  }
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      role: true,
+      profile: true,
+      courses: {
+        select: {
+          id: true,
+          reviews: { select: { rating: true } },
+          _count: { select: { enrollments: true } }
+        }
+      }
+    }
+  });
+};
+var getStudentProgressForInstructor = async (instructorId, studentId) => {
+  const enrollments = await prisma.enrollment.findMany({
+    where: {
+      userId: studentId,
+      course: { instructorId }
+    },
+    include: {
+      course: {
+        select: {
+          id: true,
+          title: true,
+          thumbnailUrl: true,
+          completionCriteria: true
+        }
+      },
+      lessonProgress: {
+        include: {
+          lesson: {
+            select: {
+              id: true,
+              title: true,
+              order: true,
+              duration: true
+            }
+          }
+        },
+        orderBy: { lesson: { order: "asc" } }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  if (!enrollments.length) {
+    throw new Error("Student not found in your courses");
+  }
+  const student = await prisma.user.findUnique({
+    where: { id: studentId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      createdAt: true
+    }
+  });
+  const quizAttempts = await prisma.quizAttempt.findMany({
+    where: {
+      userId: studentId,
+      quiz: { course: { instructorId } }
+    },
+    include: {
+      quiz: {
+        select: {
+          title: true,
+          course: { select: { title: true } }
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  const submissions = await prisma.assignmentSubmission.findMany({
+    where: {
+      studentId,
+      assignment: { course: { instructorId } }
+    },
+    include: {
+      assignment: {
+        select: {
+          title: true,
+          course: { select: { title: true } }
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  const averageProgress = enrollments.length > 0 ? enrollments.reduce((sum, enrollment) => sum + enrollment.progress, 0) / enrollments.length : 0;
+  return {
+    student,
+    summary: {
+      totalCourses: enrollments.length,
+      averageProgress: Number(averageProgress.toFixed(1)),
+      quizzesTaken: quizAttempts.length,
+      assignmentsSubmitted: submissions.length
+    },
+    enrollments,
+    quizAttempts,
+    submissions
+  };
+};
 var UserService = {
   getAllUsersFromDB,
   getSingleUserFromDB,
   getMyProfileFromDB,
-  updateMyProfileInDB
+  updateMyProfileInDB,
+  updateInstructorProfile,
+  getStudentProgressForInstructor
 };
 
 // src/modules/user/user.controller.ts
@@ -2255,17 +3130,42 @@ var updateMyProfile = catchAsync_default(async (req, res) => {
     data: result
   });
 });
+var updateInstructorProfile2 = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await UserService.updateInstructorProfile(userId, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus8.OK,
+    success: true,
+    message: "Instructor profile updated successfully",
+    data: result
+  });
+});
+var getStudentProgressForInstructor2 = catchAsync_default(async (req, res) => {
+  const instructorId = req.user.id;
+  const { studentId } = req.params;
+  const result = await UserService.getStudentProgressForInstructor(instructorId, studentId);
+  sendResponse_default(res, {
+    statusCode: httpStatus8.OK,
+    success: true,
+    message: "Student progress retrieved successfully",
+    data: result
+  });
+});
 var UserController = {
   getAllUsers,
   getSingleUser,
   getMyProfile,
-  updateMyProfile
+  updateMyProfile,
+  updateInstructorProfile: updateInstructorProfile2,
+  getStudentProgressForInstructor: getStudentProgressForInstructor2
 };
 
 // src/modules/user/user.route.ts
 var router8 = Router8();
 router8.get("/me", requireAuth, UserController.getMyProfile);
 router8.patch("/me", requirePermission(PERMISSIONS.PROFILE_MANAGE), UserController.updateMyProfile);
+router8.patch("/instructor-profile", requirePermission(PERMISSIONS.PROFILE_MANAGE), UserController.updateInstructorProfile);
+router8.get("/student/:studentId/progress", requirePermission(PERMISSIONS.ANALYTICS_VIEW), UserController.getStudentProgressForInstructor);
 router8.get("/", requirePermission(PERMISSIONS.USER_VIEW), UserController.getAllUsers);
 router8.get("/:id", requirePermission(PERMISSIONS.USER_VIEW), UserController.getSingleUser);
 var UserRoutes = router8;
@@ -2329,16 +3229,36 @@ var createAnnouncement = catchAsync_default(async (req, res) => {
     data: result
   });
 });
+var sendCourseAnnouncement = catchAsync_default(async (req, res) => {
+  const instructorId = req.user.id;
+  const { courseId, title, message } = req.body;
+  const result = await notification_service_default.sendCourseAnnouncement(instructorId, courseId, { title, message });
+  sendResponse_default(res, {
+    statusCode: httpStatus9.CREATED,
+    success: true,
+    message: "Course announcement sent successfully",
+    data: result
+  });
+});
 var NotificationController = {
   getMyNotifications,
   markRead,
   markAllRead,
   deleteNotification,
-  createAnnouncement
+  createAnnouncement,
+  sendCourseAnnouncement
 };
 
 // src/modules/notification/notification.route.ts
+import { z as z4 } from "zod";
 var router9 = Router9();
+var courseAnnouncementSchema = z4.object({
+  body: z4.object({
+    courseId: z4.string("Course ID is required"),
+    title: z4.string("Title is required").min(1),
+    message: z4.string("Message is required").min(1)
+  })
+});
 router9.get(
   "/",
   requireAuth,
@@ -2363,6 +3283,12 @@ router9.post(
   "/announce",
   requirePermission(PERMISSIONS.NOTIFICATION_ANNOUNCE),
   NotificationController.createAnnouncement
+);
+router9.post(
+  "/announcement",
+  requirePermission(PERMISSIONS.NOTIFICATION_ANNOUNCE),
+  validateRequest_default(courseAnnouncementSchema),
+  NotificationController.sendCourseAnnouncement
 );
 var NotificationRoutes = router9;
 
@@ -2393,7 +3319,7 @@ var uploadImage = catchAsync_default(async (req, res) => {
 });
 var deleteImage = catchAsync_default(async (req, res) => {
   const { publicId } = req.params;
-  const uploadService = (await import("./upload.service-NN5BW2H2.mjs")).default;
+  const uploadService = (await import("./upload.service-VSPWGPW7.mjs")).default;
   const result = await uploadService.deleteImage(publicId);
   if (!result) {
     return sendResponse_default(res, {
@@ -3986,8 +4912,566 @@ router18.patch(
 );
 var ReviewRoutes = router18;
 
-// src/routes/index.ts
+// src/modules/blog/blog.route.ts
+import { Router as Router19 } from "express";
+
+// src/modules/blog/blog.controller.ts
+import httpStatus20 from "http-status";
+
+// src/modules/blog/blog.service.ts
+var createBlogIntoDB = async (payload, authorId) => {
+  const slug = payload.title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+  const result = await prisma.blog.create({
+    data: {
+      ...payload,
+      authorId,
+      slug
+    },
+    include: {
+      author: {
+        select: { name: true, email: true, image: true }
+      }
+    }
+  });
+  return result;
+};
+var getAllBlogsFromDB = async (query) => {
+  const { searchTerm, authorId, isPublished, sortBy = "createdAt", sortOrder = "desc" } = query;
+  const filter = {};
+  if (isPublished !== void 0) {
+    filter.isPublished = isPublished === "true";
+  } else {
+    filter.isPublished = true;
+  }
+  if (authorId) {
+    filter.authorId = authorId;
+  }
+  if (searchTerm) {
+    filter.OR = [
+      { title: { contains: searchTerm, mode: "insensitive" } },
+      { content: { contains: searchTerm, mode: "insensitive" } }
+    ];
+  }
+  const result = await prisma.blog.findMany({
+    where: filter,
+    include: {
+      author: {
+        select: { name: true, email: true, image: true }
+      }
+    },
+    orderBy: {
+      [sortBy]: sortOrder
+    }
+  });
+  return result;
+};
+var getBlogBySlugFromDB = async (slug) => {
+  const result = await prisma.blog.findUnique({
+    where: { slug },
+    include: {
+      author: {
+        select: { name: true, email: true, image: true, role: true }
+      }
+    }
+  });
+  return result;
+};
+var updateBlogInDB = async (id, payload, authorId, role) => {
+  const blog = await prisma.blog.findUnique({ where: { id } });
+  if (!blog) throw new Error("Blog not found");
+  if (blog.authorId !== authorId && role !== "ADMIN") {
+    throw new Error("Forbidden: You are not the author of this blog");
+  }
+  const updateData = { ...payload };
+  if (payload.title) {
+    updateData.slug = payload.title.toLowerCase().replace(/ /g, "-").replace(/[^\w-]+/g, "");
+  }
+  const result = await prisma.blog.update({
+    where: { id },
+    data: updateData,
+    include: {
+      author: {
+        select: { name: true, email: true, image: true }
+      }
+    }
+  });
+  return result;
+};
+var deleteBlogFromDB = async (id, authorId, role) => {
+  const blog = await prisma.blog.findUnique({ where: { id } });
+  if (!blog) throw new Error("Blog not found");
+  if (blog.authorId !== authorId && role !== "ADMIN") {
+    throw new Error("Forbidden: You are not the author of this blog");
+  }
+  const result = await prisma.blog.delete({
+    where: { id }
+  });
+  return result;
+};
+var getMyBlogsFromDB = async (authorId) => {
+  const result = await prisma.blog.findMany({
+    where: { authorId },
+    include: {
+      author: {
+        select: { name: true, email: true, image: true }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+  return result;
+};
+var BlogService = {
+  createBlogIntoDB,
+  getAllBlogsFromDB,
+  getBlogBySlugFromDB,
+  updateBlogInDB,
+  deleteBlogFromDB,
+  getMyBlogsFromDB
+};
+
+// src/modules/blog/blog.controller.ts
+var createBlog = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await BlogService.createBlogIntoDB(req.body, userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus20.CREATED,
+    success: true,
+    message: "Blog created successfully",
+    data: result
+  });
+});
+var getAllBlogs = catchAsync_default(async (req, res) => {
+  const result = await BlogService.getAllBlogsFromDB(req.query);
+  sendResponse_default(res, {
+    statusCode: httpStatus20.OK,
+    success: true,
+    message: "Blogs retrieved successfully",
+    data: result
+  });
+});
+var getMyBlogs = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await BlogService.getMyBlogsFromDB(userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus20.OK,
+    success: true,
+    message: "Author blogs retrieved successfully",
+    data: result
+  });
+});
+var getBlogBySlug = catchAsync_default(async (req, res) => {
+  const { slug } = req.params;
+  const result = await BlogService.getBlogBySlugFromDB(slug);
+  if (!result) {
+    return sendResponse_default(res, {
+      statusCode: httpStatus20.NOT_FOUND,
+      success: false,
+      message: "Blog not found",
+      data: null
+    });
+  }
+  sendResponse_default(res, {
+    statusCode: httpStatus20.OK,
+    success: true,
+    message: "Blog retrieved successfully",
+    data: result
+  });
+});
+var updateBlog = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  const result = await BlogService.updateBlogInDB(id, req.body, userId, role);
+  sendResponse_default(res, {
+    statusCode: httpStatus20.OK,
+    success: true,
+    message: "Blog updated successfully",
+    data: result
+  });
+});
+var deleteBlog = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  const result = await BlogService.deleteBlogFromDB(id, userId, role);
+  sendResponse_default(res, {
+    statusCode: httpStatus20.OK,
+    success: true,
+    message: "Blog deleted successfully",
+    data: result
+  });
+});
+var BlogController = {
+  createBlog,
+  getAllBlogs,
+  getMyBlogs,
+  getBlogBySlug,
+  updateBlog,
+  deleteBlog
+};
+
+// src/modules/blog/blog.route.ts
 var router19 = Router19();
+router19.get("/", BlogController.getAllBlogs);
+router19.get("/my-blogs", requirePermission(PERMISSIONS.BLOG_CREATE), BlogController.getMyBlogs);
+router19.get("/:slug", BlogController.getBlogBySlug);
+router19.post(
+  "/",
+  requirePermission(PERMISSIONS.BLOG_CREATE),
+  BlogController.createBlog
+);
+router19.patch(
+  "/:id",
+  requirePermission(PERMISSIONS.BLOG_UPDATE),
+  BlogController.updateBlog
+);
+router19.delete(
+  "/:id",
+  requirePermission(PERMISSIONS.BLOG_DELETE),
+  BlogController.deleteBlog
+);
+var BlogRoutes = router19;
+
+// src/modules/quiz/quiz.route.ts
+import { Router as Router20 } from "express";
+
+// src/modules/quiz/quiz.controller.ts
+import httpStatus21 from "http-status";
+
+// src/modules/quiz/quiz.service.ts
+var normalizeQuestions = (questions = []) => questions.map((question) => ({
+  question: question.question,
+  options: question.options,
+  correctAnswer: question.correctAnswer,
+  explanation: question.explanation ?? null
+}));
+var createQuizInDB = async (payload) => {
+  const { questions = [], ...quizData } = payload;
+  return prisma.quiz.create({
+    data: {
+      ...quizData,
+      questions: {
+        create: normalizeQuestions(questions)
+      }
+    },
+    include: {
+      questions: true,
+      _count: { select: { attempts: true } }
+    }
+  });
+};
+var getQuizzesByCourseId = async (courseId) => {
+  return prisma.quiz.findMany({
+    where: { courseId },
+    include: {
+      questions: true,
+      _count: { select: { questions: true, attempts: true } },
+      attempts: {
+        select: {
+          score: true,
+          totalQuestions: true,
+          userId: true,
+          createdAt: true
+        },
+        orderBy: { createdAt: "desc" }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+};
+var updateQuizInDB = async (id, payload) => {
+  const { questions, ...quizData } = payload;
+  const data = { ...quizData };
+  if (questions) {
+    data.questions = {
+      deleteMany: {},
+      create: normalizeQuestions(questions)
+    };
+  }
+  return prisma.quiz.update({
+    where: { id },
+    data,
+    include: { questions: true }
+  });
+};
+var deleteQuizFromDB = async (id) => {
+  return prisma.quiz.delete({ where: { id } });
+};
+var getQuizResults = async (id) => {
+  return prisma.quiz.findUnique({
+    where: { id },
+    include: {
+      attempts: {
+        include: {
+          user: { select: { id: true, name: true, email: true, image: true } }
+        },
+        orderBy: { createdAt: "desc" }
+      },
+      _count: { select: { questions: true, attempts: true } }
+    }
+  });
+};
+var QuizService = {
+  createQuizInDB,
+  getQuizzesByCourseId,
+  updateQuizInDB,
+  deleteQuizFromDB,
+  getQuizResults
+};
+
+// src/modules/quiz/quiz.controller.ts
+var ensureCourseAccess = async (courseId, userId, role) => {
+  const course = await prisma.course.findUnique({ where: { id: courseId }, select: { instructorId: true } });
+  if (!course) throw new Error("Course not found");
+  if (course.instructorId !== userId && role !== "ADMIN") throw new Error("You do not have permission to manage this course");
+  return course;
+};
+var ensureQuizAccess = async (quizId, userId, role) => {
+  const quiz = await prisma.quiz.findUnique({
+    where: { id: quizId },
+    include: { course: { select: { instructorId: true } } }
+  });
+  if (!quiz) throw new Error("Quiz not found");
+  if (quiz.course.instructorId !== userId && role !== "ADMIN") throw new Error("You do not have permission to manage this quiz");
+  return quiz;
+};
+var createQuiz = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const role = req.user.role;
+  await ensureCourseAccess(req.body.courseId, userId, role);
+  const result = await QuizService.createQuizInDB(req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus21.CREATED,
+    success: true,
+    message: "Quiz created successfully",
+    data: result
+  });
+});
+var getQuizzesByCourse = catchAsync_default(async (req, res) => {
+  const { courseId } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  await ensureCourseAccess(courseId, userId, role);
+  const result = await QuizService.getQuizzesByCourseId(courseId);
+  sendResponse_default(res, {
+    statusCode: httpStatus21.OK,
+    success: true,
+    message: "Course quizzes retrieved successfully",
+    data: result
+  });
+});
+var updateQuiz = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  const quiz = await ensureQuizAccess(id, userId, role);
+  if (req.body.courseId && req.body.courseId !== quiz.courseId) {
+    await ensureCourseAccess(req.body.courseId, userId, role);
+  }
+  const result = await QuizService.updateQuizInDB(id, req.body);
+  sendResponse_default(res, {
+    statusCode: httpStatus21.OK,
+    success: true,
+    message: "Quiz updated successfully",
+    data: result
+  });
+});
+var deleteQuiz = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  await ensureQuizAccess(id, userId, role);
+  const result = await QuizService.deleteQuizFromDB(id);
+  sendResponse_default(res, {
+    statusCode: httpStatus21.OK,
+    success: true,
+    message: "Quiz deleted successfully",
+    data: result
+  });
+});
+var getQuizResults2 = catchAsync_default(async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+  const role = req.user.role;
+  await ensureQuizAccess(id, userId, role);
+  const result = await QuizService.getQuizResults(id);
+  sendResponse_default(res, {
+    statusCode: httpStatus21.OK,
+    success: true,
+    message: "Quiz results retrieved successfully",
+    data: result
+  });
+});
+var QuizController = {
+  createQuiz,
+  getQuizzesByCourse,
+  updateQuiz,
+  deleteQuiz,
+  getQuizResults: getQuizResults2
+};
+
+// src/modules/quiz/quiz.validation.ts
+import { z as z5 } from "zod";
+var quizQuestionSchema = z5.object({
+  question: z5.string().min(1),
+  options: z5.array(z5.string().min(1)).length(4),
+  correctAnswer: z5.string().min(1),
+  explanation: z5.string().optional()
+});
+var createQuizZodSchema = z5.object({
+  body: z5.object({
+    title: z5.string("Quiz title is required").min(1),
+    description: z5.string().optional(),
+    courseId: z5.string("Course ID is required"),
+    questions: z5.array(quizQuestionSchema).min(1)
+  })
+});
+var updateQuizZodSchema = z5.object({
+  body: z5.object({
+    title: z5.string().min(1).optional(),
+    description: z5.string().optional(),
+    courseId: z5.string().optional(),
+    questions: z5.array(quizQuestionSchema).min(1).optional()
+  })
+});
+var QuizValidations = {
+  createQuizZodSchema,
+  updateQuizZodSchema
+};
+
+// src/modules/quiz/quiz.route.ts
+var router20 = Router20();
+router20.get("/course/:courseId", requirePermission(PERMISSIONS.QUIZ_CREATE), QuizController.getQuizzesByCourse);
+router20.post(
+  "/",
+  requirePermission(PERMISSIONS.QUIZ_CREATE),
+  validateRequest_default(QuizValidations.createQuizZodSchema),
+  QuizController.createQuiz
+);
+router20.get("/:id/results", requirePermission(PERMISSIONS.QUIZ_CREATE), QuizController.getQuizResults);
+router20.patch(
+  "/:id",
+  requirePermission(PERMISSIONS.QUIZ_CREATE),
+  validateRequest_default(QuizValidations.updateQuizZodSchema),
+  QuizController.updateQuiz
+);
+router20.delete("/:id", requirePermission(PERMISSIONS.QUIZ_CREATE), QuizController.deleteQuiz);
+var QuizRoutes = router20;
+
+// src/modules/certificate/certificate.route.ts
+import { Router as Router21 } from "express";
+
+// src/modules/certificate/certificate.controller.ts
+import httpStatus22 from "http-status";
+var getMyCertificates = catchAsync_default(async (req, res) => {
+  const userId = req.user.id;
+  const result = await CertificateService.getUserCertificates(userId);
+  sendResponse_default(res, {
+    statusCode: httpStatus22.OK,
+    success: true,
+    message: "Certificates retrieved successfully",
+    data: result
+  });
+});
+var issueCertificate = catchAsync_default(async (req, res) => {
+  const enrollmentId = req.params.enrollmentId;
+  const requester = req.user;
+  if (requester.role !== "ADMIN") {
+    const enrollment = await prisma.enrollment.findUnique({
+      where: { id: enrollmentId },
+      select: { userId: true }
+    });
+    if (!enrollment || enrollment.userId !== requester.id) {
+      return res.status(httpStatus22.FORBIDDEN).json({
+        success: false,
+        message: "You do not have permission to issue this certificate."
+      });
+    }
+  }
+  const result = await CertificateService.issueCertificate(enrollmentId);
+  sendResponse_default(res, {
+    statusCode: httpStatus22.OK,
+    success: true,
+    message: "Certificate issued successfully",
+    data: result
+  });
+});
+var downloadCertificate = catchAsync_default(async (req, res) => {
+  const certificateId = req.params.id;
+  const requester = req.user;
+  const certificate = await prisma.certificate.findUnique({
+    where: { id: certificateId },
+    select: { id: true, userId: true, certificateNumber: true }
+  });
+  if (!certificate) {
+    return res.status(httpStatus22.NOT_FOUND).json({
+      success: false,
+      message: "Certificate not found"
+    });
+  }
+  if (requester.role !== "ADMIN" && certificate.userId !== requester.id) {
+    return res.status(httpStatus22.FORBIDDEN).json({
+      success: false,
+      message: "You do not have permission to download this certificate."
+    });
+  }
+  const { pdfBuffer } = await CertificateService.getCertificatePdf(certificateId);
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="${certificate.certificateNumber}.pdf"`
+  );
+  return res.status(httpStatus22.OK).send(pdfBuffer);
+});
+var verifyCertificate = catchAsync_default(async (req, res) => {
+  const verificationHash = req.params.verificationHash;
+  const cert = await CertificateService.verifyCertificate(verificationHash);
+  if (!cert) {
+    return res.status(httpStatus22.NOT_FOUND).json({
+      success: false,
+      message: "Certificate not found"
+    });
+  }
+  const maskedEmail = cert.user.email ? cert.user.email.replace(/^(.)(.*)(@.*)$/, (_m, a, b, c) => `${a}${"*".repeat(Math.min(6, String(b).length))}${c}`) : void 0;
+  sendResponse_default(res, {
+    statusCode: httpStatus22.OK,
+    success: true,
+    message: "Certificate verified successfully",
+    data: {
+      certificateNumber: cert.certificateNumber,
+      issuedAt: cert.issuedAt,
+      status: cert.status,
+      grade: cert.grade,
+      student: { name: cert.user.name, email: maskedEmail },
+      course: { title: cert.course.title }
+    }
+  });
+});
+var CertificateController = {
+  getMyCertificates,
+  issueCertificate,
+  downloadCertificate,
+  verifyCertificate
+};
+
+// src/modules/certificate/certificate.route.ts
+var router21 = Router21();
+router21.get("/my", requirePermission(PERMISSIONS.ENROLLMENT_VIEW_OWN), CertificateController.getMyCertificates);
+router21.post(
+  "/issue/:enrollmentId",
+  requirePermission(PERMISSIONS.ENROLLMENT_VIEW_OWN),
+  CertificateController.issueCertificate
+);
+router21.get(
+  "/:id/download",
+  requirePermission(PERMISSIONS.ENROLLMENT_VIEW_OWN),
+  CertificateController.downloadCertificate
+);
+router21.get("/verify/:verificationHash", CertificateController.verifyCertificate);
+var CertificateRoutes = router21;
+
+// src/routes/index.ts
+var router22 = Router22();
 var moduleRoutes = [
   {
     path: "/auth",
@@ -4008,6 +5492,10 @@ var moduleRoutes = [
   {
     path: "/lessons",
     route: LessonRoutes
+  },
+  {
+    path: "/quizzes",
+    route: QuizRoutes
   },
   {
     path: "/enrollments",
@@ -4060,10 +5548,18 @@ var moduleRoutes = [
   {
     path: "/reviews",
     route: ReviewRoutes
+  },
+  {
+    path: "/blogs",
+    route: BlogRoutes
+  },
+  {
+    path: "/certificates",
+    route: CertificateRoutes
   }
 ];
-moduleRoutes.forEach((route) => router19.use(route.path, route.route));
-var routes_default = router19;
+moduleRoutes.forEach((route) => router22.use(route.path, route.route));
+var routes_default = router22;
 
 // src/middlewares/globalErrorHandler.ts
 import { ZodError } from "zod";
@@ -4102,9 +5598,9 @@ var globalErrorHandler = (err, req, res, next) => {
 var globalErrorHandler_default = globalErrorHandler;
 
 // src/middlewares/notFound.ts
-import httpStatus20 from "http-status";
+import httpStatus23 from "http-status";
 var notFound = (req, res, next) => {
-  return res.status(httpStatus20.NOT_FOUND).json({
+  return res.status(httpStatus23.NOT_FOUND).json({
     success: false,
     message: "API Not Found !!",
     error: ""

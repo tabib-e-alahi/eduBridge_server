@@ -23,6 +23,7 @@ model Course {
   lessons            Lesson[]
   quizzes            Quiz[]
   enrollments        Enrollment[]
+  certificates       Certificate[]
   reviews            Review[]
   savedBy            SavedCourse[]
   assignments        Assignment[]

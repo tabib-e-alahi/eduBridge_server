@@ -8,6 +8,7 @@ model Enrollment {
   user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   course               Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessonProgress       LessonProgress[]
+  certificate          Certificate?
   createdAt            DateTime         @default(now())
   updatedAt            DateTime         @updatedAt
 

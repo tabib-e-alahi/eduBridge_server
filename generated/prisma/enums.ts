@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const CertificateStatus = {
+  ISSUED: 'ISSUED',
+  REVOKED: 'REVOKED'
+} as const
+
+export type CertificateStatus = (typeof CertificateStatus)[keyof typeof CertificateStatus]
+
+
 export const Role = {
   STUDENT: 'STUDENT',
   INSTRUCTOR: 'INSTRUCTOR',

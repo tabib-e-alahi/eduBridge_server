@@ -68,6 +68,11 @@ export type Verification = Prisma.VerificationModel
  */
 export type Blog = Prisma.BlogModel
 /**
+ * Model Certificate
+ * 
+ */
+export type Certificate = Prisma.CertificateModel
+/**
  * Model Course
  * 
  */

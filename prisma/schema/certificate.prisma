@@ -1,0 +1,26 @@
+enum CertificateStatus {
+  ISSUED
+  REVOKED
+}
+
+model Certificate {
+  id                String            @id @default(uuid())
+  userId            String
+  courseId          String
+  enrollmentId      String            @unique
+  grade             Float
+  issuedAt          DateTime          @default(now())
+  certificateNumber String            @unique
+  verificationHash  String            @unique
+  pdfUrl            String?
+  status            CertificateStatus @default(ISSUED)
+  metadataJson      Json?
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([courseId])
+}
+

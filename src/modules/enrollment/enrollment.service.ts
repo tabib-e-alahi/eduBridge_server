@@ -94,6 +94,21 @@ const updateProgressInDB = async (enrollmentId: string, lessonId: string, isComp
     },
   });
 
+  // 4. Auto-issue certificate when course is completed (non-blocking)
+  const completionCriteria = enrollment.course.completionCriteria ?? 100;
+  const isFullyCompleted = totalLessons > 0 && completedLessons >= totalLessons && progress === 100;
+  if (isFullyCompleted && progress >= completionCriteria) {
+    (async () => {
+      try {
+        const { CertificateService } = await import('../certificate/certificate.service');
+        await CertificateService.issueCertificate(enrollmentId);
+      } catch (err) {
+        // Avoid breaking progress update if certificate issuing fails
+        console.error('Auto-issue certificate failed:', err);
+      }
+    })();
+  }
+
   return result;
 };
 

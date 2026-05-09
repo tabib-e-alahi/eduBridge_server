@@ -61,6 +61,7 @@ export const ModelName = {
   Session: 'Session',
   Verification: 'Verification',
   Blog: 'Blog',
+  Certificate: 'Certificate',
   Course: 'Course',
   SavedCourse: 'SavedCourse',
   CourseCategory: 'CourseCategory',
@@ -243,6 +244,23 @@ export const BlogScalarFieldEnum = {
 } as const
 
 export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
+
+
+export const CertificateScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  enrollmentId: 'enrollmentId',
+  grade: 'grade',
+  issuedAt: 'issuedAt',
+  certificateNumber: 'certificateNumber',
+  verificationHash: 'verificationHash',
+  pdfUrl: 'pdfUrl',
+  status: 'status',
+  metadataJson: 'metadataJson'
+} as const
+
+export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {
@@ -581,19 +599,19 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

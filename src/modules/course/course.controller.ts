@@ -21,7 +21,7 @@ const createCourse = catchAsync(async (req: Request, res: Response) => {
 
 const getMyCourses = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
-  const result = await CourseService.getInstructorCoursesFromDB(userId);
+  const result = await CourseService.getMyCoursesFromDB(userId);
   
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -33,7 +33,7 @@ const getMyCourses = catchAsync(async (req: Request, res: Response) => {
 
 const getCourseById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await CourseService.getCourseByIdFromDB(id);
+  const result = await CourseService.getCourseByIdFromDB(id as string);
   
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -56,7 +56,7 @@ const getAllCourses = catchAsync(async (req: Request, res: Response) => {
 
 const getCourseBySlug = catchAsync(async (req: Request, res: Response) => {
   const { slug } = req.params;
-  const result = await CourseService.getCourseBySlugFromDB(slug);
+  const result = await CourseService.getCourseBySlugFromDB(slug as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -71,7 +71,7 @@ const updateCourse = catchAsync(async (req: Request, res: Response) => {
   const role = (req as any).user.role;
 
   // Check ownership unless admin
-  const course = await CourseService.getCourseByIdFromDB(id);
+  const course = await CourseService.getCourseByIdFromDB(id as string);
   if (!course) {
     return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
@@ -90,7 +90,7 @@ const updateCourse = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  const result = await CourseService.updateCourseInDB(id, req.body);
+  const result = await CourseService.updateCourseInDB(id as string, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -105,7 +105,7 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
   const role = (req as any).user.role;
 
   // Check ownership unless admin
-  const course = await CourseService.getCourseByIdFromDB(id);
+  const course = await CourseService.getCourseByIdFromDB(id as string);
   if (!course) {
     return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
@@ -124,7 +124,7 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  const result = await CourseService.deleteCourseFromDB(id);
+  const result = await CourseService.deleteCourseFromDB(id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -135,7 +135,7 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
 
 const getRelatedCourses = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await CourseService.getRelatedCoursesFromDB(id);
+  const result = await CourseService.getRelatedCoursesFromDB(id as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

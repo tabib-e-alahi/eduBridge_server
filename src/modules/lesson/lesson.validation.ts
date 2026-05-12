@@ -2,12 +2,12 @@ import { z } from 'zod';
 
 const createLessonZodSchema = z.object({
   body: z.object({
-    title: z.string({ required_error: 'Title is required' }),
+    title: z.string('Title is required'),
     content: z.string().optional(),
     videoUrl: z.string().optional(),
     duration: z.string().optional(),
     order: z.number().int().min(1),
-    courseId: z.string({ required_error: 'Course ID is required' }),
+    courseId: z.string('Course ID is required'),
   }),
 });
 

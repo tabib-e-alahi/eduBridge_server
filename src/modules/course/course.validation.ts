@@ -2,12 +2,12 @@ import { z } from 'zod';
 
 const createCourseZodSchema = z.object({
   body: z.object({
-    title: z.string({ required_error: 'Title is required' }),
-    slug: z.string({ required_error: 'Slug is required' }),
-    description: z.string({ required_error: 'Description is required' }),
+    title: z.string('Title is required'),
+    slug: z.string('Slug is required'),
+    description: z.string('Description is required'),
     price: z.number().min(0).default(0),
     level: z.string().default('Beginner'),
-    categoryId: z.string({ required_error: 'Category ID is required' }),
+    categoryId: z.string('Category ID is required'),
     instructorId: z.string().optional(),
     thumbnailUrl: z.string().optional(),
     duration: z.string().optional(),

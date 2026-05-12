@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { prisma } from './prisma';
+import envConfig from '../config';
 
 // Branded email templates
 const generateHTML = (content: string, title: string) => `
@@ -36,19 +36,28 @@ const generateHTML = (content: string, title: string) => `
 `;
 
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: Number(process.env.EMAIL_PORT) || 587,
-  secure: false, // true for 465, false for other ports
+  host: envConfig.EMAIL_HOST,
+  port: Number(envConfig.EMAIL_PORT),
+  secure: envConfig.EMAIL_PORT === '465', // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: envConfig.EMAIL_USER,
+    pass: envConfig.EMAIL_PASS,
   },
 });
 
 const sendEmail = async (to: string, subject: string, html: string) => {
+  if (!envConfig.EMAIL_USER || !envConfig.EMAIL_PASS) {
+    console.log('\n--- EMAIL SIMULATION (SMTP CREDENTIALS MISSING) ---');
+    console.log(`TO: ${to}`);
+    console.log(`SUBJECT: ${subject}`);
+    console.log('CONTENT: Check terminal for links below');
+    console.log('--------------------------------------------------\n');
+    return { messageId: 'simulated-id' };
+  }
+
   try {
     const info = await transporter.sendMail({
-      from: `"EduBridge AI" <${process.env.EMAIL_USER}>`,
+      from: `"EduBridge AI" <${envConfig.EMAIL_USER}>`,
       to,
       subject,
       html,
@@ -70,14 +79,15 @@ const EmailService = {
       <p>Welcome to EduBridge AI! We're thrilled to have you join our community of lifelong learners.</p>
       <p>EduBridge AI is designed to help you bridge the gap between where you are and where you want to be, using the power of Artificial Intelligence.</p>
       <p>Get started by exploring our courses or generating your first AI-powered learning path.</p>
-      <a href="${process.env.FRONTEND_URL}/courses" class="button">Explore Courses</a>
+      <a href="${envConfig.FRONTEND_URL}/courses" class="button">Explore Courses</a>
     `;
     return sendEmail(to, title, generateHTML(content, title));
   },
 
   async sendVerificationEmail(to: string, token: string) {
     const title = 'Verify Your Email';
-    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+    const verificationUrl = `${envConfig.FRONTEND_URL}/verify-email?token=${token}`;
+    console.log(`[EmailService] Verification Link for ${to}: ${verificationUrl}`);
     const content = `
       <p>Thank you for signing up! Please verify your email address by clicking the button below:</p>
       <a href="${verificationUrl}" class="button">Verify Email Address</a>
@@ -89,7 +99,8 @@ const EmailService = {
 
   async sendPasswordResetEmail(to: string, token: string) {
     const title = 'Reset Your Password';
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const resetUrl = `${envConfig.FRONTEND_URL}/reset-password?token=${token}`;
+    console.log(`[EmailService] Password Reset Link for ${to}: ${resetUrl}`);
     const content = `
       <p>You requested a password reset. Click the button below to set a new password:</p>
       <a href="${resetUrl}" class="button">Reset Password</a>
@@ -105,7 +116,7 @@ const EmailService = {
       <p>Hi <span class="highlight">${name}</span>,</p>
       <p>You have successfully enrolled in <span class="highlight">${courseTitle}</span>.</p>
       <p>Your journey to mastering this subject starts now. You can access the course materials from your dashboard anytime.</p>
-      <a href="${process.env.FRONTEND_URL}/dashboard/user/courses" class="button">Go to My Courses</a>
+      <a href="${envConfig.FRONTEND_URL}/dashboard/user/courses" class="button">Go to My Courses</a>
     `;
     return sendEmail(to, title, generateHTML(content, title));
   },

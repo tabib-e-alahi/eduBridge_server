@@ -12,9 +12,6 @@ const getAllMentorsFromDB = async () => {
         },
       },
     },
-    where: {
-      isFeatured: true, // Only show featured mentors publicly for now
-    },
   });
   return result;
 };

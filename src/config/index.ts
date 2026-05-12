@@ -17,6 +17,11 @@ const envVarsSchema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().describe('Cloudinary cloud name'),
   CLOUDINARY_API_KEY: z.string().describe('Cloudinary API key'),
   CLOUDINARY_API_SECRET: z.string().describe('Cloudinary API secret'),
+  EMAIL_HOST: z.string().default('smtp.gmail.com'),
+  EMAIL_PORT: z.string().default('587'),
+  EMAIL_USER: z.string().optional().default(''),
+  EMAIL_PASS: z.string().optional().default(''),
+  FRONTEND_URL: z.string().default('http://localhost:3000'),
 });
 
 const envVars = envVarsSchema.safeParse(process.env);
@@ -37,6 +42,11 @@ if (!envVars.success) {
   CLOUDINARY_CLOUD_NAME: envVars.data.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: envVars.data.CLOUDINARY_API_KEY,
   CLOUDINARY_API_SECRET: envVars.data.CLOUDINARY_API_SECRET,
+  EMAIL_HOST: envVars.data.EMAIL_HOST,
+  EMAIL_PORT: envVars.data.EMAIL_PORT,
+  EMAIL_USER: envVars.data.EMAIL_USER,
+  EMAIL_PASS: envVars.data.EMAIL_PASS,
+  FRONTEND_URL: envVars.data.FRONTEND_URL,
 };
 
 export default envConfig;

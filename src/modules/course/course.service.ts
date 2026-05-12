@@ -108,6 +108,9 @@ const getCourseBySlugFromDB = async (slug: string) => {
       reviews: {
         include: { user: true },
       },
+      _count: {
+        select: { enrollments: true },
+      },
     },
   });
   return result;
@@ -136,7 +139,8 @@ const deleteCourseFromDB = async (id: string) => {
   return result;
 };
 
-const getInstructorCoursesFromDB = async (instructorId: string) => {
+const getMyCoursesFromDB = async (instructorId: string) => {
+  console.log("service--->",instructorId);
   const result = await prisma.course.findMany({
     where: { instructorId },
     include: {
@@ -195,7 +199,7 @@ export const CourseService = {
   createCourseIntoDB,
   getAllCoursesFromDB,
   getCourseBySlugFromDB,
-  getInstructorCoursesFromDB,
+  getMyCoursesFromDB,
   getCourseByIdFromDB,
   getRelatedCoursesFromDB,
   updateCourseInDB,

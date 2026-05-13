@@ -354,6 +354,11 @@ export type CourseCategoryUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type CourseCategoryScalarRelationFilter = {
+  is?: Prisma.CourseCategoryWhereInput
+  isNot?: Prisma.CourseCategoryWhereInput
+}
+
 export type CourseCategoryNullableScalarRelationFilter = {
   is?: Prisma.CourseCategoryWhereInput | null
   isNot?: Prisma.CourseCategoryWhereInput | null
@@ -402,9 +407,18 @@ export type CourseCategoryMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type CourseCategoryScalarRelationFilter = {
-  is?: Prisma.CourseCategoryWhereInput
-  isNot?: Prisma.CourseCategoryWhereInput
+export type CourseCategoryCreateNestedOneWithoutCoursesInput = {
+  create?: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.CourseCategoryCreateOrConnectWithoutCoursesInput
+  connect?: Prisma.CourseCategoryWhereUniqueInput
+}
+
+export type CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
+  connectOrCreate?: Prisma.CourseCategoryCreateOrConnectWithoutCoursesInput
+  upsert?: Prisma.CourseCategoryUpsertWithoutCoursesInput
+  connect?: Prisma.CourseCategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseCategoryUpdateToOneWithWhereWithoutCoursesInput, Prisma.CourseCategoryUpdateWithoutCoursesInput>, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
 }
 
 export type CourseCategoryCreateNestedOneWithoutChildrenInput = {
@@ -465,18 +479,68 @@ export type CourseCategoryUncheckedUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.CourseCategoryScalarWhereInput | Prisma.CourseCategoryScalarWhereInput[]
 }
 
-export type CourseCategoryCreateNestedOneWithoutCoursesInput = {
-  create?: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
-  connectOrCreate?: Prisma.CourseCategoryCreateOrConnectWithoutCoursesInput
-  connect?: Prisma.CourseCategoryWhereUniqueInput
+export type CourseCategoryCreateWithoutCoursesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  icon?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  parent?: Prisma.CourseCategoryCreateNestedOneWithoutChildrenInput
+  children?: Prisma.CourseCategoryCreateNestedManyWithoutParentInput
 }
 
-export type CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
-  connectOrCreate?: Prisma.CourseCategoryCreateOrConnectWithoutCoursesInput
-  upsert?: Prisma.CourseCategoryUpsertWithoutCoursesInput
-  connect?: Prisma.CourseCategoryWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseCategoryUpdateToOneWithWhereWithoutCoursesInput, Prisma.CourseCategoryUpdateWithoutCoursesInput>, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
+export type CourseCategoryUncheckedCreateWithoutCoursesInput = {
+  id?: string
+  name: string
+  slug: string
+  description?: string | null
+  icon?: string | null
+  parentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  children?: Prisma.CourseCategoryUncheckedCreateNestedManyWithoutParentInput
+}
+
+export type CourseCategoryCreateOrConnectWithoutCoursesInput = {
+  where: Prisma.CourseCategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
+}
+
+export type CourseCategoryUpsertWithoutCoursesInput = {
+  update: Prisma.XOR<Prisma.CourseCategoryUpdateWithoutCoursesInput, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
+  create: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
+  where?: Prisma.CourseCategoryWhereInput
+}
+
+export type CourseCategoryUpdateToOneWithWhereWithoutCoursesInput = {
+  where?: Prisma.CourseCategoryWhereInput
+  data: Prisma.XOR<Prisma.CourseCategoryUpdateWithoutCoursesInput, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
+}
+
+export type CourseCategoryUpdateWithoutCoursesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parent?: Prisma.CourseCategoryUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.CourseCategoryUpdateManyWithoutParentNestedInput
+}
+
+export type CourseCategoryUncheckedUpdateWithoutCoursesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.CourseCategoryUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type CourseCategoryCreateWithoutChildrenInput = {
@@ -605,70 +669,6 @@ export type CourseCategoryScalarWhereInput = {
   parentId?: Prisma.StringNullableFilter<"CourseCategory"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseCategory"> | Date | string
-}
-
-export type CourseCategoryCreateWithoutCoursesInput = {
-  id?: string
-  name: string
-  slug: string
-  description?: string | null
-  icon?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  parent?: Prisma.CourseCategoryCreateNestedOneWithoutChildrenInput
-  children?: Prisma.CourseCategoryCreateNestedManyWithoutParentInput
-}
-
-export type CourseCategoryUncheckedCreateWithoutCoursesInput = {
-  id?: string
-  name: string
-  slug: string
-  description?: string | null
-  icon?: string | null
-  parentId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  children?: Prisma.CourseCategoryUncheckedCreateNestedManyWithoutParentInput
-}
-
-export type CourseCategoryCreateOrConnectWithoutCoursesInput = {
-  where: Prisma.CourseCategoryWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
-}
-
-export type CourseCategoryUpsertWithoutCoursesInput = {
-  update: Prisma.XOR<Prisma.CourseCategoryUpdateWithoutCoursesInput, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
-  create: Prisma.XOR<Prisma.CourseCategoryCreateWithoutCoursesInput, Prisma.CourseCategoryUncheckedCreateWithoutCoursesInput>
-  where?: Prisma.CourseCategoryWhereInput
-}
-
-export type CourseCategoryUpdateToOneWithWhereWithoutCoursesInput = {
-  where?: Prisma.CourseCategoryWhereInput
-  data: Prisma.XOR<Prisma.CourseCategoryUpdateWithoutCoursesInput, Prisma.CourseCategoryUncheckedUpdateWithoutCoursesInput>
-}
-
-export type CourseCategoryUpdateWithoutCoursesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  parent?: Prisma.CourseCategoryUpdateOneWithoutChildrenNestedInput
-  children?: Prisma.CourseCategoryUpdateManyWithoutParentNestedInput
-}
-
-export type CourseCategoryUncheckedUpdateWithoutCoursesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  children?: Prisma.CourseCategoryUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type CourseCategoryCreateManyParentInput = {

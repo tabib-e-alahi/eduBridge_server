@@ -1,6 +1,12 @@
 import { prisma } from '../../lib/prisma';
 
 const enrollInCourseInDB = async (userId: string, courseId: string) => {
+  // Check for existing enrollment to avoid unique constraint violation
+  const existing = await prisma.enrollment.findUnique({
+    where: { userId_courseId: { userId, courseId } },
+  });
+  if (existing) throw new Error('You are already enrolled in this course.');
+
   const result = await prisma.enrollment.create({
     data: {
       userId,

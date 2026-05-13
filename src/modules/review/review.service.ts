@@ -1,4 +1,4 @@
-import { Review } from '@prisma/client';
+import { Review } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
 
 const createReviewIntoDB = async (payload: Partial<Review>) => {
@@ -45,13 +45,18 @@ const updateReviewInDB = async (id: string, userId: string, payload: Partial<Rev
     throw new Error('Unauthorized to update this review.');
   }
 
+  const data: any = {};
+  if (payload.rating !== undefined) data.rating = payload.rating;
+  if (payload.comment !== undefined) data.comment = payload.comment;
+  if (payload.isRecommended !== undefined) data.isRecommended = payload.isRecommended;
+
+  if (Object.keys(data).length === 0) {
+    throw new Error('No valid review fields provided for update.');
+  }
+
   const result = await prisma.review.update({
     where: { id },
-    data: {
-      rating: payload.rating,
-      comment: payload.comment,
-      isRecommended: payload.isRecommended,
-    },
+    data,
   });
   return result;
 };

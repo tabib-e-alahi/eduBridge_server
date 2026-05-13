@@ -1,0 +1,64 @@
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  MANAGER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  PENDING_APPROVAL
+  BLOCKED
+}
+
+enum CourseStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  REJECTED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum QuizAttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum ReportTargetType {
+  COURSE
+  REVIEW
+  MESSAGE
+  USER
+  BLOG
+  ASSIGNMENT
+  SUPPORT_TICKET
+}
+
+enum ReportStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

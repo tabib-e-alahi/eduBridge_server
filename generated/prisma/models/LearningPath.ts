@@ -28,8 +28,8 @@ export type LearningPathMinAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  description: string | null
   goal: string | null
-  isCompleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -38,8 +38,8 @@ export type LearningPathMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  description: string | null
   goal: string | null
-  isCompleted: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,9 +48,9 @@ export type LearningPathCountAggregateOutputType = {
   id: number
   userId: number
   title: number
+  description: number
   goal: number
   steps: number
-  isCompleted: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -61,8 +61,8 @@ export type LearningPathMinAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   goal?: true
-  isCompleted?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -71,8 +71,8 @@ export type LearningPathMaxAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   goal?: true
-  isCompleted?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -81,9 +81,9 @@ export type LearningPathCountAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  description?: true
   goal?: true
   steps?: true
-  isCompleted?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,9 +165,9 @@ export type LearningPathGroupByOutputType = {
   id: string
   userId: string
   title: string
+  description: string | null
   goal: string
   steps: runtime.JsonValue
-  isCompleted: boolean
   createdAt: Date
   updatedAt: Date
   _count: LearningPathCountAggregateOutputType | null
@@ -197,9 +197,9 @@ export type LearningPathWhereInput = {
   id?: Prisma.StringFilter<"LearningPath"> | string
   userId?: Prisma.StringFilter<"LearningPath"> | string
   title?: Prisma.StringFilter<"LearningPath"> | string
+  description?: Prisma.StringNullableFilter<"LearningPath"> | string | null
   goal?: Prisma.StringFilter<"LearningPath"> | string
   steps?: Prisma.JsonFilter<"LearningPath">
-  isCompleted?: Prisma.BoolFilter<"LearningPath"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -209,9 +209,9 @@ export type LearningPathOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   goal?: Prisma.SortOrder
   steps?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -224,9 +224,9 @@ export type LearningPathWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.LearningPathWhereInput | Prisma.LearningPathWhereInput[]
   userId?: Prisma.StringFilter<"LearningPath"> | string
   title?: Prisma.StringFilter<"LearningPath"> | string
+  description?: Prisma.StringNullableFilter<"LearningPath"> | string | null
   goal?: Prisma.StringFilter<"LearningPath"> | string
   steps?: Prisma.JsonFilter<"LearningPath">
-  isCompleted?: Prisma.BoolFilter<"LearningPath"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -236,9 +236,9 @@ export type LearningPathOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   goal?: Prisma.SortOrder
   steps?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LearningPathCountOrderByAggregateInput
@@ -253,9 +253,9 @@ export type LearningPathScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"LearningPath"> | string
   userId?: Prisma.StringWithAggregatesFilter<"LearningPath"> | string
   title?: Prisma.StringWithAggregatesFilter<"LearningPath"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"LearningPath"> | string | null
   goal?: Prisma.StringWithAggregatesFilter<"LearningPath"> | string
   steps?: Prisma.JsonWithAggregatesFilter<"LearningPath">
-  isCompleted?: Prisma.BoolWithAggregatesFilter<"LearningPath"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LearningPath"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LearningPath"> | Date | string
 }
@@ -263,9 +263,9 @@ export type LearningPathScalarWhereWithAggregatesInput = {
 export type LearningPathCreateInput = {
   id?: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLearningPathsInput
@@ -275,9 +275,9 @@ export type LearningPathUncheckedCreateInput = {
   id?: string
   userId: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -285,9 +285,9 @@ export type LearningPathUncheckedCreateInput = {
 export type LearningPathUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLearningPathsNestedInput
@@ -297,9 +297,9 @@ export type LearningPathUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -308,9 +308,9 @@ export type LearningPathCreateManyInput = {
   id?: string
   userId: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -318,9 +318,9 @@ export type LearningPathCreateManyInput = {
 export type LearningPathUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -329,9 +329,9 @@ export type LearningPathUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -350,9 +350,9 @@ export type LearningPathCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   goal?: Prisma.SortOrder
   steps?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -361,8 +361,8 @@ export type LearningPathMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   goal?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -371,8 +371,8 @@ export type LearningPathMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   goal?: Prisma.SortOrder
-  isCompleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -422,9 +422,9 @@ export type LearningPathUncheckedUpdateManyWithoutUserNestedInput = {
 export type LearningPathCreateWithoutUserInput = {
   id?: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -432,9 +432,9 @@ export type LearningPathCreateWithoutUserInput = {
 export type LearningPathUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -472,9 +472,9 @@ export type LearningPathScalarWhereInput = {
   id?: Prisma.StringFilter<"LearningPath"> | string
   userId?: Prisma.StringFilter<"LearningPath"> | string
   title?: Prisma.StringFilter<"LearningPath"> | string
+  description?: Prisma.StringNullableFilter<"LearningPath"> | string | null
   goal?: Prisma.StringFilter<"LearningPath"> | string
   steps?: Prisma.JsonFilter<"LearningPath">
-  isCompleted?: Prisma.BoolFilter<"LearningPath"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LearningPath"> | Date | string
 }
@@ -482,9 +482,9 @@ export type LearningPathScalarWhereInput = {
 export type LearningPathCreateManyUserInput = {
   id?: string
   title: string
+  description?: string | null
   goal: string
   steps: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -492,9 +492,9 @@ export type LearningPathCreateManyUserInput = {
 export type LearningPathUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -502,9 +502,9 @@ export type LearningPathUpdateWithoutUserInput = {
 export type LearningPathUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -512,9 +512,9 @@ export type LearningPathUncheckedUpdateWithoutUserInput = {
 export type LearningPathUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   goal?: Prisma.StringFieldUpdateOperationsInput | string
   steps?: Prisma.JsonNullValueInput | runtime.InputJsonValue
-  isCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -525,9 +525,9 @@ export type LearningPathSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   goal?: boolean
   steps?: boolean
-  isCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -537,9 +537,9 @@ export type LearningPathSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   goal?: boolean
   steps?: boolean
-  isCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -549,9 +549,9 @@ export type LearningPathSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   goal?: boolean
   steps?: boolean
-  isCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -561,14 +561,14 @@ export type LearningPathSelectScalar = {
   id?: boolean
   userId?: boolean
   title?: boolean
+  description?: boolean
   goal?: boolean
   steps?: boolean
-  isCompleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LearningPathOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "goal" | "steps" | "isCompleted" | "createdAt" | "updatedAt", ExtArgs["result"]["learningPath"]>
+export type LearningPathOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "goal" | "steps" | "createdAt" | "updatedAt", ExtArgs["result"]["learningPath"]>
 export type LearningPathInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -588,9 +588,9 @@ export type $LearningPathPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     userId: string
     title: string
+    description: string | null
     goal: string
     steps: runtime.JsonValue
-    isCompleted: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["learningPath"]>
@@ -1020,9 +1020,9 @@ export interface LearningPathFieldRefs {
   readonly id: Prisma.FieldRef<"LearningPath", 'String'>
   readonly userId: Prisma.FieldRef<"LearningPath", 'String'>
   readonly title: Prisma.FieldRef<"LearningPath", 'String'>
+  readonly description: Prisma.FieldRef<"LearningPath", 'String'>
   readonly goal: Prisma.FieldRef<"LearningPath", 'String'>
   readonly steps: Prisma.FieldRef<"LearningPath", 'Json'>
-  readonly isCompleted: Prisma.FieldRef<"LearningPath", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"LearningPath", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"LearningPath", 'DateTime'>
 }

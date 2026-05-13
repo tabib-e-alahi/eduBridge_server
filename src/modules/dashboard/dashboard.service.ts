@@ -67,7 +67,7 @@ const getUserDashboardData = async (userId: string) => {
   
   const weeklyActivity = last7Days.map(date => {
     const count = recentActivity.filter(a => a.createdAt.toISOString().split('T')[0] === date).length;
-    return { date, count: count || Math.floor(Math.random() * 5) }; // Fallback to simulated data if no real logs
+    return { date, count };
   });
 
   return {
@@ -161,11 +161,16 @@ const getInstructorDashboardData = async (userId: string) => {
     return { name: `${star} Star`, count };
   });
 
-  // Calculate completion rate based on enrolled students and their progress
-  // Mocking average completion across all courses for the instructor based on their enrollments
-  const completionData = myCourses.map(c => ({
-    name: c.title.substring(0,10)+'...',
-    rate: Math.floor(Math.random() * 40) + 20 // Fallback simulated rate 
+  // Calculate real completion rate from enrollment progress
+  const completionData = await Promise.all(myCourses.map(async (c) => {
+    const stats = await prisma.enrollment.aggregate({
+      where: { courseId: c.id },
+      _avg: { progress: true },
+    });
+    return {
+      name: c.title.substring(0, 10) + '...',
+      rate: Math.round(stats._avg.progress || 0),
+    };
   }));
 
   return {
@@ -277,13 +282,15 @@ const getAdminDashboardData = async () => {
     ORDER BY MIN("createdAt")
   `;
 
-  // AI Usage by Feature (simulated grouping since feature might not be in aiRequestLog directly)
-  const aiUsage = [
-    { feature: 'Course Summarization', count: Math.floor(Math.random() * 100) + 50 },
-    { feature: 'Quiz Generation', count: Math.floor(Math.random() * 80) + 30 },
-    { feature: 'Tutor Chat', count: Math.floor(Math.random() * 200) + 100 },
-    { feature: 'Code Review', count: Math.floor(Math.random() * 60) + 20 }
-  ];
+  // AI Usage by Feature — real data from AIRequestLog
+  const aiUsageRaw = await prisma.aIRequestLog.groupBy({
+    by: ['feature'],
+    _count: { id: true },
+  });
+  const aiUsage = aiUsageRaw.map(item => ({
+    feature: item.feature,
+    count: item._count.id,
+  }));
 
   return {
     stats: {

@@ -1,5 +1,6 @@
+import { Assignment, AssignmentSubmission } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import { Assignment, AssignmentSubmission } from '@prisma/client';
+
 
 const createAssignmentInDB = async (payload: Partial<Assignment>) => {
   const result = await prisma.assignment.create({
@@ -71,13 +72,16 @@ const getSubmissionsFromDB = async (assignmentId: string) => {
 };
 
 const gradeSubmissionInDB = async (id: string, payload: { grade: number; feedback?: string }) => {
+  const data: any = {
+    grade: payload.grade,
+    status: 'GRADED',
+  };
+  if (payload.feedback !== undefined) {
+    data.feedback = payload.feedback;
+  }
   const result = await prisma.assignmentSubmission.update({
     where: { id },
-    data: {
-      grade: payload.grade,
-      feedback: payload.feedback,
-      status: 'GRADED',
-    },
+    data,
   });
   return result;
 };

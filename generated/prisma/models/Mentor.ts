@@ -45,6 +45,8 @@ export type MentorMinAggregateOutputType = {
   totalStudents: number | null
   averageRating: number | null
   bio: string | null
+  coverImage: string | null
+  coverImagePublicId: string | null
   isFeatured: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -57,6 +59,8 @@ export type MentorMaxAggregateOutputType = {
   totalStudents: number | null
   averageRating: number | null
   bio: string | null
+  coverImage: string | null
+  coverImagePublicId: string | null
   isFeatured: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -70,6 +74,8 @@ export type MentorCountAggregateOutputType = {
   totalStudents: number
   averageRating: number
   bio: number
+  coverImage: number
+  coverImagePublicId: number
   isFeatured: number
   createdAt: number
   updatedAt: number
@@ -96,6 +102,8 @@ export type MentorMinAggregateInputType = {
   totalStudents?: true
   averageRating?: true
   bio?: true
+  coverImage?: true
+  coverImagePublicId?: true
   isFeatured?: true
   createdAt?: true
   updatedAt?: true
@@ -108,6 +116,8 @@ export type MentorMaxAggregateInputType = {
   totalStudents?: true
   averageRating?: true
   bio?: true
+  coverImage?: true
+  coverImagePublicId?: true
   isFeatured?: true
   createdAt?: true
   updatedAt?: true
@@ -121,6 +131,8 @@ export type MentorCountAggregateInputType = {
   totalStudents?: true
   averageRating?: true
   bio?: true
+  coverImage?: true
+  coverImagePublicId?: true
   isFeatured?: true
   createdAt?: true
   updatedAt?: true
@@ -221,6 +233,8 @@ export type MentorGroupByOutputType = {
   totalStudents: number
   averageRating: number
   bio: string
+  coverImage: string | null
+  coverImagePublicId: string | null
   isFeatured: boolean
   createdAt: Date
   updatedAt: Date
@@ -257,6 +271,8 @@ export type MentorWhereInput = {
   totalStudents?: Prisma.IntFilter<"Mentor"> | number
   averageRating?: Prisma.FloatFilter<"Mentor"> | number
   bio?: Prisma.StringFilter<"Mentor"> | string
+  coverImage?: Prisma.StringNullableFilter<"Mentor"> | string | null
+  coverImagePublicId?: Prisma.StringNullableFilter<"Mentor"> | string | null
   isFeatured?: Prisma.BoolFilter<"Mentor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Mentor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Mentor"> | Date | string
@@ -271,6 +287,8 @@ export type MentorOrderByWithRelationInput = {
   totalStudents?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -288,6 +306,8 @@ export type MentorWhereUniqueInput = Prisma.AtLeast<{
   totalStudents?: Prisma.IntFilter<"Mentor"> | number
   averageRating?: Prisma.FloatFilter<"Mentor"> | number
   bio?: Prisma.StringFilter<"Mentor"> | string
+  coverImage?: Prisma.StringNullableFilter<"Mentor"> | string | null
+  coverImagePublicId?: Prisma.StringNullableFilter<"Mentor"> | string | null
   isFeatured?: Prisma.BoolFilter<"Mentor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Mentor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Mentor"> | Date | string
@@ -302,6 +322,8 @@ export type MentorOrderByWithAggregationInput = {
   totalStudents?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverImagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -323,6 +345,8 @@ export type MentorScalarWhereWithAggregatesInput = {
   totalStudents?: Prisma.IntWithAggregatesFilter<"Mentor"> | number
   averageRating?: Prisma.FloatWithAggregatesFilter<"Mentor"> | number
   bio?: Prisma.StringWithAggregatesFilter<"Mentor"> | string
+  coverImage?: Prisma.StringNullableWithAggregatesFilter<"Mentor"> | string | null
+  coverImagePublicId?: Prisma.StringNullableWithAggregatesFilter<"Mentor"> | string | null
   isFeatured?: Prisma.BoolWithAggregatesFilter<"Mentor"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Mentor"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Mentor"> | Date | string
@@ -335,6 +359,8 @@ export type MentorCreateInput = {
   totalStudents?: number
   averageRating?: number
   bio: string
+  coverImage?: string | null
+  coverImagePublicId?: string | null
   isFeatured?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -349,6 +375,8 @@ export type MentorUncheckedCreateInput = {
   totalStudents?: number
   averageRating?: number
   bio: string
+  coverImage?: string | null
+  coverImagePublicId?: string | null
   isFeatured?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -361,6 +389,8 @@ export type MentorUpdateInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -375,6 +405,8 @@ export type MentorUncheckedUpdateInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,6 +420,8 @@ export type MentorCreateManyInput = {
   totalStudents?: number
   averageRating?: number
   bio: string
+  coverImage?: string | null
+  coverImagePublicId?: string | null
   isFeatured?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -400,6 +434,8 @@ export type MentorUpdateManyMutationInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -413,6 +449,8 @@ export type MentorUncheckedUpdateManyInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,6 +469,8 @@ export type MentorCountOrderByAggregateInput = {
   totalStudents?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  coverImagePublicId?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -449,6 +489,8 @@ export type MentorMaxOrderByAggregateInput = {
   totalStudents?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  coverImagePublicId?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -461,6 +503,8 @@ export type MentorMinOrderByAggregateInput = {
   totalStudents?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  coverImage?: Prisma.SortOrder
+  coverImagePublicId?: Prisma.SortOrder
   isFeatured?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -513,22 +557,6 @@ export type MentorUpdateexpertiseInput = {
   push?: string | string[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type MentorCreateWithoutUserInput = {
   id?: string
   expertise?: Prisma.MentorCreateexpertiseInput | string[]
@@ -536,6 +564,8 @@ export type MentorCreateWithoutUserInput = {
   totalStudents?: number
   averageRating?: number
   bio: string
+  coverImage?: string | null
+  coverImagePublicId?: string | null
   isFeatured?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -548,6 +578,8 @@ export type MentorUncheckedCreateWithoutUserInput = {
   totalStudents?: number
   averageRating?: number
   bio: string
+  coverImage?: string | null
+  coverImagePublicId?: string | null
   isFeatured?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -576,6 +608,8 @@ export type MentorUpdateWithoutUserInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -588,6 +622,8 @@ export type MentorUncheckedUpdateWithoutUserInput = {
   totalStudents?: Prisma.IntFieldUpdateOperationsInput | number
   averageRating?: Prisma.FloatFieldUpdateOperationsInput | number
   bio?: Prisma.StringFieldUpdateOperationsInput | string
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -603,6 +639,8 @@ export type MentorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   totalStudents?: boolean
   averageRating?: boolean
   bio?: boolean
+  coverImage?: boolean
+  coverImagePublicId?: boolean
   isFeatured?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -617,6 +655,8 @@ export type MentorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   totalStudents?: boolean
   averageRating?: boolean
   bio?: boolean
+  coverImage?: boolean
+  coverImagePublicId?: boolean
   isFeatured?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -631,6 +671,8 @@ export type MentorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   totalStudents?: boolean
   averageRating?: boolean
   bio?: boolean
+  coverImage?: boolean
+  coverImagePublicId?: boolean
   isFeatured?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -645,12 +687,14 @@ export type MentorSelectScalar = {
   totalStudents?: boolean
   averageRating?: boolean
   bio?: boolean
+  coverImage?: boolean
+  coverImagePublicId?: boolean
   isFeatured?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MentorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "expertise" | "experienceYears" | "totalStudents" | "averageRating" | "bio" | "isFeatured" | "createdAt" | "updatedAt", ExtArgs["result"]["mentor"]>
+export type MentorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "expertise" | "experienceYears" | "totalStudents" | "averageRating" | "bio" | "coverImage" | "coverImagePublicId" | "isFeatured" | "createdAt" | "updatedAt", ExtArgs["result"]["mentor"]>
 export type MentorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -674,6 +718,8 @@ export type $MentorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     totalStudents: number
     averageRating: number
     bio: string
+    coverImage: string | null
+    coverImagePublicId: string | null
     isFeatured: boolean
     createdAt: Date
     updatedAt: Date
@@ -1108,6 +1154,8 @@ export interface MentorFieldRefs {
   readonly totalStudents: Prisma.FieldRef<"Mentor", 'Int'>
   readonly averageRating: Prisma.FieldRef<"Mentor", 'Float'>
   readonly bio: Prisma.FieldRef<"Mentor", 'String'>
+  readonly coverImage: Prisma.FieldRef<"Mentor", 'String'>
+  readonly coverImagePublicId: Prisma.FieldRef<"Mentor", 'String'>
   readonly isFeatured: Prisma.FieldRef<"Mentor", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Mentor", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Mentor", 'DateTime'>

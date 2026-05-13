@@ -1,4 +1,3 @@
-import { User } from '../../../generated/prisma';
 import { prisma } from '../../lib/prisma';
 
 const getAllUsersFromDB = async () => {

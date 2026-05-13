@@ -33,7 +33,7 @@ const getMyEnrollments = catchAsync(async (req: Request, res: Response) => {
 const updateProgress = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params; // enrollmentId
   const { lessonId, isCompleted } = req.body;
-  const result = await EnrollmentService.updateProgressInDB(id, lessonId, isCompleted);
+  const result = await EnrollmentService.updateProgressInDB(id as string, lessonId, isCompleted);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -46,7 +46,7 @@ const updateProgress = catchAsync(async (req: Request, res: Response) => {
 const getCourseProgress = catchAsync(async (req: Request, res: Response) => {
   const { courseId } = req.params;
   const userId = (req as any).user.id;
-  const result = await EnrollmentService.getCourseProgressFromDB(userId, courseId);
+  const result = await EnrollmentService.getCourseProgressFromDB(userId, courseId as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -95,7 +95,7 @@ const getUserQuizAttempts = catchAsync(async (req: Request, res: Response) => {
 const getQuizDetails = catchAsync(async (req: Request, res: Response) => {
   const { quizId } = req.params;
   const userId = (req as any).user.id;
-  const result = await EnrollmentService.getQuizDetailsFromDB(userId, quizId);
+  const result = await EnrollmentService.getQuizDetailsFromDB(userId, quizId as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -110,7 +110,7 @@ const submitQuizAttempt = catchAsync(async (req: Request, res: Response) => {
   const { answers } = req.body;
   const userId = (req as any).user.id;
   
-  const result = await EnrollmentService.submitQuizAttemptInDB(userId, quizId, answers);
+  const result = await EnrollmentService.submitQuizAttemptInDB(userId, quizId as string, answers);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

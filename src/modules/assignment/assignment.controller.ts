@@ -16,7 +16,7 @@ const createAssignment = catchAsync(async (req: Request, res: Response) => {
 
 const getCourseAssignments = catchAsync(async (req: Request, res: Response) => {
   const { courseId } = req.params;
-  const result = await AssignmentService.getCourseAssignmentsFromDB(courseId);
+  const result = await AssignmentService.getCourseAssignmentsFromDB(courseId as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -27,7 +27,7 @@ const getCourseAssignments = catchAsync(async (req: Request, res: Response) => {
 
 const getUserAssignments = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
-  const result = await AssignmentService.getUserAssignmentsFromDB(userId);
+  const result = await AssignmentService.getUserAssignmentsFromDB(userId as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -52,7 +52,7 @@ const submitAssignment = catchAsync(async (req: Request, res: Response) => {
 
 const getSubmissions = catchAsync(async (req: Request, res: Response) => {
   const { assignmentId } = req.params;
-  const result = await AssignmentService.getSubmissionsFromDB(assignmentId);
+  const result = await AssignmentService.getSubmissionsFromDB(assignmentId as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -63,7 +63,7 @@ const getSubmissions = catchAsync(async (req: Request, res: Response) => {
 
 const gradeSubmission = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AssignmentService.gradeSubmissionInDB(id, req.body);
+  const result = await AssignmentService.gradeSubmissionInDB(id as string, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

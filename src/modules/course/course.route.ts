@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { requirePermission } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 import validateRequest from '../../middlewares/validateRequest';
 import { CourseController } from './course.controller';
 import { CourseValidations } from './course.validation';
 
-const router = express.Router();
+const router: Router = Router();
 
 router.get('/', CourseController.getAllCourses);
 router.get('/my-courses', requirePermission(PERMISSIONS.COURSE_VIEW_OWN), CourseController.getMyCourses);

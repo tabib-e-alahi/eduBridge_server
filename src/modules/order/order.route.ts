@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { requirePermission } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 import { OrderController } from './order.controller';
 
-const router = express.Router();
+const router: Router = Router();
 
 router.post(
   '/create',

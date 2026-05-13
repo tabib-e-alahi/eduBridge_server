@@ -40,9 +40,9 @@ export type AIRequestLogMinAggregateOutputType = {
   id: string | null
   userId: string | null
   feature: string | null
+  model: string | null
   promptTokens: number | null
   completionTokens: number | null
-  model: string | null
   createdAt: Date | null
 }
 
@@ -50,9 +50,9 @@ export type AIRequestLogMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   feature: string | null
+  model: string | null
   promptTokens: number | null
   completionTokens: number | null
-  model: string | null
   createdAt: Date | null
 }
 
@@ -60,9 +60,9 @@ export type AIRequestLogCountAggregateOutputType = {
   id: number
   userId: number
   feature: number
+  model: number
   promptTokens: number
   completionTokens: number
-  model: number
   createdAt: number
   _all: number
 }
@@ -82,9 +82,9 @@ export type AIRequestLogMinAggregateInputType = {
   id?: true
   userId?: true
   feature?: true
+  model?: true
   promptTokens?: true
   completionTokens?: true
-  model?: true
   createdAt?: true
 }
 
@@ -92,9 +92,9 @@ export type AIRequestLogMaxAggregateInputType = {
   id?: true
   userId?: true
   feature?: true
+  model?: true
   promptTokens?: true
   completionTokens?: true
-  model?: true
   createdAt?: true
 }
 
@@ -102,9 +102,9 @@ export type AIRequestLogCountAggregateInputType = {
   id?: true
   userId?: true
   feature?: true
+  model?: true
   promptTokens?: true
   completionTokens?: true
-  model?: true
   createdAt?: true
   _all?: true
 }
@@ -199,9 +199,9 @@ export type AIRequestLogGroupByOutputType = {
   id: string
   userId: string
   feature: string
+  model: string
   promptTokens: number
   completionTokens: number
-  model: string
   createdAt: Date
   _count: AIRequestLogCountAggregateOutputType | null
   _avg: AIRequestLogAvgAggregateOutputType | null
@@ -232,9 +232,9 @@ export type AIRequestLogWhereInput = {
   id?: Prisma.StringFilter<"AIRequestLog"> | string
   userId?: Prisma.StringFilter<"AIRequestLog"> | string
   feature?: Prisma.StringFilter<"AIRequestLog"> | string
+  model?: Prisma.StringFilter<"AIRequestLog"> | string
   promptTokens?: Prisma.IntFilter<"AIRequestLog"> | number
   completionTokens?: Prisma.IntFilter<"AIRequestLog"> | number
-  model?: Prisma.StringFilter<"AIRequestLog"> | string
   createdAt?: Prisma.DateTimeFilter<"AIRequestLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -243,9 +243,9 @@ export type AIRequestLogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   feature?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -257,9 +257,9 @@ export type AIRequestLogWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AIRequestLogWhereInput | Prisma.AIRequestLogWhereInput[]
   userId?: Prisma.StringFilter<"AIRequestLog"> | string
   feature?: Prisma.StringFilter<"AIRequestLog"> | string
+  model?: Prisma.StringFilter<"AIRequestLog"> | string
   promptTokens?: Prisma.IntFilter<"AIRequestLog"> | number
   completionTokens?: Prisma.IntFilter<"AIRequestLog"> | number
-  model?: Prisma.StringFilter<"AIRequestLog"> | string
   createdAt?: Prisma.DateTimeFilter<"AIRequestLog"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -268,9 +268,9 @@ export type AIRequestLogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   feature?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AIRequestLogCountOrderByAggregateInput
   _avg?: Prisma.AIRequestLogAvgOrderByAggregateInput
@@ -286,18 +286,18 @@ export type AIRequestLogScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"AIRequestLog"> | string
   userId?: Prisma.StringWithAggregatesFilter<"AIRequestLog"> | string
   feature?: Prisma.StringWithAggregatesFilter<"AIRequestLog"> | string
+  model?: Prisma.StringWithAggregatesFilter<"AIRequestLog"> | string
   promptTokens?: Prisma.IntWithAggregatesFilter<"AIRequestLog"> | number
   completionTokens?: Prisma.IntWithAggregatesFilter<"AIRequestLog"> | number
-  model?: Prisma.StringWithAggregatesFilter<"AIRequestLog"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AIRequestLog"> | Date | string
 }
 
 export type AIRequestLogCreateInput = {
   id?: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutAiRequestLogsInput
 }
@@ -306,18 +306,18 @@ export type AIRequestLogUncheckedCreateInput = {
   id?: string
   userId: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
 }
 
 export type AIRequestLogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutAiRequestLogsNestedInput
 }
@@ -326,9 +326,9 @@ export type AIRequestLogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -336,18 +336,18 @@ export type AIRequestLogCreateManyInput = {
   id?: string
   userId: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
 }
 
 export type AIRequestLogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -355,29 +355,19 @@ export type AIRequestLogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type AIRequestLogListRelationFilter = {
-  every?: Prisma.AIRequestLogWhereInput
-  some?: Prisma.AIRequestLogWhereInput
-  none?: Prisma.AIRequestLogWhereInput
-}
-
-export type AIRequestLogOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type AIRequestLogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   feature?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -390,9 +380,9 @@ export type AIRequestLogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   feature?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -400,15 +390,33 @@ export type AIRequestLogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   feature?: Prisma.SortOrder
+  model?: Prisma.SortOrder
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
-  model?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type AIRequestLogSumOrderByAggregateInput = {
   promptTokens?: Prisma.SortOrder
   completionTokens?: Prisma.SortOrder
+}
+
+export type AIRequestLogListRelationFilter = {
+  every?: Prisma.AIRequestLogWhereInput
+  some?: Prisma.AIRequestLogWhereInput
+  none?: Prisma.AIRequestLogWhereInput
+}
+
+export type AIRequestLogOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type AIRequestLogCreateNestedManyWithoutUserInput = {
@@ -456,18 +464,18 @@ export type AIRequestLogUncheckedUpdateManyWithoutUserNestedInput = {
 export type AIRequestLogCreateWithoutUserInput = {
   id?: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
 }
 
 export type AIRequestLogUncheckedCreateWithoutUserInput = {
   id?: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
 }
 
@@ -504,45 +512,45 @@ export type AIRequestLogScalarWhereInput = {
   id?: Prisma.StringFilter<"AIRequestLog"> | string
   userId?: Prisma.StringFilter<"AIRequestLog"> | string
   feature?: Prisma.StringFilter<"AIRequestLog"> | string
+  model?: Prisma.StringFilter<"AIRequestLog"> | string
   promptTokens?: Prisma.IntFilter<"AIRequestLog"> | number
   completionTokens?: Prisma.IntFilter<"AIRequestLog"> | number
-  model?: Prisma.StringFilter<"AIRequestLog"> | string
   createdAt?: Prisma.DateTimeFilter<"AIRequestLog"> | Date | string
 }
 
 export type AIRequestLogCreateManyUserInput = {
   id?: string
   feature: string
+  model: string
   promptTokens?: number
   completionTokens?: number
-  model?: string
   createdAt?: Date | string
 }
 
 export type AIRequestLogUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AIRequestLogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AIRequestLogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   feature?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.StringFieldUpdateOperationsInput | string
   promptTokens?: Prisma.IntFieldUpdateOperationsInput | number
   completionTokens?: Prisma.IntFieldUpdateOperationsInput | number
-  model?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -552,9 +560,9 @@ export type AIRequestLogSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   userId?: boolean
   feature?: boolean
+  model?: boolean
   promptTokens?: boolean
   completionTokens?: boolean
-  model?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIRequestLog"]>
@@ -563,9 +571,9 @@ export type AIRequestLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   feature?: boolean
+  model?: boolean
   promptTokens?: boolean
   completionTokens?: boolean
-  model?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIRequestLog"]>
@@ -574,9 +582,9 @@ export type AIRequestLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   feature?: boolean
+  model?: boolean
   promptTokens?: boolean
   completionTokens?: boolean
-  model?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aIRequestLog"]>
@@ -585,13 +593,13 @@ export type AIRequestLogSelectScalar = {
   id?: boolean
   userId?: boolean
   feature?: boolean
+  model?: boolean
   promptTokens?: boolean
   completionTokens?: boolean
-  model?: boolean
   createdAt?: boolean
 }
 
-export type AIRequestLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "feature" | "promptTokens" | "completionTokens" | "model" | "createdAt", ExtArgs["result"]["aIRequestLog"]>
+export type AIRequestLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "feature" | "model" | "promptTokens" | "completionTokens" | "createdAt", ExtArgs["result"]["aIRequestLog"]>
 export type AIRequestLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -611,9 +619,9 @@ export type $AIRequestLogPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     userId: string
     feature: string
+    model: string
     promptTokens: number
     completionTokens: number
-    model: string
     createdAt: Date
   }, ExtArgs["result"]["aIRequestLog"]>
   composites: {}
@@ -1042,9 +1050,9 @@ export interface AIRequestLogFieldRefs {
   readonly id: Prisma.FieldRef<"AIRequestLog", 'String'>
   readonly userId: Prisma.FieldRef<"AIRequestLog", 'String'>
   readonly feature: Prisma.FieldRef<"AIRequestLog", 'String'>
+  readonly model: Prisma.FieldRef<"AIRequestLog", 'String'>
   readonly promptTokens: Prisma.FieldRef<"AIRequestLog", 'Int'>
   readonly completionTokens: Prisma.FieldRef<"AIRequestLog", 'Int'>
-  readonly model: Prisma.FieldRef<"AIRequestLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"AIRequestLog", 'DateTime'>
 }
     

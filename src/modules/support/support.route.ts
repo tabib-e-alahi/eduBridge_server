@@ -1,8 +1,8 @@
-import express from 'express';
+import  { Router } from 'express';
 import { SupportController } from './support.controller';
 import { requireAuth } from '../../middlewares/permission';
 
-const router = express.Router();
+const router: Router = Router();
 
 // Publicly accessible for contact form
 router.post('/ticket', SupportController.createTicket);

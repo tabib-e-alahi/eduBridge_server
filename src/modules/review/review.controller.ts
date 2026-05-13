@@ -23,7 +23,7 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
 
 const getCourseReviews = catchAsync(async (req: Request, res: Response) => {
   const { courseId } = req.params;
-  const result = await ReviewService.getCourseReviewsFromDB(courseId);
+  const result = await ReviewService.getCourseReviewsFromDB(courseId as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -36,7 +36,7 @@ const getCourseReviews = catchAsync(async (req: Request, res: Response) => {
 const updateReview = catchAsync(async (req: Request, res: Response) => {
   const { reviewId } = req.params;
   const userId = (req as any).user.id;
-  const result = await ReviewService.updateReviewInDB(reviewId, userId, req.body);
+  const result = await ReviewService.updateReviewInDB(reviewId as string, userId, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -50,7 +50,7 @@ const deleteReview = catchAsync(async (req: Request, res: Response) => {
   const { reviewId } = req.params;
   const userId = (req as any).user.id;
   const role = (req as any).user.role;
-  const result = await ReviewService.deleteReviewFromDB(reviewId, userId, role);
+  const result = await ReviewService.deleteReviewFromDB(reviewId as string, userId, role);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -86,7 +86,7 @@ const getAllReviews = catchAsync(async (req: Request, res: Response) => {
 const moderateReview = catchAsync(async (req: Request, res: Response) => {
   const { reviewId } = req.params;
   const { isHidden } = req.body;
-  const result = await ReviewService.moderateReviewInDB(reviewId, isHidden);
+  const result = await ReviewService.moderateReviewInDB(reviewId as string, isHidden);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -1,0 +1,12 @@
+model LiveClass {
+  id          String   @id @default(uuid())
+  title       String
+  description String?  @db.Text
+  meetingUrl  String
+  startTime   DateTime
+  duration    Int // Minutes
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

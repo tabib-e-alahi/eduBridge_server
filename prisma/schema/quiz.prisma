@@ -1,0 +1,36 @@
+model Quiz {
+  id          String         @id @default(uuid())
+  title       String
+  description String?        @db.Text
+  courseId    String
+  course      Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model QuizQuestion {
+  id            String   @id @default(uuid())
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question      String   @db.Text
+  options       Json // Array of options
+  correctAnswer String
+  explanation   String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model QuizAttempt {
+  id             String            @id @default(uuid())
+  userId         String
+  quizId         String
+  score          Float             @default(0)
+  totalQuestions Int               @default(0)
+  status         QuizAttemptStatus @default(COMPLETED)
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz           Quiz              @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers        Json? // User's answers
+  createdAt      DateTime          @default(now())
+}

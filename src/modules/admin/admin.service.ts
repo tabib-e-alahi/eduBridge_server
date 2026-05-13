@@ -1,5 +1,6 @@
+import { Role } from '../../../generated/prisma/enums';
 import { prisma } from '../../lib/prisma';
-import { Role } from '@prisma/client';
+
 
 // ==========================================
 // PRIVACY & MASKING UTILS
@@ -8,7 +9,7 @@ import { Role } from '@prisma/client';
 const maskEmail = (email: string) => {
   if (!email) return '';
   const [local, domain] = email.split('@');
-  if (!domain) return email;
+  if (!domain || !local) return email;
   if (local.length <= 2) return `*@${domain}`;
   return `${local.substring(0, 2)}***@${domain}`;
 };
@@ -27,8 +28,8 @@ const logAdminAction = async (adminId: string, action: string, entityType: strin
       action,
       entityType,
       entityId,
-      metadata,
-      ipAddress: req?.ip,
+      metadata: metadata ?? null,
+      ipAddress: req?.ip ?? null,
       userAgent: req?.headers ? req.headers['user-agent'] : null,
     }
   });

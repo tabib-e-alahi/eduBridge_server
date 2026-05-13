@@ -28,7 +28,7 @@ const updateUserRole = catchAsync(async (req: Request, res: Response) => {
   const adminId = (req as any).user.id;
   const { id } = req.params;
   const { role } = req.body;
-  const result = await AdminService.updateUserRoleInDB(adminId, id, role, req);
+  const result = await AdminService.updateUserRoleInDB(adminId, id as string, role, req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -41,7 +41,7 @@ const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
   const adminId = (req as any).user.id;
   const { id } = req.params;
   const { status } = req.body;
-  const result = await AdminService.updateUserStatusInDB(adminId, id, status, req);
+  const result = await AdminService.updateUserStatusInDB(adminId, id as string, status, req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -96,7 +96,7 @@ const updateReportStatus = catchAsync(async (req: Request, res: Response) => {
   const adminId = (req as any).user.id;
   const { id } = req.params;
   const { status } = req.body;
-  const result = await AdminService.updateReportStatusInDB(adminId, id, status, req);
+  const result = await AdminService.updateReportStatusInDB(adminId, id as string, status, req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -139,7 +139,7 @@ const updateCourseStatus = catchAsync(async (req: Request, res: Response) => {
   const adminId = (req as any).user.id;
   const { id } = req.params;
   const { status } = req.body;
-  const result = await AdminService.updateCourseStatusInDB(adminId, id, status, req);
+  const result = await AdminService.updateCourseStatusInDB(adminId, id as string, status, req);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

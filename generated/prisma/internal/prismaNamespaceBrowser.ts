@@ -51,28 +51,37 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  AIConversation: 'AIConversation',
+  AIMessage: 'AIMessage',
+  AIRequestLog: 'AIRequestLog',
+  Assignment: 'Assignment',
+  AssignmentSubmission: 'AssignmentSubmission',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
   Verification: 'Verification',
-  Profile: 'Profile',
-  Mentor: 'Mentor',
-  CourseCategory: 'CourseCategory',
-  Course: 'Course',
-  Lesson: 'Lesson',
-  Enrollment: 'Enrollment',
-  Review: 'Review',
   Blog: 'Blog',
+  Course: 'Course',
   SavedCourse: 'SavedCourse',
+  CourseCategory: 'CourseCategory',
+  Enrollment: 'Enrollment',
+  Lesson: 'Lesson',
+  LessonProgress: 'LessonProgress',
+  LearningPath: 'LearningPath',
+  LiveClass: 'LiveClass',
+  Mentor: 'Mentor',
+  Message: 'Message',
+  Notification: 'Notification',
+  SystemSetting: 'SystemSetting',
+  Order: 'Order',
+  Payment: 'Payment',
+  Profile: 'Profile',
   Quiz: 'Quiz',
   QuizQuestion: 'QuizQuestion',
   QuizAttempt: 'QuizAttempt',
-  LearningPath: 'LearningPath',
-  AIConversation: 'AIConversation',
-  AIMessage: 'AIMessage',
-  AIRequestLog: 'AIRequestLog',
-  Notification: 'Notification',
-  ActivityLog: 'ActivityLog'
+  Report: 'Report',
+  AuditLog: 'AuditLog',
+  Review: 'Review'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -91,13 +100,81 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const AIConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  context: 'context',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AIConversationScalarFieldEnum = (typeof AIConversationScalarFieldEnum)[keyof typeof AIConversationScalarFieldEnum]
+
+
+export const AIMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type AIMessageScalarFieldEnum = (typeof AIMessageScalarFieldEnum)[keyof typeof AIMessageScalarFieldEnum]
+
+
+export const AIRequestLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  feature: 'feature',
+  model: 'model',
+  promptTokens: 'promptTokens',
+  completionTokens: 'completionTokens',
+  createdAt: 'createdAt'
+} as const
+
+export type AIRequestLogScalarFieldEnum = (typeof AIRequestLogScalarFieldEnum)[keyof typeof AIRequestLogScalarFieldEnum]
+
+
+export const AssignmentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  fileUrl: 'fileUrl',
+  dueDate: 'dueDate',
+  courseId: 'courseId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssignmentScalarFieldEnum = (typeof AssignmentScalarFieldEnum)[keyof typeof AssignmentScalarFieldEnum]
+
+
+export const AssignmentSubmissionScalarFieldEnum = {
+  id: 'id',
+  assignmentId: 'assignmentId',
+  studentId: 'studentId',
+  content: 'content',
+  fileUrl: 'fileUrl',
+  grade: 'grade',
+  feedback: 'feedback',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssignmentSubmissionScalarFieldEnum = (typeof AssignmentSubmissionScalarFieldEnum)[keyof typeof AssignmentSubmissionScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
   emailVerified: 'emailVerified',
   image: 'image',
+  imagePublicId: 'imagePublicId',
   role: 'role',
+  status: 'status',
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -151,38 +228,52 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
-export const ProfileScalarFieldEnum = {
+export const BlogScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  bio: 'bio',
-  avatarUrl: 'avatarUrl',
-  headline: 'headline',
-  skills: 'skills',
-  location: 'location',
-  website: 'website',
-  linkedIn: 'linkedIn',
-  github: 'github',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  thumbnailUrl: 'thumbnailUrl',
+  thumbnailPublicId: 'thumbnailPublicId',
+  authorId: 'authorId',
+  isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
 
 
-export const MentorScalarFieldEnum = {
+export const CourseScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  expertise: 'expertise',
-  experienceYears: 'experienceYears',
-  totalStudents: 'totalStudents',
-  averageRating: 'averageRating',
-  bio: 'bio',
-  isFeatured: 'isFeatured',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  thumbnailUrl: 'thumbnailUrl',
+  thumbnailPublicId: 'thumbnailPublicId',
+  galleryUrls: 'galleryUrls',
+  galleryPublicIds: 'galleryPublicIds',
+  price: 'price',
+  duration: 'duration',
+  level: 'level',
+  status: 'status',
+  instructorId: 'instructorId',
+  categoryId: 'categoryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type MentorScalarFieldEnum = (typeof MentorScalarFieldEnum)[keyof typeof MentorScalarFieldEnum]
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+export const SavedCourseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedCourseScalarFieldEnum = (typeof SavedCourseScalarFieldEnum)[keyof typeof SavedCourseScalarFieldEnum]
 
 
 export const CourseCategoryScalarFieldEnum = {
@@ -199,23 +290,18 @@ export const CourseCategoryScalarFieldEnum = {
 export type CourseCategoryScalarFieldEnum = (typeof CourseCategoryScalarFieldEnum)[keyof typeof CourseCategoryScalarFieldEnum]
 
 
-export const CourseScalarFieldEnum = {
+export const EnrollmentScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  slug: 'slug',
-  description: 'description',
-  thumbnailUrl: 'thumbnailUrl',
-  price: 'price',
-  duration: 'duration',
-  level: 'level',
+  userId: 'userId',
+  courseId: 'courseId',
   status: 'status',
-  instructorId: 'instructorId',
-  categoryId: 'categoryId',
+  progress: 'progress',
+  lastAccessedLessonId: 'lastAccessedLessonId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
 
 
 export const LessonScalarFieldEnum = {
@@ -234,55 +320,147 @@ export const LessonScalarFieldEnum = {
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
 
 
-export const EnrollmentScalarFieldEnum = {
+export const LessonProgressScalarFieldEnum = {
+  id: 'id',
+  enrollmentId: 'enrollmentId',
+  lessonId: 'lessonId',
+  isCompleted: 'isCompleted',
+  completedAt: 'completedAt'
+} as const
+
+export type LessonProgressScalarFieldEnum = (typeof LessonProgressScalarFieldEnum)[keyof typeof LessonProgressScalarFieldEnum]
+
+
+export const LearningPathScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  courseId: 'courseId',
-  status: 'status',
-  progress: 'progress',
+  title: 'title',
+  description: 'description',
+  goal: 'goal',
+  steps: 'steps',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+export type LearningPathScalarFieldEnum = (typeof LearningPathScalarFieldEnum)[keyof typeof LearningPathScalarFieldEnum]
 
 
-export const ReviewScalarFieldEnum = {
-  id: 'id',
-  rating: 'rating',
-  comment: 'comment',
-  userId: 'userId',
-  courseId: 'courseId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
-
-
-export const BlogScalarFieldEnum = {
+export const LiveClassScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  slug: 'slug',
-  content: 'content',
-  thumbnailUrl: 'thumbnailUrl',
-  authorId: 'authorId',
-  isPublished: 'isPublished',
+  description: 'description',
+  meetingUrl: 'meetingUrl',
+  startTime: 'startTime',
+  duration: 'duration',
+  courseId: 'courseId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
+export type LiveClassScalarFieldEnum = (typeof LiveClassScalarFieldEnum)[keyof typeof LiveClassScalarFieldEnum]
 
 
-export const SavedCourseScalarFieldEnum = {
+export const MentorScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  courseId: 'courseId',
+  expertise: 'expertise',
+  experienceYears: 'experienceYears',
+  totalStudents: 'totalStudents',
+  averageRating: 'averageRating',
+  bio: 'bio',
+  coverImage: 'coverImage',
+  coverImagePublicId: 'coverImagePublicId',
+  isFeatured: 'isFeatured',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MentorScalarFieldEnum = (typeof MentorScalarFieldEnum)[keyof typeof MentorScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  content: 'content',
+  isRead: 'isRead',
   createdAt: 'createdAt'
 } as const
 
-export type SavedCourseScalarFieldEnum = (typeof SavedCourseScalarFieldEnum)[keyof typeof SavedCourseScalarFieldEnum]
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  message: 'message',
+  isRead: 'isRead',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const SystemSettingScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  paymentMethod: 'paymentMethod',
+  transactionId: 'transactionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const PaymentScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  amount: 'amount',
+  status: 'status',
+  transactionId: 'transactionId',
+  method: 'method',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const ProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  bio: 'bio',
+  avatarUrl: 'avatarUrl',
+  avatarPublicId: 'avatarPublicId',
+  headline: 'headline',
+  skills: 'skills',
+  location: 'location',
+  website: 'website',
+  linkedIn: 'linkedIn',
+  github: 'github',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
 
 
 export const QuizScalarFieldEnum = {
@@ -316,6 +494,7 @@ export const QuizAttemptScalarFieldEnum = {
   userId: 'userId',
   quizId: 'quizId',
   score: 'score',
+  totalQuestions: 'totalQuestions',
   status: 'status',
   answers: 'answers',
   createdAt: 'createdAt'
@@ -324,80 +503,49 @@ export const QuizAttemptScalarFieldEnum = {
 export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
 
 
-export const LearningPathScalarFieldEnum = {
+export const ReportScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  title: 'title',
-  goal: 'goal',
-  steps: 'steps',
-  isCompleted: 'isCompleted',
+  reporterId: 'reporterId',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  description: 'description',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type LearningPathScalarFieldEnum = (typeof LearningPathScalarFieldEnum)[keyof typeof LearningPathScalarFieldEnum]
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
 
 
-export const AIConversationScalarFieldEnum = {
+export const AuditLogScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  title: 'title',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type AIConversationScalarFieldEnum = (typeof AIConversationScalarFieldEnum)[keyof typeof AIConversationScalarFieldEnum]
-
-
-export const AIMessageScalarFieldEnum = {
-  id: 'id',
-  conversationId: 'conversationId',
-  role: 'role',
-  content: 'content',
-  createdAt: 'createdAt'
-} as const
-
-export type AIMessageScalarFieldEnum = (typeof AIMessageScalarFieldEnum)[keyof typeof AIMessageScalarFieldEnum]
-
-
-export const AIRequestLogScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  feature: 'feature',
-  promptTokens: 'promptTokens',
-  completionTokens: 'completionTokens',
-  model: 'model',
-  createdAt: 'createdAt'
-} as const
-
-export type AIRequestLogScalarFieldEnum = (typeof AIRequestLogScalarFieldEnum)[keyof typeof AIRequestLogScalarFieldEnum]
-
-
-export const NotificationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  title: 'title',
-  message: 'message',
-  isRead: 'isRead',
-  type: 'type',
-  createdAt: 'createdAt'
-} as const
-
-export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
-
-
-export const ActivityLogScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
+  actorId: 'actorId',
   action: 'action',
-  entity: 'entity',
+  entityType: 'entityType',
   entityId: 'entityId',
-  details: 'details',
+  metadata: 'metadata',
   ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
   createdAt: 'createdAt'
 } as const
 
-export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  userId: 'userId',
+  courseId: 'courseId',
+  isHidden: 'isHidden',
+  isRecommended: 'isRecommended',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
 
 
 export const SortOrder = {

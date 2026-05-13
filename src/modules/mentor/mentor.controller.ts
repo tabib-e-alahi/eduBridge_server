@@ -16,7 +16,7 @@ const getAllMentors = catchAsync(async (req: Request, res: Response) => {
 
 const getMentorDetails = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await MentorService.getMentorDetailsFromDB(id);
+  const result = await MentorService.getMentorDetailsFromDB(id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

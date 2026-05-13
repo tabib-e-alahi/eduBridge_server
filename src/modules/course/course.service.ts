@@ -1,4 +1,4 @@
-import { Course, Prisma } from '@prisma/client';
+import { Course, Prisma } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
 
 const createCourseIntoDB = async (payload: any) => {
@@ -140,7 +140,6 @@ const deleteCourseFromDB = async (id: string) => {
 };
 
 const getMyCoursesFromDB = async (instructorId: string) => {
-  console.log("service--->",instructorId);
   const result = await prisma.course.findMany({
     where: { instructorId },
     include: {

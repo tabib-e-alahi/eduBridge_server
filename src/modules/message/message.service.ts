@@ -1,5 +1,6 @@
+import { Message } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import { Message } from '@prisma/client';
+
 
 const sendMessageInDB = async (payload: Partial<Message>) => {
   const result = await prisma.message.create({

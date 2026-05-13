@@ -1,5 +1,4 @@
 import { prisma } from '../../lib/prisma';
-import { Order, OrderStatus } from '@prisma/client';
 
 const createOrderInDB = async (userId: string, courseId: string) => {
   const course = await prisma.course.findUnique({ where: { id: courseId } });
@@ -40,14 +39,19 @@ const capturePaymentInDB = async (orderId: string, transactionId: string, method
       },
     });
 
-    // 3. Automatically Enroll User in Course
-    await tx.enrollment.create({
-      data: {
-        userId: order.userId,
-        courseId: order.courseId,
-        status: 'ACTIVE',
-      },
+    // 3. Automatically Enroll User in Course (skip if already enrolled)
+    const existingEnrollment = await tx.enrollment.findUnique({
+      where: { userId_courseId: { userId: order.userId, courseId: order.courseId } },
     });
+    if (!existingEnrollment) {
+      await tx.enrollment.create({
+        data: {
+          userId: order.userId,
+          courseId: order.courseId,
+          status: 'ACTIVE',
+        },
+      });
+    }
 
     return order;
   });

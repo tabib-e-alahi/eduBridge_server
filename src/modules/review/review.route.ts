@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { ReviewController } from './review.controller';
 import auth from '../../middlewares/auth';
 import { PERMISSIONS } from '../../config/permissions';
-import { requirePermission } from 'src/middlewares/permission';
+import { requirePermission } from '../../middlewares/permission';
 
-const router = express.Router();
+
+const router: Router = Router();
 
 // Public routes
 router.get('/course/:courseId', ReviewController.getCourseReviews);
@@ -12,7 +13,6 @@ router.get('/course/:courseId', ReviewController.getCourseReviews);
 // Student routes
 router.post(
   '/course/:courseId',
-  auth(),
   requirePermission(PERMISSIONS.ENROLLMENT_VIEW_OWN), // Enrolled students can review
   ReviewController.createReview
 );
@@ -32,7 +32,6 @@ router.delete(
 // Instructor routes
 router.get(
   '/instructor',
-  auth(),
   requirePermission(PERMISSIONS.COURSE_VIEW_OWN),
   ReviewController.getInstructorReviews
 );
@@ -40,14 +39,12 @@ router.get(
 // Admin routes
 router.get(
   '/admin',
-  auth(),
   requirePermission(PERMISSIONS.REVIEW_MANAGE),
   ReviewController.getAllReviews
 );
 
 router.patch(
   '/:reviewId/moderate',
-  auth(),
   requirePermission(PERMISSIONS.REVIEW_MANAGE),
   ReviewController.moderateReview
 );

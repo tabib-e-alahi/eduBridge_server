@@ -1,0 +1,40 @@
+model Lesson {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String
+  content   String?  @db.Text
+  videoUrl  String?
+  duration  String?
+  order     Int
+  courseId       String
+  course         Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessonProgress LessonProgress[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@unique([courseId, slug])
+}
+
+model LessonProgress {
+  id           String     @id @default(uuid())
+  enrollmentId String
+  lessonId     String
+  isCompleted  Boolean    @default(false)
+  completedAt  DateTime?
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson       Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, lessonId])
+}
+
+model LearningPath {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?  @db.Text
+  goal        String   @db.Text
+  steps       Json     // Full roadmap data
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

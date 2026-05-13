@@ -32,7 +32,7 @@ const getConversations = catchAsync(async (req: Request, res: Response) => {
 const getChat = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const { otherUserId } = req.params;
-  const result = await MessageService.getChatWithUserFromDB(userId, otherUserId);
+  const result = await MessageService.getChatWithUserFromDB(userId, otherUserId as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

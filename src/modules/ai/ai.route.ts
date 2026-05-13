@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { requirePermission } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 import validateRequest from '../../middlewares/validateRequest';
 import { AIController } from './ai.controller';
 import { AIValidations } from './ai.validation';
 
-const router = express.Router();
+const router: Router = Router();
 
 router.post(
   '/learning-path',

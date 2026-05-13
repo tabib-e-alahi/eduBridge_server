@@ -1,5 +1,6 @@
-import { prisma } from '../../lib/prisma';
-import { LiveClass } from '../../../generated/prisma';
+import { LiveClass } from "../../../generated/prisma/client";
+import { prisma } from "../../lib/prisma";
+
 
 const createLiveClassInDB = async (payload: Partial<LiveClass>) => {
   const result = await prisma.liveClass.create({

@@ -23,7 +23,7 @@ const markRead = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const { id } = req.params;
 
-  await NotificationService.markAsRead(id, userId);
+  await NotificationService.markAsRead(id as string, userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -50,7 +50,7 @@ const deleteNotification = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const { id } = req.params;
 
-  await NotificationService.delete(id, userId);
+  await NotificationService.delete(id as string, userId);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

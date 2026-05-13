@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { requirePermission } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 import { EnrollmentController } from './enrollment.controller';
 
-const router = express.Router();
+const router: Router = Router();
 
 router.get('/my-enrollments', requirePermission(PERMISSIONS.ENROLLMENT_VIEW_OWN), EnrollmentController.getMyEnrollments);
 router.get('/instructor', requirePermission(PERMISSIONS.ENROLLMENT_VIEW_ALL), EnrollmentController.getInstructorStudents);

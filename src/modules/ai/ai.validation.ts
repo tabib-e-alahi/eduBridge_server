@@ -33,12 +33,7 @@ const aiChatSchema = z.object({
 });
 
 const progressAnalyzerSchema = z.object({
-  body: z.object({
-    enrollments: z.array(z.any()),
-    quizScores: z.array(z.any()),
-    completedLessons: z.array(z.any()),
-    savedCourses: z.array(z.any()),
-  }),
+  body: z.object({}).optional(),
 });
 
 export const AIValidations = {

@@ -1,0 +1,13 @@
+model CourseCategory {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  slug        String           @unique
+  description String?          @db.Text
+  icon        String?
+  courses     Course[]
+  parentId    String?
+  parent      CourseCategory?  @relation("SubCategories", fields: [parentId], references: [id])
+  children    CourseCategory[] @relation("SubCategories")
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}

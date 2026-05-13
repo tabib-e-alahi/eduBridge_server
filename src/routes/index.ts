@@ -19,7 +19,7 @@ import { MentorRoutes } from '../modules/mentor/mentor.route';
 import { SupportRoutes } from '../modules/support/support.route';
 import { ReviewRoutes } from '../modules/review/review.route';
 
-const router = Router();
+const router : Router = Router();
 
 const moduleRoutes = [
   {

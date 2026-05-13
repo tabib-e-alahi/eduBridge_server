@@ -1,52 +1,35 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import { z } from 'zod';
 
-dotenv.config({ path: path.join(process.cwd(), '.env') });
+dotenv.config({ path: path.join(process.cwd(), ".env") });
 
-const envVarsSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().default('5000'),
-  DATABASE_URL: z.string().describe('PostgreSQL connection string'),
-  JWT_SECRET: z.string().describe('JWT secret key'),
-  CORS_ORIGIN: z.string().default('*'),
-  BETTER_AUTH_SECRET: z.string(),
-  BETTER_AUTH_URL: z.string(),
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-  CLOUDINARY_CLOUD_NAME: z.string().describe('Cloudinary cloud name'),
-  CLOUDINARY_API_KEY: z.string().describe('Cloudinary API key'),
-  CLOUDINARY_API_SECRET: z.string().describe('Cloudinary API secret'),
-  EMAIL_HOST: z.string().default('smtp.gmail.com'),
-  EMAIL_PORT: z.string().default('587'),
-  EMAIL_USER: z.string().optional().default(''),
-  EMAIL_PASS: z.string().optional().default(''),
-  FRONTEND_URL: z.string().default('http://localhost:3000'),
-});
-
-const envVars = envVarsSchema.safeParse(process.env);
-
-if (!envVars.success) {
-  throw new Error(`Config validation error: ${envVars.error.message}`);
-}
- const envConfig = {
-  ENV: envVars.data.NODE_ENV,
-  PORT: envVars.data.PORT,
-  DATABASE_URL: envVars.data.DATABASE_URL,
-  JWT_SECRET: envVars.data.JWT_SECRET,
-  CORS_ORIGIN: envVars.data.CORS_ORIGIN,
-  BETTER_AUTH_SECRET: envVars.data.BETTER_AUTH_SECRET,
-  BETTER_AUTH_URL: envVars.data.BETTER_AUTH_URL,
-  GOOGLE_CLIENT_ID: envVars.data.GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET: envVars.data.GOOGLE_CLIENT_SECRET,
-  CLOUDINARY_CLOUD_NAME: envVars.data.CLOUDINARY_CLOUD_NAME,
-  CLOUDINARY_API_KEY: envVars.data.CLOUDINARY_API_KEY,
-  CLOUDINARY_API_SECRET: envVars.data.CLOUDINARY_API_SECRET,
-  EMAIL_HOST: envVars.data.EMAIL_HOST,
-  EMAIL_PORT: envVars.data.EMAIL_PORT,
-  EMAIL_USER: envVars.data.EMAIL_USER,
-  EMAIL_PASS: envVars.data.EMAIL_PASS,
-  FRONTEND_URL: envVars.data.FRONTEND_URL,
+const envConfig = {
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    PORT: Number(process.env.PORT) || 5000,
+    DATABASE_URL: process.env.DATABASE_URL,
+    BACKEND_BASE_URL: process.env.BACKEND_BASE_URL as string,
+    FRONTEND_URL: process.env.FRONTEND_URL as string,
+    JWT_SECRET: process.env.JWT_SECRET as string,
+    CORS_ORIGIN: process.env.CORS_ORIGIN as string,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET as string,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL as string,
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
+    GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL as string,
+    EMAIL_HOST: process.env.EMAIL_HOST as string,
+    EMAIL_PORT: Number(process.env.EMAIL_PORT) || 2525,
+    EMAIL_USER: process.env.EMAIL_USER as string,
+    EMAIL_PASS: process.env.EMAIL_PASS as string,
+    SUPER_ADMIN_NAME: process.env.SUPER_ADMIN_NAME as string,
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+    ADMIN_NAME: process.env.ADMIN_NAME as string,
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD as string,
 };
 
-export default envConfig;
+export default envConfig

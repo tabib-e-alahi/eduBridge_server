@@ -1,9 +1,9 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { requireAuth } from '../../middlewares/permission';
 import uploadService from '../../utils/upload.service';
 import { UploadController } from './upload.controller';
 
-const router = express.Router();
+const router: Router = Router();
 
 /**
  * Upload single image

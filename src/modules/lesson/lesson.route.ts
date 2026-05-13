@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import { LessonController } from './lesson.controller';
 import auth from '../../middlewares/auth';
 import { PERMISSIONS } from '../../config/permissions';
@@ -6,7 +6,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import { z } from 'zod';
 import { requirePermission } from '../../middlewares/permission';
 
-const router = express.Router();
+const router: Router = Router();
 
 const lessonSchema = z.object({
   body: z.object({
@@ -22,7 +22,6 @@ const lessonSchema = z.object({
 
 router.post(
   '/',
-  auth(),
   requirePermission(PERMISSIONS.LESSON_CREATE),
   validateRequest(lessonSchema),
   LessonController.createLesson
@@ -30,14 +29,12 @@ router.post(
 
 router.patch(
   '/:id',
-  auth(),
   requirePermission(PERMISSIONS.LESSON_UPDATE),
   LessonController.updateLesson
 );
 
 router.delete(
   '/:id',
-  auth(),
   requirePermission(PERMISSIONS.LESSON_DELETE),
   LessonController.deleteLesson
 );

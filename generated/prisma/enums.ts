@@ -10,7 +10,7 @@
 */
 
 export const Role = {
-  USER: 'USER',
+  STUDENT: 'STUDENT',
   INSTRUCTOR: 'INSTRUCTOR',
   MANAGER: 'MANAGER',
   ADMIN: 'ADMIN'
@@ -19,9 +19,20 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  BLOCKED: 'BLOCKED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
 export const CourseStatus = {
   DRAFT: 'DRAFT',
+  IN_REVIEW: 'IN_REVIEW',
   PUBLISHED: 'PUBLISHED',
+  REJECTED: 'REJECTED',
   ARCHIVED: 'ARCHIVED'
 } as const
 
@@ -44,3 +55,46 @@ export const QuizAttemptStatus = {
 } as const
 
 export type QuizAttemptStatus = (typeof QuizAttemptStatus)[keyof typeof QuizAttemptStatus]
+
+
+export const ReportTargetType = {
+  COURSE: 'COURSE',
+  REVIEW: 'REVIEW',
+  MESSAGE: 'MESSAGE',
+  USER: 'USER',
+  BLOG: 'BLOG',
+  ASSIGNMENT: 'ASSIGNMENT',
+  SUPPORT_TICKET: 'SUPPORT_TICKET'
+} as const
+
+export type ReportTargetType = (typeof ReportTargetType)[keyof typeof ReportTargetType]
+
+
+export const ReportStatus = {
+  OPEN: 'OPEN',
+  IN_REVIEW: 'IN_REVIEW',
+  RESOLVED: 'RESOLVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const OrderStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

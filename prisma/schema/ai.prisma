@@ -1,0 +1,30 @@
+model AIConversation {
+  id        String      @id @default(uuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String?
+  context   String?     // e.g. courseId or lessonId
+  messages  AIMessage[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model AIMessage {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AIConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String         // 'user' or 'assistant'
+  content        String         @db.Text
+  createdAt      DateTime       @default(now())
+}
+
+model AIRequestLog {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feature           String   // 'chat', 'quiz', 'learning-path', etc.
+  model             String
+  promptTokens      Int      @default(0)
+  completionTokens  Int      @default(0)
+  createdAt         DateTime @default(now())
+}

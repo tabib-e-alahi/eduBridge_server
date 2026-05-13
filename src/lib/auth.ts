@@ -1,11 +1,12 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
-import envConfig from "src/config";
+import envConfig from "../config";
+
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
-        provider: "postgresql",
+        provider: "postgresql", // or "mysql", "postgresql", ...etc
     }),
     emailAndPassword: {
         enabled: true,
@@ -27,10 +28,6 @@ export const auth = betterAuth({
             clientId: envConfig.GOOGLE_CLIENT_ID,
             clientSecret: envConfig.GOOGLE_CLIENT_SECRET,
         },
-        // facebook: {
-        //     clientId: envConfig.FACEBOOK_CLIENT_ID,
-        //     clientSecret: envConfig.FACEBOOK_CLIENT_SECRET,
-        // },
     },
     trustedOrigins: [envConfig.BETTER_AUTH_URL, envConfig.CORS_ORIGIN],
     user: {

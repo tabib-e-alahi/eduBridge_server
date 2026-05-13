@@ -1,8 +1,7 @@
 import { prisma } from '../../lib/prisma';
-import { Report } from '@prisma/client';
 
 const createSupportTicketInDB = async (payload: { reporterId?: string; name: string; email: string; subject: string; message: string }) => {
-  // We'll store the extra info (name, email, subject) in the 'reason' or 'details' field as JSON
+  // Store the extra info (name, email, subject) in the description field
   const details = JSON.stringify({
     name: payload.name,
     email: payload.email,
@@ -11,10 +10,11 @@ const createSupportTicketInDB = async (payload: { reporterId?: string; name: str
 
   const result = await prisma.report.create({
     data: {
-      reporterId: payload.reporterId || '00000000-0000-0000-0000-000000000000', // System user or anonymous
+      reporterId: payload.reporterId ?? null,
       targetType: 'SUPPORT_TICKET',
       targetId: 'SYSTEM',
       reason: payload.message,
+      description: details,
       status: 'OPEN',
     },
   });

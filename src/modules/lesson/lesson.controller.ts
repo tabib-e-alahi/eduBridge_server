@@ -45,7 +45,7 @@ const updateLesson = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const role = (req as any).user.role;
 
-  const lesson = await prisma?.lesson.findUnique({ where: { id }, include: { course: true } });
+  const lesson = await prisma?.lesson.findUnique({ where: { id: id as string }, include: { course: true } });
   if (!lesson) {
     return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
@@ -64,7 +64,7 @@ const updateLesson = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  const result = await LessonService.updateLessonInDB(id, req.body);
+  const result = await LessonService.updateLessonInDB(id as string, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -78,7 +78,7 @@ const deleteLesson = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const role = (req as any).user.role;
 
-  const lesson = await prisma?.lesson.findUnique({ where: { id }, include: { course: true } });
+  const lesson = await prisma?.lesson.findUnique({ where: { id: id as string }, include: { course: true } });
   if (!lesson) {
     return sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
@@ -97,7 +97,7 @@ const deleteLesson = catchAsync(async (req: Request, res: Response) => {
     });
   }
 
-  const result = await LessonService.deleteLessonFromDB(id);
+  const result = await LessonService.deleteLessonFromDB(id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

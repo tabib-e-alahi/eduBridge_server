@@ -1,8 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
-import { Request } from 'express';
-import envConfig from 'src/config';
+import { Request, RequestHandler } from 'express';
+import envConfig from '../config';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+interface UploadService {
+  deleteImage(publicId: string): Promise<any>;
+  single(fieldName: string): RequestHandler;
+  array(fieldName: string, maxCount?: number): RequestHandler;
+  fields(fields: multer.Field[]): RequestHandler;
+}
+
 
 // Configure Cloudinary
 cloudinary.config({
@@ -11,7 +19,7 @@ cloudinary.config({
   api_secret: envConfig.CLOUDINARY_API_SECRET,
 });
 
-// Configure Storage for Multer-Storage-Cloudinary v4
+
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req: Request, file: Express.Multer.File) => {
@@ -35,7 +43,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
+    fileSize: 0.8 * 1024 * 1024, // 800KB limit
   },
   fileFilter: (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (!file.mimetype.startsWith('image/')) {
@@ -45,10 +53,7 @@ const upload = multer({
   },
 });
 
-const uploadService = {
-  /**
-   * Delete an image from Cloudinary
-   */
+const uploadService: UploadService = {
   async deleteImage(publicId: string) {
     try {
       const result = await cloudinary.uploader.destroy(publicId);

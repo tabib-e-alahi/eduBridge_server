@@ -40,6 +40,7 @@ export type EnrollmentMinAggregateOutputType = {
   courseId: string | null
   status: $Enums.EnrollmentStatus | null
   progress: number | null
+  lastAccessedLessonId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +51,7 @@ export type EnrollmentMaxAggregateOutputType = {
   courseId: string | null
   status: $Enums.EnrollmentStatus | null
   progress: number | null
+  lastAccessedLessonId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +62,7 @@ export type EnrollmentCountAggregateOutputType = {
   courseId: number
   status: number
   progress: number
+  lastAccessedLessonId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,6 +83,7 @@ export type EnrollmentMinAggregateInputType = {
   courseId?: true
   status?: true
   progress?: true
+  lastAccessedLessonId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -90,6 +94,7 @@ export type EnrollmentMaxAggregateInputType = {
   courseId?: true
   status?: true
   progress?: true
+  lastAccessedLessonId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +105,7 @@ export type EnrollmentCountAggregateInputType = {
   courseId?: true
   status?: true
   progress?: true
+  lastAccessedLessonId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -197,6 +203,7 @@ export type EnrollmentGroupByOutputType = {
   courseId: string
   status: $Enums.EnrollmentStatus
   progress: number
+  lastAccessedLessonId: string | null
   createdAt: Date
   updatedAt: Date
   _count: EnrollmentCountAggregateOutputType | null
@@ -230,10 +237,12 @@ export type EnrollmentWhereInput = {
   courseId?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.EnumEnrollmentStatusFilter<"Enrollment"> | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFilter<"Enrollment"> | number
+  lastAccessedLessonId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
+  lessonProgress?: Prisma.LessonProgressListRelationFilter
 }
 
 export type EnrollmentOrderByWithRelationInput = {
@@ -242,10 +251,12 @@ export type EnrollmentOrderByWithRelationInput = {
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
+  lastAccessedLessonId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   course?: Prisma.CourseOrderByWithRelationInput
+  lessonProgress?: Prisma.LessonProgressOrderByRelationAggregateInput
 }
 
 export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
@@ -258,10 +269,12 @@ export type EnrollmentWhereUniqueInput = Prisma.AtLeast<{
   courseId?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.EnumEnrollmentStatusFilter<"Enrollment"> | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFilter<"Enrollment"> | number
+  lastAccessedLessonId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
+  lessonProgress?: Prisma.LessonProgressListRelationFilter
 }, "id" | "userId_courseId">
 
 export type EnrollmentOrderByWithAggregationInput = {
@@ -270,6 +283,7 @@ export type EnrollmentOrderByWithAggregationInput = {
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
+  lastAccessedLessonId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EnrollmentCountOrderByAggregateInput
@@ -288,6 +302,7 @@ export type EnrollmentScalarWhereWithAggregatesInput = {
   courseId?: Prisma.StringWithAggregatesFilter<"Enrollment"> | string
   status?: Prisma.EnumEnrollmentStatusWithAggregatesFilter<"Enrollment"> | $Enums.EnrollmentStatus
   progress?: Prisma.FloatWithAggregatesFilter<"Enrollment"> | number
+  lastAccessedLessonId?: Prisma.StringNullableWithAggregatesFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
 }
@@ -296,10 +311,12 @@ export type EnrollmentCreateInput = {
   id?: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnrollmentsInput
   course: Prisma.CourseCreateNestedOneWithoutEnrollmentsInput
+  lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentUncheckedCreateInput = {
@@ -308,18 +325,22 @@ export type EnrollmentUncheckedCreateInput = {
   courseId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnrollmentsNestedInput
   course?: Prisma.CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
+  lessonProgress?: Prisma.LessonProgressUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentUncheckedUpdateInput = {
@@ -328,8 +349,10 @@ export type EnrollmentUncheckedUpdateInput = {
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentCreateManyInput = {
@@ -338,6 +361,7 @@ export type EnrollmentCreateManyInput = {
   courseId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -346,6 +370,7 @@ export type EnrollmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -356,6 +381,7 @@ export type EnrollmentUncheckedUpdateManyInput = {
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -381,6 +407,7 @@ export type EnrollmentCountOrderByAggregateInput = {
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
+  lastAccessedLessonId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -395,6 +422,7 @@ export type EnrollmentMaxOrderByAggregateInput = {
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
+  lastAccessedLessonId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -405,12 +433,18 @@ export type EnrollmentMinOrderByAggregateInput = {
   courseId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   progress?: Prisma.SortOrder
+  lastAccessedLessonId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type EnrollmentSumOrderByAggregateInput = {
   progress?: Prisma.SortOrder
+}
+
+export type EnrollmentScalarRelationFilter = {
+  is?: Prisma.EnrollmentWhereInput
+  isNot?: Prisma.EnrollmentWhereInput
 }
 
 export type EnrollmentCreateNestedManyWithoutUserInput = {
@@ -501,13 +535,29 @@ export type EnumEnrollmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.EnrollmentStatus
 }
 
+export type EnrollmentCreateNestedOneWithoutLessonProgressInput = {
+  create?: Prisma.XOR<Prisma.EnrollmentCreateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedCreateWithoutLessonProgressInput>
+  connectOrCreate?: Prisma.EnrollmentCreateOrConnectWithoutLessonProgressInput
+  connect?: Prisma.EnrollmentWhereUniqueInput
+}
+
+export type EnrollmentUpdateOneRequiredWithoutLessonProgressNestedInput = {
+  create?: Prisma.XOR<Prisma.EnrollmentCreateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedCreateWithoutLessonProgressInput>
+  connectOrCreate?: Prisma.EnrollmentCreateOrConnectWithoutLessonProgressInput
+  upsert?: Prisma.EnrollmentUpsertWithoutLessonProgressInput
+  connect?: Prisma.EnrollmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EnrollmentUpdateToOneWithWhereWithoutLessonProgressInput, Prisma.EnrollmentUpdateWithoutLessonProgressInput>, Prisma.EnrollmentUncheckedUpdateWithoutLessonProgressInput>
+}
+
 export type EnrollmentCreateWithoutUserInput = {
   id?: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   course: Prisma.CourseCreateNestedOneWithoutEnrollmentsInput
+  lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentUncheckedCreateWithoutUserInput = {
@@ -515,8 +565,10 @@ export type EnrollmentUncheckedCreateWithoutUserInput = {
   courseId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentCreateOrConnectWithoutUserInput = {
@@ -554,6 +606,7 @@ export type EnrollmentScalarWhereInput = {
   courseId?: Prisma.StringFilter<"Enrollment"> | string
   status?: Prisma.EnumEnrollmentStatusFilter<"Enrollment"> | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFilter<"Enrollment"> | number
+  lastAccessedLessonId?: Prisma.StringNullableFilter<"Enrollment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Enrollment"> | Date | string
 }
@@ -562,9 +615,11 @@ export type EnrollmentCreateWithoutCourseInput = {
   id?: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEnrollmentsInput
+  lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentUncheckedCreateWithoutCourseInput = {
@@ -572,8 +627,10 @@ export type EnrollmentUncheckedCreateWithoutCourseInput = {
   userId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutEnrollmentInput
 }
 
 export type EnrollmentCreateOrConnectWithoutCourseInput = {
@@ -602,11 +659,72 @@ export type EnrollmentUpdateManyWithWhereWithoutCourseInput = {
   data: Prisma.XOR<Prisma.EnrollmentUpdateManyMutationInput, Prisma.EnrollmentUncheckedUpdateManyWithoutCourseInput>
 }
 
+export type EnrollmentCreateWithoutLessonProgressInput = {
+  id?: string
+  status?: $Enums.EnrollmentStatus
+  progress?: number
+  lastAccessedLessonId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutEnrollmentsInput
+  course: Prisma.CourseCreateNestedOneWithoutEnrollmentsInput
+}
+
+export type EnrollmentUncheckedCreateWithoutLessonProgressInput = {
+  id?: string
+  userId: string
+  courseId: string
+  status?: $Enums.EnrollmentStatus
+  progress?: number
+  lastAccessedLessonId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type EnrollmentCreateOrConnectWithoutLessonProgressInput = {
+  where: Prisma.EnrollmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.EnrollmentCreateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedCreateWithoutLessonProgressInput>
+}
+
+export type EnrollmentUpsertWithoutLessonProgressInput = {
+  update: Prisma.XOR<Prisma.EnrollmentUpdateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedUpdateWithoutLessonProgressInput>
+  create: Prisma.XOR<Prisma.EnrollmentCreateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedCreateWithoutLessonProgressInput>
+  where?: Prisma.EnrollmentWhereInput
+}
+
+export type EnrollmentUpdateToOneWithWhereWithoutLessonProgressInput = {
+  where?: Prisma.EnrollmentWhereInput
+  data: Prisma.XOR<Prisma.EnrollmentUpdateWithoutLessonProgressInput, Prisma.EnrollmentUncheckedUpdateWithoutLessonProgressInput>
+}
+
+export type EnrollmentUpdateWithoutLessonProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
+  progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutEnrollmentsNestedInput
+  course?: Prisma.CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
+}
+
+export type EnrollmentUncheckedUpdateWithoutLessonProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
+  progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type EnrollmentCreateManyUserInput = {
   id?: string
   courseId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -615,9 +733,11 @@ export type EnrollmentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   course?: Prisma.CourseUpdateOneRequiredWithoutEnrollmentsNestedInput
+  lessonProgress?: Prisma.LessonProgressUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentUncheckedUpdateWithoutUserInput = {
@@ -625,8 +745,10 @@ export type EnrollmentUncheckedUpdateWithoutUserInput = {
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentUncheckedUpdateManyWithoutUserInput = {
@@ -634,6 +756,7 @@ export type EnrollmentUncheckedUpdateManyWithoutUserInput = {
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -643,6 +766,7 @@ export type EnrollmentCreateManyCourseInput = {
   userId: string
   status?: $Enums.EnrollmentStatus
   progress?: number
+  lastAccessedLessonId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -651,9 +775,11 @@ export type EnrollmentUpdateWithoutCourseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEnrollmentsNestedInput
+  lessonProgress?: Prisma.LessonProgressUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentUncheckedUpdateWithoutCourseInput = {
@@ -661,8 +787,10 @@ export type EnrollmentUncheckedUpdateWithoutCourseInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutEnrollmentNestedInput
 }
 
 export type EnrollmentUncheckedUpdateManyWithoutCourseInput = {
@@ -670,10 +798,40 @@ export type EnrollmentUncheckedUpdateManyWithoutCourseInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrollmentStatusFieldUpdateOperationsInput | $Enums.EnrollmentStatus
   progress?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastAccessedLessonId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type EnrollmentCountOutputType
+ */
+
+export type EnrollmentCountOutputType = {
+  lessonProgress: number
+}
+
+export type EnrollmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  lessonProgress?: boolean | EnrollmentCountOutputTypeCountLessonProgressArgs
+}
+
+/**
+ * EnrollmentCountOutputType without action
+ */
+export type EnrollmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EnrollmentCountOutputType
+   */
+  select?: Prisma.EnrollmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * EnrollmentCountOutputType without action
+ */
+export type EnrollmentCountOutputTypeCountLessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LessonProgressWhereInput
+}
 
 
 export type EnrollmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -682,10 +840,13 @@ export type EnrollmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   courseId?: boolean
   status?: boolean
   progress?: boolean
+  lastAccessedLessonId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.Enrollment$lessonProgressArgs<ExtArgs>
+  _count?: boolean | Prisma.EnrollmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["enrollment"]>
 
 export type EnrollmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -694,6 +855,7 @@ export type EnrollmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   courseId?: boolean
   status?: boolean
   progress?: boolean
+  lastAccessedLessonId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -706,6 +868,7 @@ export type EnrollmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   courseId?: boolean
   status?: boolean
   progress?: boolean
+  lastAccessedLessonId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -718,14 +881,17 @@ export type EnrollmentSelectScalar = {
   courseId?: boolean
   status?: boolean
   progress?: boolean
+  lastAccessedLessonId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EnrollmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "courseId" | "status" | "progress" | "createdAt" | "updatedAt", ExtArgs["result"]["enrollment"]>
+export type EnrollmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "courseId" | "status" | "progress" | "lastAccessedLessonId" | "createdAt" | "updatedAt", ExtArgs["result"]["enrollment"]>
 export type EnrollmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
+  lessonProgress?: boolean | Prisma.Enrollment$lessonProgressArgs<ExtArgs>
+  _count?: boolean | Prisma.EnrollmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type EnrollmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -741,6 +907,7 @@ export type $EnrollmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     course: Prisma.$CoursePayload<ExtArgs>
+    lessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -748,6 +915,7 @@ export type $EnrollmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     courseId: string
     status: $Enums.EnrollmentStatus
     progress: number
+    lastAccessedLessonId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["enrollment"]>
@@ -1146,6 +1314,7 @@ export interface Prisma__EnrollmentClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   course<T extends Prisma.CourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  lessonProgress<T extends Prisma.Enrollment$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Enrollment$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1180,6 +1349,7 @@ export interface EnrollmentFieldRefs {
   readonly courseId: Prisma.FieldRef<"Enrollment", 'String'>
   readonly status: Prisma.FieldRef<"Enrollment", 'EnrollmentStatus'>
   readonly progress: Prisma.FieldRef<"Enrollment", 'Float'>
+  readonly lastAccessedLessonId: Prisma.FieldRef<"Enrollment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Enrollment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Enrollment", 'DateTime'>
 }
@@ -1580,6 +1750,30 @@ export type EnrollmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Enrollments to delete.
    */
   limit?: number
+}
+
+/**
+ * Enrollment.lessonProgress
+ */
+export type Enrollment$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonProgress
+   */
+  select?: Prisma.LessonProgressSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonProgress
+   */
+  omit?: Prisma.LessonProgressOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonProgressInclude<ExtArgs> | null
+  where?: Prisma.LessonProgressWhereInput
+  orderBy?: Prisma.LessonProgressOrderByWithRelationInput | Prisma.LessonProgressOrderByWithRelationInput[]
+  cursor?: Prisma.LessonProgressWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LessonProgressScalarFieldEnum | Prisma.LessonProgressScalarFieldEnum[]
 }
 
 /**

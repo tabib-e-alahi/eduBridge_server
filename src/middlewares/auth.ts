@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+import catchAsync from '../utils/catchAsync';
 import { auth } from '../lib/auth';
 import { prisma } from '../lib/prisma';
-import catchAsync from '../utils/catchAsync';
+
 
 const authMiddleware = (...requiredRoles: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {

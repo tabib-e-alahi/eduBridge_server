@@ -38,7 +38,7 @@ const generateHTML = (content: string, title: string) => `
 const transporter = nodemailer.createTransport({
   host: envConfig.EMAIL_HOST,
   port: Number(envConfig.EMAIL_PORT),
-  secure: envConfig.EMAIL_PORT === '465', // true for 465, false for other ports
+  secure: envConfig.EMAIL_PORT === 465, // true for 465, false for other ports
   auth: {
     user: envConfig.EMAIL_USER,
     pass: envConfig.EMAIL_PASS,

@@ -1,0 +1,15 @@
+model Blog {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  content      String   @db.Text
+  thumbnailUrl      String?
+  thumbnailPublicId String?
+  authorId          String
+  author       User     @relation(fields: [authorId], references: [id])
+  isPublished  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([authorId])
+}

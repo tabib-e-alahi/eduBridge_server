@@ -29,6 +29,7 @@ export type ProfileMinAggregateOutputType = {
   userId: string | null
   bio: string | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   headline: string | null
   location: string | null
   website: string | null
@@ -43,6 +44,7 @@ export type ProfileMaxAggregateOutputType = {
   userId: string | null
   bio: string | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   headline: string | null
   location: string | null
   website: string | null
@@ -57,6 +59,7 @@ export type ProfileCountAggregateOutputType = {
   userId: number
   bio: number
   avatarUrl: number
+  avatarPublicId: number
   headline: number
   skills: number
   location: number
@@ -74,6 +77,7 @@ export type ProfileMinAggregateInputType = {
   userId?: true
   bio?: true
   avatarUrl?: true
+  avatarPublicId?: true
   headline?: true
   location?: true
   website?: true
@@ -88,6 +92,7 @@ export type ProfileMaxAggregateInputType = {
   userId?: true
   bio?: true
   avatarUrl?: true
+  avatarPublicId?: true
   headline?: true
   location?: true
   website?: true
@@ -102,6 +107,7 @@ export type ProfileCountAggregateInputType = {
   userId?: true
   bio?: true
   avatarUrl?: true
+  avatarPublicId?: true
   headline?: true
   skills?: true
   location?: true
@@ -190,6 +196,7 @@ export type ProfileGroupByOutputType = {
   userId: string
   bio: string | null
   avatarUrl: string | null
+  avatarPublicId: string | null
   headline: string | null
   skills: string[]
   location: string | null
@@ -226,6 +233,7 @@ export type ProfileWhereInput = {
   userId?: Prisma.StringFilter<"Profile"> | string
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Profile"> | string | null
   headline?: Prisma.StringNullableFilter<"Profile"> | string | null
   skills?: Prisma.StringNullableListFilter<"Profile">
   location?: Prisma.StringNullableFilter<"Profile"> | string | null
@@ -242,6 +250,7 @@ export type ProfileOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   headline?: Prisma.SortOrderInput | Prisma.SortOrder
   skills?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -261,6 +270,7 @@ export type ProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProfileWhereInput | Prisma.ProfileWhereInput[]
   bio?: Prisma.StringNullableFilter<"Profile"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Profile"> | string | null
   headline?: Prisma.StringNullableFilter<"Profile"> | string | null
   skills?: Prisma.StringNullableListFilter<"Profile">
   location?: Prisma.StringNullableFilter<"Profile"> | string | null
@@ -277,6 +287,7 @@ export type ProfileOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   headline?: Prisma.SortOrderInput | Prisma.SortOrder
   skills?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -298,6 +309,7 @@ export type ProfileScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Profile"> | string
   bio?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
+  avatarPublicId?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   headline?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
   skills?: Prisma.StringNullableListFilter<"Profile">
   location?: Prisma.StringNullableWithAggregatesFilter<"Profile"> | string | null
@@ -312,6 +324,7 @@ export type ProfileCreateInput = {
   id?: string
   bio?: string | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   headline?: string | null
   skills?: Prisma.ProfileCreateskillsInput | string[]
   location?: string | null
@@ -328,6 +341,7 @@ export type ProfileUncheckedCreateInput = {
   userId: string
   bio?: string | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   headline?: string | null
   skills?: Prisma.ProfileCreateskillsInput | string[]
   location?: string | null
@@ -342,6 +356,7 @@ export type ProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -358,6 +373,7 @@ export type ProfileUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -373,6 +389,7 @@ export type ProfileCreateManyInput = {
   userId: string
   bio?: string | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   headline?: string | null
   skills?: Prisma.ProfileCreateskillsInput | string[]
   location?: string | null
@@ -387,6 +404,7 @@ export type ProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -402,6 +420,7 @@ export type ProfileUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -417,19 +436,12 @@ export type ProfileNullableScalarRelationFilter = {
   isNot?: Prisma.ProfileWhereInput | null
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
 export type ProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   headline?: Prisma.SortOrder
   skills?: Prisma.SortOrder
   location?: Prisma.SortOrder
@@ -445,6 +457,7 @@ export type ProfileMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   headline?: Prisma.SortOrder
   location?: Prisma.SortOrder
   website?: Prisma.SortOrder
@@ -459,6 +472,7 @@ export type ProfileMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bio?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
   headline?: Prisma.SortOrder
   location?: Prisma.SortOrder
   website?: Prisma.SortOrder
@@ -513,6 +527,7 @@ export type ProfileCreateWithoutUserInput = {
   id?: string
   bio?: string | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   headline?: string | null
   skills?: Prisma.ProfileCreateskillsInput | string[]
   location?: string | null
@@ -527,6 +542,7 @@ export type ProfileUncheckedCreateWithoutUserInput = {
   id?: string
   bio?: string | null
   avatarUrl?: string | null
+  avatarPublicId?: string | null
   headline?: string | null
   skills?: Prisma.ProfileCreateskillsInput | string[]
   location?: string | null
@@ -557,6 +573,7 @@ export type ProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -571,6 +588,7 @@ export type ProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skills?: Prisma.ProfileUpdateskillsInput | string[]
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -588,6 +606,7 @@ export type ProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   userId?: boolean
   bio?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   headline?: boolean
   skills?: boolean
   location?: boolean
@@ -604,6 +623,7 @@ export type ProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   userId?: boolean
   bio?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   headline?: boolean
   skills?: boolean
   location?: boolean
@@ -620,6 +640,7 @@ export type ProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   userId?: boolean
   bio?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   headline?: boolean
   skills?: boolean
   location?: boolean
@@ -636,6 +657,7 @@ export type ProfileSelectScalar = {
   userId?: boolean
   bio?: boolean
   avatarUrl?: boolean
+  avatarPublicId?: boolean
   headline?: boolean
   skills?: boolean
   location?: boolean
@@ -646,7 +668,7 @@ export type ProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bio" | "avatarUrl" | "headline" | "skills" | "location" | "website" | "linkedIn" | "github" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+export type ProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bio" | "avatarUrl" | "avatarPublicId" | "headline" | "skills" | "location" | "website" | "linkedIn" | "github" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
 export type ProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -667,6 +689,7 @@ export type $ProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     userId: string
     bio: string | null
     avatarUrl: string | null
+    avatarPublicId: string | null
     headline: string | null
     skills: string[]
     location: string | null
@@ -1103,6 +1126,7 @@ export interface ProfileFieldRefs {
   readonly userId: Prisma.FieldRef<"Profile", 'String'>
   readonly bio: Prisma.FieldRef<"Profile", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"Profile", 'String'>
+  readonly avatarPublicId: Prisma.FieldRef<"Profile", 'String'>
   readonly headline: Prisma.FieldRef<"Profile", 'String'>
   readonly skills: Prisma.FieldRef<"Profile", 'String[]'>
   readonly location: Prisma.FieldRef<"Profile", 'String'>

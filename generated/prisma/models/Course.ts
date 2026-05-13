@@ -40,6 +40,7 @@ export type CourseMinAggregateOutputType = {
   slug: string | null
   description: string | null
   thumbnailUrl: string | null
+  thumbnailPublicId: string | null
   price: number | null
   duration: string | null
   level: string | null
@@ -56,6 +57,7 @@ export type CourseMaxAggregateOutputType = {
   slug: string | null
   description: string | null
   thumbnailUrl: string | null
+  thumbnailPublicId: string | null
   price: number | null
   duration: string | null
   level: string | null
@@ -72,6 +74,9 @@ export type CourseCountAggregateOutputType = {
   slug: number
   description: number
   thumbnailUrl: number
+  thumbnailPublicId: number
+  galleryUrls: number
+  galleryPublicIds: number
   price: number
   duration: number
   level: number
@@ -98,6 +103,7 @@ export type CourseMinAggregateInputType = {
   slug?: true
   description?: true
   thumbnailUrl?: true
+  thumbnailPublicId?: true
   price?: true
   duration?: true
   level?: true
@@ -114,6 +120,7 @@ export type CourseMaxAggregateInputType = {
   slug?: true
   description?: true
   thumbnailUrl?: true
+  thumbnailPublicId?: true
   price?: true
   duration?: true
   level?: true
@@ -130,6 +137,9 @@ export type CourseCountAggregateInputType = {
   slug?: true
   description?: true
   thumbnailUrl?: true
+  thumbnailPublicId?: true
+  galleryUrls?: true
+  galleryPublicIds?: true
   price?: true
   duration?: true
   level?: true
@@ -233,6 +243,9 @@ export type CourseGroupByOutputType = {
   slug: string
   description: string
   thumbnailUrl: string | null
+  thumbnailPublicId: string | null
+  galleryUrls: string[]
+  galleryPublicIds: string[]
   price: number
   duration: string | null
   level: string
@@ -272,6 +285,9 @@ export type CourseWhereInput = {
   slug?: Prisma.StringFilter<"Course"> | string
   description?: Prisma.StringFilter<"Course"> | string
   thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null
+  thumbnailPublicId?: Prisma.StringNullableFilter<"Course"> | string | null
+  galleryUrls?: Prisma.StringNullableListFilter<"Course">
+  galleryPublicIds?: Prisma.StringNullableListFilter<"Course">
   price?: Prisma.FloatFilter<"Course"> | number
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
@@ -287,6 +303,9 @@ export type CourseWhereInput = {
   enrollments?: Prisma.EnrollmentListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   savedBy?: Prisma.SavedCourseListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
+  liveClasses?: Prisma.LiveClassListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
 }
 
 export type CourseOrderByWithRelationInput = {
@@ -295,6 +314,9 @@ export type CourseOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  galleryUrls?: Prisma.SortOrder
+  galleryPublicIds?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -310,6 +332,9 @@ export type CourseOrderByWithRelationInput = {
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   savedBy?: Prisma.SavedCourseOrderByRelationAggregateInput
+  assignments?: Prisma.AssignmentOrderByRelationAggregateInput
+  liveClasses?: Prisma.LiveClassOrderByRelationAggregateInput
+  orders?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -321,6 +346,9 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Course"> | string
   description?: Prisma.StringFilter<"Course"> | string
   thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null
+  thumbnailPublicId?: Prisma.StringNullableFilter<"Course"> | string | null
+  galleryUrls?: Prisma.StringNullableListFilter<"Course">
+  galleryPublicIds?: Prisma.StringNullableListFilter<"Course">
   price?: Prisma.FloatFilter<"Course"> | number
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
@@ -336,6 +364,9 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   enrollments?: Prisma.EnrollmentListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   savedBy?: Prisma.SavedCourseListRelationFilter
+  assignments?: Prisma.AssignmentListRelationFilter
+  liveClasses?: Prisma.LiveClassListRelationFilter
+  orders?: Prisma.OrderListRelationFilter
 }, "id" | "slug">
 
 export type CourseOrderByWithAggregationInput = {
@@ -344,6 +375,9 @@ export type CourseOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  thumbnailPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  galleryUrls?: Prisma.SortOrder
+  galleryPublicIds?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -368,6 +402,9 @@ export type CourseScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Course"> | string
   description?: Prisma.StringWithAggregatesFilter<"Course"> | string
   thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
+  thumbnailPublicId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
+  galleryUrls?: Prisma.StringNullableListFilter<"Course">
+  galleryPublicIds?: Prisma.StringNullableListFilter<"Course">
   price?: Prisma.FloatWithAggregatesFilter<"Course"> | number
   duration?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   level?: Prisma.StringWithAggregatesFilter<"Course"> | string
@@ -384,6 +421,9 @@ export type CourseCreateInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -397,6 +437,9 @@ export type CourseCreateInput = {
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateInput = {
@@ -405,6 +448,9 @@ export type CourseUncheckedCreateInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -418,6 +464,9 @@ export type CourseUncheckedCreateInput = {
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUpdateInput = {
@@ -426,6 +475,9 @@ export type CourseUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -439,6 +491,9 @@ export type CourseUpdateInput = {
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateInput = {
@@ -447,6 +502,9 @@ export type CourseUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -460,6 +518,9 @@ export type CourseUncheckedUpdateInput = {
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateManyInput = {
@@ -468,6 +529,9 @@ export type CourseCreateManyInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -484,6 +548,9 @@ export type CourseUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -498,6 +565,9 @@ export type CourseUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -506,6 +576,11 @@ export type CourseUncheckedUpdateManyInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CourseScalarRelationFilter = {
+  is?: Prisma.CourseWhereInput
+  isNot?: Prisma.CourseWhereInput
 }
 
 export type CourseListRelationFilter = {
@@ -518,12 +593,23 @@ export type CourseOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type CourseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrder
+  thumbnailPublicId?: Prisma.SortOrder
+  galleryUrls?: Prisma.SortOrder
+  galleryPublicIds?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -544,6 +630,7 @@ export type CourseMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrder
+  thumbnailPublicId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -560,6 +647,7 @@ export type CourseMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   description?: Prisma.SortOrder
   thumbnailUrl?: Prisma.SortOrder
+  thumbnailPublicId?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -574,9 +662,18 @@ export type CourseSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
 }
 
-export type CourseScalarRelationFilter = {
-  is?: Prisma.CourseWhereInput
-  isNot?: Prisma.CourseWhereInput
+export type CourseCreateNestedOneWithoutAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutAssignmentsInput, Prisma.CourseUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutAssignmentsInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutAssignmentsInput, Prisma.CourseUncheckedCreateWithoutAssignmentsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutAssignmentsInput
+  upsert?: Prisma.CourseUpsertWithoutAssignmentsInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutAssignmentsInput, Prisma.CourseUpdateWithoutAssignmentsInput>, Prisma.CourseUncheckedUpdateWithoutAssignmentsInput>
 }
 
 export type CourseCreateNestedManyWithoutInstructorInput = {
@@ -621,6 +718,50 @@ export type CourseUncheckedUpdateManyWithoutInstructorNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
+export type CourseCreategalleryUrlsInput = {
+  set: string[]
+}
+
+export type CourseCreategalleryPublicIdsInput = {
+  set: string[]
+}
+
+export type CourseUpdategalleryUrlsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type CourseUpdategalleryPublicIdsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type EnumCourseStatusFieldUpdateOperationsInput = {
+  set?: $Enums.CourseStatus
+}
+
+export type CourseCreateNestedOneWithoutSavedByInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutSavedByInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutSavedByNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutSavedByInput
+  upsert?: Prisma.CourseUpsertWithoutSavedByInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutSavedByInput, Prisma.CourseUpdateWithoutSavedByInput>, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
+}
+
 export type CourseCreateNestedManyWithoutCategoryInput = {
   create?: Prisma.XOR<Prisma.CourseCreateWithoutCategoryInput, Prisma.CourseUncheckedCreateWithoutCategoryInput> | Prisma.CourseCreateWithoutCategoryInput[] | Prisma.CourseUncheckedCreateWithoutCategoryInput[]
   connectOrCreate?: Prisma.CourseCreateOrConnectWithoutCategoryInput | Prisma.CourseCreateOrConnectWithoutCategoryInput[]
@@ -663,8 +804,18 @@ export type CourseUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
 }
 
-export type EnumCourseStatusFieldUpdateOperationsInput = {
-  set?: $Enums.CourseStatus
+export type CourseCreateNestedOneWithoutEnrollmentsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutEnrollmentsInput, Prisma.CourseUncheckedCreateWithoutEnrollmentsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutEnrollmentsInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutEnrollmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutEnrollmentsInput, Prisma.CourseUncheckedCreateWithoutEnrollmentsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutEnrollmentsInput
+  upsert?: Prisma.CourseUpsertWithoutEnrollmentsInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutEnrollmentsInput, Prisma.CourseUpdateWithoutEnrollmentsInput>, Prisma.CourseUncheckedUpdateWithoutEnrollmentsInput>
 }
 
 export type CourseCreateNestedOneWithoutLessonsInput = {
@@ -681,46 +832,32 @@ export type CourseUpdateOneRequiredWithoutLessonsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutLessonsInput, Prisma.CourseUpdateWithoutLessonsInput>, Prisma.CourseUncheckedUpdateWithoutLessonsInput>
 }
 
-export type CourseCreateNestedOneWithoutEnrollmentsInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutEnrollmentsInput, Prisma.CourseUncheckedCreateWithoutEnrollmentsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutEnrollmentsInput
+export type CourseCreateNestedOneWithoutLiveClassesInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutLiveClassesInput, Prisma.CourseUncheckedCreateWithoutLiveClassesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutLiveClassesInput
   connect?: Prisma.CourseWhereUniqueInput
 }
 
-export type CourseUpdateOneRequiredWithoutEnrollmentsNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutEnrollmentsInput, Prisma.CourseUncheckedCreateWithoutEnrollmentsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutEnrollmentsInput
-  upsert?: Prisma.CourseUpsertWithoutEnrollmentsInput
+export type CourseUpdateOneRequiredWithoutLiveClassesNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutLiveClassesInput, Prisma.CourseUncheckedCreateWithoutLiveClassesInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutLiveClassesInput
+  upsert?: Prisma.CourseUpsertWithoutLiveClassesInput
   connect?: Prisma.CourseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutEnrollmentsInput, Prisma.CourseUpdateWithoutEnrollmentsInput>, Prisma.CourseUncheckedUpdateWithoutEnrollmentsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutLiveClassesInput, Prisma.CourseUpdateWithoutLiveClassesInput>, Prisma.CourseUncheckedUpdateWithoutLiveClassesInput>
 }
 
-export type CourseCreateNestedOneWithoutReviewsInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutReviewsInput
-  connect?: Prisma.CourseWhereUniqueInput
-}
-
-export type CourseUpdateOneRequiredWithoutReviewsNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutReviewsInput
-  upsert?: Prisma.CourseUpsertWithoutReviewsInput
-  connect?: Prisma.CourseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutReviewsInput, Prisma.CourseUpdateWithoutReviewsInput>, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
-}
-
-export type CourseCreateNestedOneWithoutSavedByInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutSavedByInput
+export type CourseCreateNestedOneWithoutOrdersInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrdersInput, Prisma.CourseUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrdersInput
   connect?: Prisma.CourseWhereUniqueInput
 }
 
-export type CourseUpdateOneRequiredWithoutSavedByNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
-  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutSavedByInput
-  upsert?: Prisma.CourseUpsertWithoutSavedByInput
+export type CourseUpdateOneRequiredWithoutOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutOrdersInput, Prisma.CourseUncheckedCreateWithoutOrdersInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutOrdersInput
+  upsert?: Prisma.CourseUpsertWithoutOrdersInput
   connect?: Prisma.CourseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutSavedByInput, Prisma.CourseUpdateWithoutSavedByInput>, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutOrdersInput, Prisma.CourseUpdateWithoutOrdersInput>, Prisma.CourseUncheckedUpdateWithoutOrdersInput>
 }
 
 export type CourseCreateNestedOneWithoutQuizzesInput = {
@@ -737,12 +874,149 @@ export type CourseUpdateOneRequiredWithoutQuizzesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutQuizzesInput, Prisma.CourseUpdateWithoutQuizzesInput>, Prisma.CourseUncheckedUpdateWithoutQuizzesInput>
 }
 
+export type CourseCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.CourseWhereUniqueInput
+}
+
+export type CourseUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.CourseCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.CourseUpsertWithoutReviewsInput
+  connect?: Prisma.CourseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CourseUpdateToOneWithWhereWithoutReviewsInput, Prisma.CourseUpdateWithoutReviewsInput>, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
+}
+
+export type CourseCreateWithoutAssignmentsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutAssignmentsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  instructorId: string
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutAssignmentsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutAssignmentsInput, Prisma.CourseUncheckedCreateWithoutAssignmentsInput>
+}
+
+export type CourseUpsertWithoutAssignmentsInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutAssignmentsInput, Prisma.CourseUncheckedUpdateWithoutAssignmentsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutAssignmentsInput, Prisma.CourseUncheckedCreateWithoutAssignmentsInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutAssignmentsInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutAssignmentsInput, Prisma.CourseUncheckedUpdateWithoutAssignmentsInput>
+}
+
+export type CourseUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
+  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
+}
+
 export type CourseCreateWithoutInstructorInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -755,6 +1029,9 @@ export type CourseCreateWithoutInstructorInput = {
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutInstructorInput = {
@@ -763,6 +1040,9 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -775,6 +1055,9 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutInstructorInput = {
@@ -812,6 +1095,9 @@ export type CourseScalarWhereInput = {
   slug?: Prisma.StringFilter<"Course"> | string
   description?: Prisma.StringFilter<"Course"> | string
   thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null
+  thumbnailPublicId?: Prisma.StringNullableFilter<"Course"> | string | null
+  galleryUrls?: Prisma.StringNullableListFilter<"Course">
+  galleryPublicIds?: Prisma.StringNullableListFilter<"Course">
   price?: Prisma.FloatFilter<"Course"> | number
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
@@ -822,12 +1108,135 @@ export type CourseScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string
 }
 
+export type CourseCreateWithoutSavedByInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutSavedByInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  instructorId: string
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutSavedByInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+}
+
+export type CourseUpsertWithoutSavedByInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutSavedByInput, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutSavedByInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutSavedByInput, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
+}
+
+export type CourseUpdateWithoutSavedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
+  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutSavedByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
+}
+
 export type CourseCreateWithoutCategoryInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -840,6 +1249,9 @@ export type CourseCreateWithoutCategoryInput = {
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutCategoryInput = {
@@ -848,6 +1260,9 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -860,6 +1275,9 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutCategoryInput = {
@@ -888,108 +1306,15 @@ export type CourseUpdateManyWithWhereWithoutCategoryInput = {
   data: Prisma.XOR<Prisma.CourseUpdateManyMutationInput, Prisma.CourseUncheckedUpdateManyWithoutCategoryInput>
 }
 
-export type CourseCreateWithoutLessonsInput = {
-  id?: string
-  title: string
-  slug: string
-  description: string
-  thumbnailUrl?: string | null
-  price?: number
-  duration?: string | null
-  level?: string
-  status?: $Enums.CourseStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
-  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
-  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
-  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
-  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
-}
-
-export type CourseUncheckedCreateWithoutLessonsInput = {
-  id?: string
-  title: string
-  slug: string
-  description: string
-  thumbnailUrl?: string | null
-  price?: number
-  duration?: string | null
-  level?: string
-  status?: $Enums.CourseStatus
-  instructorId: string
-  categoryId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
-  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
-  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
-}
-
-export type CourseCreateOrConnectWithoutLessonsInput = {
-  where: Prisma.CourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCreateWithoutLessonsInput, Prisma.CourseUncheckedCreateWithoutLessonsInput>
-}
-
-export type CourseUpsertWithoutLessonsInput = {
-  update: Prisma.XOR<Prisma.CourseUpdateWithoutLessonsInput, Prisma.CourseUncheckedUpdateWithoutLessonsInput>
-  create: Prisma.XOR<Prisma.CourseCreateWithoutLessonsInput, Prisma.CourseUncheckedCreateWithoutLessonsInput>
-  where?: Prisma.CourseWhereInput
-}
-
-export type CourseUpdateToOneWithWhereWithoutLessonsInput = {
-  where?: Prisma.CourseWhereInput
-  data: Prisma.XOR<Prisma.CourseUpdateWithoutLessonsInput, Prisma.CourseUncheckedUpdateWithoutLessonsInput>
-}
-
-export type CourseUpdateWithoutLessonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
-  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
-  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
-  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
-  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
-}
-
-export type CourseUncheckedUpdateWithoutLessonsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.FloatFieldUpdateOperationsInput | number
-  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  level?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
-  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
-  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
-  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
-  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
-}
-
 export type CourseCreateWithoutEnrollmentsInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1002,6 +1327,9 @@ export type CourseCreateWithoutEnrollmentsInput = {
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutEnrollmentsInput = {
@@ -1010,6 +1338,9 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1022,6 +1353,9 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutEnrollmentsInput = {
@@ -1046,6 +1380,9 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1058,6 +1395,9 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1066,6 +1406,9 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1078,14 +1421,20 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
-export type CourseCreateWithoutReviewsInput = {
+export type CourseCreateWithoutLessonsInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1094,18 +1443,24 @@ export type CourseCreateWithoutReviewsInput = {
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
   category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
-  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
-export type CourseUncheckedCreateWithoutReviewsInput = {
+export type CourseUncheckedCreateWithoutLessonsInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1114,34 +1469,40 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
-export type CourseCreateOrConnectWithoutReviewsInput = {
+export type CourseCreateOrConnectWithoutLessonsInput = {
   where: Prisma.CourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutLessonsInput, Prisma.CourseUncheckedCreateWithoutLessonsInput>
 }
 
-export type CourseUpsertWithoutReviewsInput = {
-  update: Prisma.XOR<Prisma.CourseUpdateWithoutReviewsInput, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
-  create: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+export type CourseUpsertWithoutLessonsInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutLessonsInput, Prisma.CourseUncheckedUpdateWithoutLessonsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutLessonsInput, Prisma.CourseUncheckedCreateWithoutLessonsInput>
   where?: Prisma.CourseWhereInput
 }
 
-export type CourseUpdateToOneWithWhereWithoutReviewsInput = {
+export type CourseUpdateToOneWithWhereWithoutLessonsInput = {
   where?: Prisma.CourseWhereInput
-  data: Prisma.XOR<Prisma.CourseUpdateWithoutReviewsInput, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutLessonsInput, Prisma.CourseUncheckedUpdateWithoutLessonsInput>
 }
 
-export type CourseUpdateWithoutReviewsInput = {
+export type CourseUpdateWithoutLessonsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1150,18 +1511,24 @@ export type CourseUpdateWithoutReviewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
   category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
-  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
-export type CourseUncheckedUpdateWithoutReviewsInput = {
+export type CourseUncheckedUpdateWithoutLessonsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1170,18 +1537,24 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
-export type CourseCreateWithoutSavedByInput = {
+export type CourseCreateWithoutLiveClassesInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1194,14 +1567,20 @@ export type CourseCreateWithoutSavedByInput = {
   quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
-export type CourseUncheckedCreateWithoutSavedByInput = {
+export type CourseUncheckedCreateWithoutLiveClassesInput = {
   id?: string
   title: string
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1214,30 +1593,36 @@ export type CourseUncheckedCreateWithoutSavedByInput = {
   quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
-export type CourseCreateOrConnectWithoutSavedByInput = {
+export type CourseCreateOrConnectWithoutLiveClassesInput = {
   where: Prisma.CourseWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutLiveClassesInput, Prisma.CourseUncheckedCreateWithoutLiveClassesInput>
 }
 
-export type CourseUpsertWithoutSavedByInput = {
-  update: Prisma.XOR<Prisma.CourseUpdateWithoutSavedByInput, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
-  create: Prisma.XOR<Prisma.CourseCreateWithoutSavedByInput, Prisma.CourseUncheckedCreateWithoutSavedByInput>
+export type CourseUpsertWithoutLiveClassesInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutLiveClassesInput, Prisma.CourseUncheckedUpdateWithoutLiveClassesInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutLiveClassesInput, Prisma.CourseUncheckedCreateWithoutLiveClassesInput>
   where?: Prisma.CourseWhereInput
 }
 
-export type CourseUpdateToOneWithWhereWithoutSavedByInput = {
+export type CourseUpdateToOneWithWhereWithoutLiveClassesInput = {
   where?: Prisma.CourseWhereInput
-  data: Prisma.XOR<Prisma.CourseUpdateWithoutSavedByInput, Prisma.CourseUncheckedUpdateWithoutSavedByInput>
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutLiveClassesInput, Prisma.CourseUncheckedUpdateWithoutLiveClassesInput>
 }
 
-export type CourseUpdateWithoutSavedByInput = {
+export type CourseUpdateWithoutLiveClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1250,14 +1635,20 @@ export type CourseUpdateWithoutSavedByInput = {
   quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
-export type CourseUncheckedUpdateWithoutSavedByInput = {
+export type CourseUncheckedUpdateWithoutLiveClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1270,6 +1661,129 @@ export type CourseUncheckedUpdateWithoutSavedByInput = {
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseCreateWithoutOrdersInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutOrdersInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  instructorId: string
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutOrdersInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutOrdersInput, Prisma.CourseUncheckedCreateWithoutOrdersInput>
+}
+
+export type CourseUpsertWithoutOrdersInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutOrdersInput, Prisma.CourseUncheckedUpdateWithoutOrdersInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutOrdersInput, Prisma.CourseUncheckedCreateWithoutOrdersInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutOrdersInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutOrdersInput, Prisma.CourseUncheckedUpdateWithoutOrdersInput>
+}
+
+export type CourseUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
+  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateWithoutQuizzesInput = {
@@ -1278,6 +1792,9 @@ export type CourseCreateWithoutQuizzesInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1290,6 +1807,9 @@ export type CourseCreateWithoutQuizzesInput = {
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
 }
 
 export type CourseUncheckedCreateWithoutQuizzesInput = {
@@ -1298,6 +1818,9 @@ export type CourseUncheckedCreateWithoutQuizzesInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1310,6 +1833,9 @@ export type CourseUncheckedCreateWithoutQuizzesInput = {
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutCourseInput
   savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
 }
 
 export type CourseCreateOrConnectWithoutQuizzesInput = {
@@ -1334,6 +1860,9 @@ export type CourseUpdateWithoutQuizzesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1346,6 +1875,9 @@ export type CourseUpdateWithoutQuizzesInput = {
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutQuizzesInput = {
@@ -1354,6 +1886,9 @@ export type CourseUncheckedUpdateWithoutQuizzesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1366,6 +1901,129 @@ export type CourseUncheckedUpdateWithoutQuizzesInput = {
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseCreateWithoutReviewsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
+  category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
+  lessons?: Prisma.LessonCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderCreateNestedManyWithoutCourseInput
+}
+
+export type CourseUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
+  price?: number
+  duration?: string | null
+  level?: string
+  status?: $Enums.CourseStatus
+  instructorId: string
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessons?: Prisma.LessonUncheckedCreateNestedManyWithoutCourseInput
+  quizzes?: Prisma.QuizUncheckedCreateNestedManyWithoutCourseInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  savedBy?: Prisma.SavedCourseUncheckedCreateNestedManyWithoutCourseInput
+  assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutCourseInput
+  liveClasses?: Prisma.LiveClassUncheckedCreateNestedManyWithoutCourseInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutCourseInput
+}
+
+export type CourseCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.CourseWhereUniqueInput
+  create: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+}
+
+export type CourseUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.CourseUpdateWithoutReviewsInput, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.CourseCreateWithoutReviewsInput, Prisma.CourseUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.CourseWhereInput
+}
+
+export type CourseUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.CourseWhereInput
+  data: Prisma.XOR<Prisma.CourseUpdateWithoutReviewsInput, Prisma.CourseUncheckedUpdateWithoutReviewsInput>
+}
+
+export type CourseUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
+  category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
+  lessons?: Prisma.LessonUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
+}
+
+export type CourseUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  instructorId?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessons?: Prisma.LessonUncheckedUpdateManyWithoutCourseNestedInput
+  quizzes?: Prisma.QuizUncheckedUpdateManyWithoutCourseNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseCreateManyInstructorInput = {
@@ -1374,6 +2032,9 @@ export type CourseCreateManyInstructorInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1389,6 +2050,9 @@ export type CourseUpdateWithoutInstructorInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1401,6 +2065,9 @@ export type CourseUpdateWithoutInstructorInput = {
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutInstructorInput = {
@@ -1409,6 +2076,9 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1421,6 +2091,9 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutInstructorInput = {
@@ -1429,6 +2102,9 @@ export type CourseUncheckedUpdateManyWithoutInstructorInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1444,6 +2120,9 @@ export type CourseCreateManyCategoryInput = {
   slug: string
   description: string
   thumbnailUrl?: string | null
+  thumbnailPublicId?: string | null
+  galleryUrls?: Prisma.CourseCreategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseCreategalleryPublicIdsInput | string[]
   price?: number
   duration?: string | null
   level?: string
@@ -1459,6 +2138,9 @@ export type CourseUpdateWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1471,6 +2153,9 @@ export type CourseUpdateWithoutCategoryInput = {
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutCategoryInput = {
@@ -1479,6 +2164,9 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1491,6 +2179,9 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutCourseNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutCourseNestedInput
   savedBy?: Prisma.SavedCourseUncheckedUpdateManyWithoutCourseNestedInput
+  assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutCourseNestedInput
+  liveClasses?: Prisma.LiveClassUncheckedUpdateManyWithoutCourseNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutCourseNestedInput
 }
 
 export type CourseUncheckedUpdateManyWithoutCategoryInput = {
@@ -1499,6 +2190,9 @@ export type CourseUncheckedUpdateManyWithoutCategoryInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  thumbnailPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  galleryUrls?: Prisma.CourseUpdategalleryUrlsInput | string[]
+  galleryPublicIds?: Prisma.CourseUpdategalleryPublicIdsInput | string[]
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1519,6 +2213,9 @@ export type CourseCountOutputType = {
   enrollments: number
   reviews: number
   savedBy: number
+  assignments: number
+  liveClasses: number
+  orders: number
 }
 
 export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1527,6 +2224,9 @@ export type CourseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   enrollments?: boolean | CourseCountOutputTypeCountEnrollmentsArgs
   reviews?: boolean | CourseCountOutputTypeCountReviewsArgs
   savedBy?: boolean | CourseCountOutputTypeCountSavedByArgs
+  assignments?: boolean | CourseCountOutputTypeCountAssignmentsArgs
+  liveClasses?: boolean | CourseCountOutputTypeCountLiveClassesArgs
+  orders?: boolean | CourseCountOutputTypeCountOrdersArgs
 }
 
 /**
@@ -1574,6 +2274,27 @@ export type CourseCountOutputTypeCountSavedByArgs<ExtArgs extends runtime.Types.
   where?: Prisma.SavedCourseWhereInput
 }
 
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssignmentWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountLiveClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LiveClassWhereInput
+}
+
+/**
+ * CourseCountOutputType without action
+ */
+export type CourseCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
+}
+
 
 export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1581,6 +2302,9 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   slug?: boolean
   description?: boolean
   thumbnailUrl?: boolean
+  thumbnailPublicId?: boolean
+  galleryUrls?: boolean
+  galleryPublicIds?: boolean
   price?: boolean
   duration?: boolean
   level?: boolean
@@ -1596,6 +2320,9 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   savedBy?: boolean | Prisma.Course$savedByArgs<ExtArgs>
+  assignments?: boolean | Prisma.Course$assignmentsArgs<ExtArgs>
+  liveClasses?: boolean | Prisma.Course$liveClassesArgs<ExtArgs>
+  orders?: boolean | Prisma.Course$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
 
@@ -1605,6 +2332,9 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   description?: boolean
   thumbnailUrl?: boolean
+  thumbnailPublicId?: boolean
+  galleryUrls?: boolean
+  galleryPublicIds?: boolean
   price?: boolean
   duration?: boolean
   level?: boolean
@@ -1623,6 +2353,9 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   description?: boolean
   thumbnailUrl?: boolean
+  thumbnailPublicId?: boolean
+  galleryUrls?: boolean
+  galleryPublicIds?: boolean
   price?: boolean
   duration?: boolean
   level?: boolean
@@ -1641,6 +2374,9 @@ export type CourseSelectScalar = {
   slug?: boolean
   description?: boolean
   thumbnailUrl?: boolean
+  thumbnailPublicId?: boolean
+  galleryUrls?: boolean
+  galleryPublicIds?: boolean
   price?: boolean
   duration?: boolean
   level?: boolean
@@ -1651,7 +2387,7 @@ export type CourseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnailUrl" | "price" | "duration" | "level" | "status" | "instructorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnailUrl" | "thumbnailPublicId" | "galleryUrls" | "galleryPublicIds" | "price" | "duration" | "level" | "status" | "instructorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   instructor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CourseCategoryDefaultArgs<ExtArgs>
@@ -1660,6 +2396,9 @@ export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   reviews?: boolean | Prisma.Course$reviewsArgs<ExtArgs>
   savedBy?: boolean | Prisma.Course$savedByArgs<ExtArgs>
+  assignments?: boolean | Prisma.Course$assignmentsArgs<ExtArgs>
+  liveClasses?: boolean | Prisma.Course$liveClassesArgs<ExtArgs>
+  orders?: boolean | Prisma.Course$ordersArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1681,6 +2420,9 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     savedBy: Prisma.$SavedCoursePayload<ExtArgs>[]
+    assignments: Prisma.$AssignmentPayload<ExtArgs>[]
+    liveClasses: Prisma.$LiveClassPayload<ExtArgs>[]
+    orders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1688,6 +2430,9 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     slug: string
     description: string
     thumbnailUrl: string | null
+    thumbnailPublicId: string | null
+    galleryUrls: string[]
+    galleryPublicIds: string[]
     price: number
     duration: string | null
     level: string
@@ -2097,6 +2842,9 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
   enrollments<T extends Prisma.Course$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.Course$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   savedBy<T extends Prisma.Course$savedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$savedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedCoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assignments<T extends Prisma.Course$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  liveClasses<T extends Prisma.Course$liveClassesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$liveClassesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LiveClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  orders<T extends Prisma.Course$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2131,6 +2879,9 @@ export interface CourseFieldRefs {
   readonly slug: Prisma.FieldRef<"Course", 'String'>
   readonly description: Prisma.FieldRef<"Course", 'String'>
   readonly thumbnailUrl: Prisma.FieldRef<"Course", 'String'>
+  readonly thumbnailPublicId: Prisma.FieldRef<"Course", 'String'>
+  readonly galleryUrls: Prisma.FieldRef<"Course", 'String[]'>
+  readonly galleryPublicIds: Prisma.FieldRef<"Course", 'String[]'>
   readonly price: Prisma.FieldRef<"Course", 'Float'>
   readonly duration: Prisma.FieldRef<"Course", 'String'>
   readonly level: Prisma.FieldRef<"Course", 'String'>
@@ -2657,6 +3408,78 @@ export type Course$savedByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.SavedCourseScalarFieldEnum | Prisma.SavedCourseScalarFieldEnum[]
+}
+
+/**
+ * Course.assignments
+ */
+export type Course$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Assignment
+   */
+  select?: Prisma.AssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Assignment
+   */
+  omit?: Prisma.AssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssignmentInclude<ExtArgs> | null
+  where?: Prisma.AssignmentWhereInput
+  orderBy?: Prisma.AssignmentOrderByWithRelationInput | Prisma.AssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.AssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
+}
+
+/**
+ * Course.liveClasses
+ */
+export type Course$liveClassesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LiveClass
+   */
+  select?: Prisma.LiveClassSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LiveClass
+   */
+  omit?: Prisma.LiveClassOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LiveClassInclude<ExtArgs> | null
+  where?: Prisma.LiveClassWhereInput
+  orderBy?: Prisma.LiveClassOrderByWithRelationInput | Prisma.LiveClassOrderByWithRelationInput[]
+  cursor?: Prisma.LiveClassWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LiveClassScalarFieldEnum | Prisma.LiveClassScalarFieldEnum[]
+}
+
+/**
+ * Course.orders
+ */
+export type Course$ordersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Order
+   */
+  select?: Prisma.OrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Order
+   */
+  omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  where?: Prisma.OrderWhereInput
+  orderBy?: Prisma.OrderOrderByWithRelationInput | Prisma.OrderOrderByWithRelationInput[]
+  cursor?: Prisma.OrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
 }
 
 /**

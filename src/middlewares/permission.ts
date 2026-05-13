@@ -24,7 +24,6 @@ const requirePermission = (...requiredPermissions: Permission[]) => {
     }
 
     const user = session.user;
-    console.log(user);
 
     // DB re-validation to prevent stale session role escalation
     const dbUser = await prisma.user.findUnique({

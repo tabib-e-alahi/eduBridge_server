@@ -1,9 +1,9 @@
-import express from 'express';
+import { Router } from 'express';
 import { UserController } from './user.controller';
 import { requirePermission, requireAuth } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 
-const router = express.Router();
+const router: Router = Router();
 
 // Must be before /:id to prevent 'me' from being treated as an id param
 router.get('/me', requireAuth, UserController.getMyProfile);

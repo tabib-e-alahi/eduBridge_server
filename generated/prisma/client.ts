@@ -31,8 +31,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more AIConversations
+ * const aIConversations = await prisma.aIConversation.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -41,6 +41,31 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model AIConversation
+ * 
+ */
+export type AIConversation = Prisma.AIConversationModel
+/**
+ * Model AIMessage
+ * 
+ */
+export type AIMessage = Prisma.AIMessageModel
+/**
+ * Model AIRequestLog
+ * 
+ */
+export type AIRequestLog = Prisma.AIRequestLogModel
+/**
+ * Model Assignment
+ * 
+ */
+export type Assignment = Prisma.AssignmentModel
+/**
+ * Model AssignmentSubmission
+ * 
+ */
+export type AssignmentSubmission = Prisma.AssignmentSubmissionModel
 /**
  * Model User
  * 
@@ -62,50 +87,85 @@ export type Session = Prisma.SessionModel
  */
 export type Verification = Prisma.VerificationModel
 /**
- * Model Profile
+ * Model Blog
  * 
  */
-export type Profile = Prisma.ProfileModel
-/**
- * Model Mentor
- * 
- */
-export type Mentor = Prisma.MentorModel
-/**
- * Model CourseCategory
- * 
- */
-export type CourseCategory = Prisma.CourseCategoryModel
+export type Blog = Prisma.BlogModel
 /**
  * Model Course
  * 
  */
 export type Course = Prisma.CourseModel
 /**
- * Model Lesson
+ * Model SavedCourse
  * 
  */
-export type Lesson = Prisma.LessonModel
+export type SavedCourse = Prisma.SavedCourseModel
+/**
+ * Model CourseCategory
+ * 
+ */
+export type CourseCategory = Prisma.CourseCategoryModel
 /**
  * Model Enrollment
  * 
  */
 export type Enrollment = Prisma.EnrollmentModel
 /**
- * Model Review
+ * Model Lesson
  * 
  */
-export type Review = Prisma.ReviewModel
+export type Lesson = Prisma.LessonModel
 /**
- * Model Blog
+ * Model LessonProgress
  * 
  */
-export type Blog = Prisma.BlogModel
+export type LessonProgress = Prisma.LessonProgressModel
 /**
- * Model SavedCourse
+ * Model LearningPath
  * 
  */
-export type SavedCourse = Prisma.SavedCourseModel
+export type LearningPath = Prisma.LearningPathModel
+/**
+ * Model LiveClass
+ * 
+ */
+export type LiveClass = Prisma.LiveClassModel
+/**
+ * Model Mentor
+ * 
+ */
+export type Mentor = Prisma.MentorModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model SystemSetting
+ * 
+ */
+export type SystemSetting = Prisma.SystemSettingModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel
+/**
+ * Model Profile
+ * 
+ */
+export type Profile = Prisma.ProfileModel
 /**
  * Model Quiz
  * 
@@ -122,32 +182,17 @@ export type QuizQuestion = Prisma.QuizQuestionModel
  */
 export type QuizAttempt = Prisma.QuizAttemptModel
 /**
- * Model LearningPath
+ * Model Report
  * 
  */
-export type LearningPath = Prisma.LearningPathModel
+export type Report = Prisma.ReportModel
 /**
- * Model AIConversation
+ * Model AuditLog
  * 
  */
-export type AIConversation = Prisma.AIConversationModel
+export type AuditLog = Prisma.AuditLogModel
 /**
- * Model AIMessage
+ * Model Review
  * 
  */
-export type AIMessage = Prisma.AIMessageModel
-/**
- * Model AIRequestLog
- * 
- */
-export type AIRequestLog = Prisma.AIRequestLogModel
-/**
- * Model Notification
- * 
- */
-export type Notification = Prisma.NotificationModel
-/**
- * Model ActivityLog
- * 
- */
-export type ActivityLog = Prisma.ActivityLogModel
+export type Review = Prisma.ReviewModel

@@ -1,5 +1,6 @@
+import { Lesson } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import { Lesson } from '@prisma/client';
+
 
 const createLessonIntoDB = async (payload: any) => {
   const lessonData = {

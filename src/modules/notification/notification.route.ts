@@ -3,7 +3,7 @@ import { requirePermission, requireAuth } from '../../middlewares/permission';
 import { PERMISSIONS } from '../../config/permissions';
 import { NotificationController } from './notification.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get(
   '/',

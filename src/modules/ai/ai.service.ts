@@ -158,11 +158,11 @@ const chatWithAI = async (userId: string, payload: any) => {
 
   let conversation;
   if (conversationId) {
-    conversation = await prisma.aiConversation.findUnique({ where: { id: conversationId } });
+    conversation = await prisma.aIConversation.findUnique({ where: { id: conversationId } });
   }
 
   if (!conversation) {
-    conversation = await prisma.aiConversation.create({
+    conversation = await prisma.aIConversation.create({
       data: { userId, title: message.substring(0, 30) },
     });
   }
@@ -267,7 +267,7 @@ const analyzeProgress = async (userId: string) => {
 };
 
 const getConversations = async (userId: string) => {
-  const conversations = await prisma.aiConversation.findMany({
+  const conversations = await prisma.aIConversation.findMany({
     where: { userId },
     include: {
       messages: {
@@ -281,7 +281,7 @@ const getConversations = async (userId: string) => {
 };
 
 const getConversationById = async (userId: string, conversationId: string) => {
-  const conversation = await prisma.aiConversation.findUnique({
+  const conversation = await prisma.aIConversation.findUnique({
     where: { id: conversationId, userId },
     include: {
       messages: {

@@ -86,7 +86,7 @@ const getConversations = catchAsync(async (req: Request, res: Response) => {
 const getConversationById = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const { id } = req.params;
-  const result = await AIService.getConversationById(userId, id);
+  const result = await AIService.getConversationById(userId, id as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

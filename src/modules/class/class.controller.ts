@@ -16,7 +16,7 @@ const createLiveClass = catchAsync(async (req: Request, res: Response) => {
 
 const getCourseLiveClasses = catchAsync(async (req: Request, res: Response) => {
   const { courseId } = req.params;
-  const result = await LiveClassService.getCourseLiveClassesFromDB(courseId);
+  const result = await LiveClassService.getCourseLiveClassesFromDB(courseId as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -27,7 +27,7 @@ const getCourseLiveClasses = catchAsync(async (req: Request, res: Response) => {
 
 const updateLiveClass = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await LiveClassService.updateLiveClassInDB(id, req.body);
+  const result = await LiveClassService.updateLiveClassInDB(id as string, req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -38,7 +38,7 @@ const updateLiveClass = catchAsync(async (req: Request, res: Response) => {
 
 const deleteLiveClass = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  await LiveClassService.deleteLiveClassFromDB(id);
+  await LiveClassService.deleteLiveClassFromDB(id as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

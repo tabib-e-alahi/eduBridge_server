@@ -1,37 +1,22 @@
-import { Server } from 'http';
-import app from './app';
-import config from './config';
+import app from "./app";
+import envConfig from "./config";
+import { prisma } from "./lib/prisma";
 
-async function main() {
-  const server: Server = app.listen(config.PORT, () => {
-    console.log(`EduBridge AI Server is running on port ${config.PORT} 🚀`);
-  });
+const PORT = envConfig.PORT || 5000;
 
-  const exitHandler = () => {
-    if (server) {
-      server.close(() => {
-        console.log('Server closed');
+async function server() {
+    try {
+        await prisma.$connect();
+        console.log("Connected to the database successfully.");
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error("An error occurred:", error);
+        await prisma.$disconnect();
         process.exit(1);
-      });
-    } else {
-      process.exit(1);
     }
-  };
-
-  const unexpectedErrorHandler = (error: unknown) => {
-    console.error(error);
-    exitHandler();
-  };
-
-  process.on('uncaughtException', unexpectedErrorHandler);
-  process.on('unhandledRejection', unexpectedErrorHandler);
-
-  process.on('SIGTERM', () => {
-    console.log('SIGTERM received');
-    if (server) {
-      server.close();
-    }
-  });
 }
 
-main();
+server();

@@ -18,7 +18,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://local
 //parsers
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-app.all('/api/auth/*splat', toNodeHandler(auth));
+app.all('/api/auth/*', toNodeHandler(auth));
 
 app.use(express.json());
 app.use(cookieParser());

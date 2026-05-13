@@ -585,7 +585,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Next_Leven_Assignments\\STN_project_3_AI_FULL_STACK\\edubridge_backend\\generated\\prisma",
+      "value": "D:\\next-lvl\\stn\\edubridge\\eduBridge_server\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -599,7 +599,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Next_Leven_Assignments\\STN_project_3_AI_FULL_STACK\\edubridge_backend\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\next-lvl\\stn\\edubridge\\eduBridge_server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

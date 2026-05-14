@@ -127,6 +127,11 @@ export type LessonProgress = Prisma.LessonProgressModel
  */
 export type LearningPath = Prisma.LearningPathModel
 /**
+ * Model LessonResource
+ * 
+ */
+export type LessonResource = Prisma.LessonResourceModel
+/**
  * Model LiveClass
  * 
  */

@@ -1,5 +1,0 @@
-allowBuilds:
-  '@prisma/engines': false
-  bcrypt: false
-  esbuild: set this to true or false
-  prisma: false

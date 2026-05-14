@@ -258,6 +258,7 @@ export type LessonWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   lessonProgress?: Prisma.LessonProgressListRelationFilter
+  resources?: Prisma.LessonResourceListRelationFilter
 }
 
 export type LessonOrderByWithRelationInput = {
@@ -273,6 +274,7 @@ export type LessonOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   course?: Prisma.CourseOrderByWithRelationInput
   lessonProgress?: Prisma.LessonProgressOrderByRelationAggregateInput
+  resources?: Prisma.LessonResourceOrderByRelationAggregateInput
 }
 
 export type LessonWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +294,7 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Lesson"> | Date | string
   course?: Prisma.XOR<Prisma.CourseScalarRelationFilter, Prisma.CourseWhereInput>
   lessonProgress?: Prisma.LessonProgressListRelationFilter
+  resources?: Prisma.LessonResourceListRelationFilter
 }, "id" | "courseId_slug">
 
 export type LessonOrderByWithAggregationInput = {
@@ -340,6 +343,7 @@ export type LessonCreateInput = {
   updatedAt?: Date | string
   course: Prisma.CourseCreateNestedOneWithoutLessonsInput
   lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutLessonInput
+  resources?: Prisma.LessonResourceCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateInput = {
@@ -354,6 +358,7 @@ export type LessonUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonInput
+  resources?: Prisma.LessonResourceUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUpdateInput = {
@@ -368,6 +373,7 @@ export type LessonUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
   lessonProgress?: Prisma.LessonProgressUpdateManyWithoutLessonNestedInput
+  resources?: Prisma.LessonResourceUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateInput = {
@@ -382,6 +388,7 @@ export type LessonUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
+  resources?: Prisma.LessonResourceUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateManyInput = {
@@ -545,6 +552,20 @@ export type LessonUpdateOneRequiredWithoutLessonProgressNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutLessonProgressInput, Prisma.LessonUpdateWithoutLessonProgressInput>, Prisma.LessonUncheckedUpdateWithoutLessonProgressInput>
 }
 
+export type LessonCreateNestedOneWithoutResourcesInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutResourcesInput, Prisma.LessonUncheckedCreateWithoutResourcesInput>
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutResourcesInput
+  connect?: Prisma.LessonWhereUniqueInput
+}
+
+export type LessonUpdateOneRequiredWithoutResourcesNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutResourcesInput, Prisma.LessonUncheckedCreateWithoutResourcesInput>
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutResourcesInput
+  upsert?: Prisma.LessonUpsertWithoutResourcesInput
+  connect?: Prisma.LessonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutResourcesInput, Prisma.LessonUpdateWithoutResourcesInput>, Prisma.LessonUncheckedUpdateWithoutResourcesInput>
+}
+
 export type LessonCreateWithoutCourseInput = {
   id?: string
   title: string
@@ -556,6 +577,7 @@ export type LessonCreateWithoutCourseInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutLessonInput
+  resources?: Prisma.LessonResourceCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutCourseInput = {
@@ -569,6 +591,7 @@ export type LessonUncheckedCreateWithoutCourseInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonInput
+  resources?: Prisma.LessonResourceUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutCourseInput = {
@@ -624,6 +647,7 @@ export type LessonCreateWithoutLessonProgressInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  resources?: Prisma.LessonResourceCreateNestedManyWithoutLessonInput
 }
 
 export type LessonUncheckedCreateWithoutLessonProgressInput = {
@@ -637,6 +661,7 @@ export type LessonUncheckedCreateWithoutLessonProgressInput = {
   courseId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  resources?: Prisma.LessonResourceUncheckedCreateNestedManyWithoutLessonInput
 }
 
 export type LessonCreateOrConnectWithoutLessonProgressInput = {
@@ -666,6 +691,7 @@ export type LessonUpdateWithoutLessonProgressInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  resources?: Prisma.LessonResourceUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutLessonProgressInput = {
@@ -679,6 +705,79 @@ export type LessonUncheckedUpdateWithoutLessonProgressInput = {
   courseId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.LessonResourceUncheckedUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonCreateWithoutResourcesInput = {
+  id?: string
+  title: string
+  slug: string
+  content?: string | null
+  videoUrl?: string | null
+  duration?: string | null
+  order: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  course: Prisma.CourseCreateNestedOneWithoutLessonsInput
+  lessonProgress?: Prisma.LessonProgressCreateNestedManyWithoutLessonInput
+}
+
+export type LessonUncheckedCreateWithoutResourcesInput = {
+  id?: string
+  title: string
+  slug: string
+  content?: string | null
+  videoUrl?: string | null
+  duration?: string | null
+  order: number
+  courseId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonInput
+}
+
+export type LessonCreateOrConnectWithoutResourcesInput = {
+  where: Prisma.LessonWhereUniqueInput
+  create: Prisma.XOR<Prisma.LessonCreateWithoutResourcesInput, Prisma.LessonUncheckedCreateWithoutResourcesInput>
+}
+
+export type LessonUpsertWithoutResourcesInput = {
+  update: Prisma.XOR<Prisma.LessonUpdateWithoutResourcesInput, Prisma.LessonUncheckedUpdateWithoutResourcesInput>
+  create: Prisma.XOR<Prisma.LessonCreateWithoutResourcesInput, Prisma.LessonUncheckedCreateWithoutResourcesInput>
+  where?: Prisma.LessonWhereInput
+}
+
+export type LessonUpdateToOneWithWhereWithoutResourcesInput = {
+  where?: Prisma.LessonWhereInput
+  data: Prisma.XOR<Prisma.LessonUpdateWithoutResourcesInput, Prisma.LessonUncheckedUpdateWithoutResourcesInput>
+}
+
+export type LessonUpdateWithoutResourcesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  course?: Prisma.CourseUpdateOneRequiredWithoutLessonsNestedInput
+  lessonProgress?: Prisma.LessonProgressUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonUncheckedUpdateWithoutResourcesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  courseId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonCreateManyCourseInput = {
@@ -704,6 +803,7 @@ export type LessonUpdateWithoutCourseInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lessonProgress?: Prisma.LessonProgressUpdateManyWithoutLessonNestedInput
+  resources?: Prisma.LessonResourceUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateWithoutCourseInput = {
@@ -717,6 +817,7 @@ export type LessonUncheckedUpdateWithoutCourseInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lessonProgress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
+  resources?: Prisma.LessonResourceUncheckedUpdateManyWithoutLessonNestedInput
 }
 
 export type LessonUncheckedUpdateManyWithoutCourseInput = {
@@ -738,10 +839,12 @@ export type LessonUncheckedUpdateManyWithoutCourseInput = {
 
 export type LessonCountOutputType = {
   lessonProgress: number
+  resources: number
 }
 
 export type LessonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lessonProgress?: boolean | LessonCountOutputTypeCountLessonProgressArgs
+  resources?: boolean | LessonCountOutputTypeCountResourcesArgs
 }
 
 /**
@@ -761,6 +864,13 @@ export type LessonCountOutputTypeCountLessonProgressArgs<ExtArgs extends runtime
   where?: Prisma.LessonProgressWhereInput
 }
 
+/**
+ * LessonCountOutputType without action
+ */
+export type LessonCountOutputTypeCountResourcesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LessonResourceWhereInput
+}
+
 
 export type LessonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -775,6 +885,7 @@ export type LessonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   lessonProgress?: boolean | Prisma.Lesson$lessonProgressArgs<ExtArgs>
+  resources?: boolean | Prisma.Lesson$resourcesArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lesson"]>
 
@@ -823,6 +934,7 @@ export type LessonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type LessonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   course?: boolean | Prisma.CourseDefaultArgs<ExtArgs>
   lessonProgress?: boolean | Prisma.Lesson$lessonProgressArgs<ExtArgs>
+  resources?: boolean | Prisma.Lesson$resourcesArgs<ExtArgs>
   _count?: boolean | Prisma.LessonCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LessonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -837,6 +949,7 @@ export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     course: Prisma.$CoursePayload<ExtArgs>
     lessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
+    resources: Prisma.$LessonResourcePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1245,6 +1358,7 @@ export interface Prisma__LessonClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   course<T extends Prisma.CourseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseClient<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   lessonProgress<T extends Prisma.Lesson$lessonProgressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$lessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  resources<T extends Prisma.Lesson$resourcesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lesson$resourcesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LessonResourcePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1706,6 +1820,30 @@ export type Lesson$lessonProgressArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.LessonProgressScalarFieldEnum | Prisma.LessonProgressScalarFieldEnum[]
+}
+
+/**
+ * Lesson.resources
+ */
+export type Lesson$resourcesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LessonResource
+   */
+  select?: Prisma.LessonResourceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LessonResource
+   */
+  omit?: Prisma.LessonResourceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LessonResourceInclude<ExtArgs> | null
+  where?: Prisma.LessonResourceWhereInput
+  orderBy?: Prisma.LessonResourceOrderByWithRelationInput | Prisma.LessonResourceOrderByWithRelationInput[]
+  cursor?: Prisma.LessonResourceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LessonResourceScalarFieldEnum | Prisma.LessonResourceScalarFieldEnum[]
 }
 
 /**

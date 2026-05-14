@@ -173,7 +173,7 @@ export type ReportGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type ReportGroupByOutputType = {
   id: string
-  reporterId: string
+  reporterId: string | null
   targetType: $Enums.ReportTargetType
   targetId: string
   reason: string
@@ -206,7 +206,7 @@ export type ReportWhereInput = {
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   id?: Prisma.StringFilter<"Report"> | string
-  reporterId?: Prisma.StringFilter<"Report"> | string
+  reporterId?: Prisma.StringNullableFilter<"Report"> | string | null
   targetType?: Prisma.EnumReportTargetTypeFilter<"Report"> | $Enums.ReportTargetType
   targetId?: Prisma.StringFilter<"Report"> | string
   reason?: Prisma.StringFilter<"Report"> | string
@@ -214,12 +214,12 @@ export type ReportWhereInput = {
   status?: Prisma.EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Report"> | Date | string
-  reporter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  reporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type ReportOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
+  reporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   targetType?: Prisma.SortOrder
   targetId?: Prisma.SortOrder
   reason?: Prisma.SortOrder
@@ -235,7 +235,7 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
   OR?: Prisma.ReportWhereInput[]
   NOT?: Prisma.ReportWhereInput | Prisma.ReportWhereInput[]
-  reporterId?: Prisma.StringFilter<"Report"> | string
+  reporterId?: Prisma.StringNullableFilter<"Report"> | string | null
   targetType?: Prisma.EnumReportTargetTypeFilter<"Report"> | $Enums.ReportTargetType
   targetId?: Prisma.StringFilter<"Report"> | string
   reason?: Prisma.StringFilter<"Report"> | string
@@ -243,12 +243,12 @@ export type ReportWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumReportStatusFilter<"Report"> | $Enums.ReportStatus
   createdAt?: Prisma.DateTimeFilter<"Report"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Report"> | Date | string
-  reporter?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  reporter?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type ReportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  reporterId?: Prisma.SortOrder
+  reporterId?: Prisma.SortOrderInput | Prisma.SortOrder
   targetType?: Prisma.SortOrder
   targetId?: Prisma.SortOrder
   reason?: Prisma.SortOrder
@@ -266,7 +266,7 @@ export type ReportScalarWhereWithAggregatesInput = {
   OR?: Prisma.ReportScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ReportScalarWhereWithAggregatesInput | Prisma.ReportScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Report"> | string
-  reporterId?: Prisma.StringWithAggregatesFilter<"Report"> | string
+  reporterId?: Prisma.StringNullableWithAggregatesFilter<"Report"> | string | null
   targetType?: Prisma.EnumReportTargetTypeWithAggregatesFilter<"Report"> | $Enums.ReportTargetType
   targetId?: Prisma.StringWithAggregatesFilter<"Report"> | string
   reason?: Prisma.StringWithAggregatesFilter<"Report"> | string
@@ -285,12 +285,12 @@ export type ReportCreateInput = {
   status?: $Enums.ReportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  reporter: Prisma.UserCreateNestedOneWithoutReportsInput
+  reporter?: Prisma.UserCreateNestedOneWithoutReportsInput
 }
 
 export type ReportUncheckedCreateInput = {
   id?: string
-  reporterId: string
+  reporterId?: string | null
   targetType: $Enums.ReportTargetType
   targetId: string
   reason: string
@@ -309,12 +309,12 @@ export type ReportUpdateInput = {
   status?: Prisma.EnumReportStatusFieldUpdateOperationsInput | $Enums.ReportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reporter?: Prisma.UserUpdateOneRequiredWithoutReportsNestedInput
+  reporter?: Prisma.UserUpdateOneWithoutReportsNestedInput
 }
 
 export type ReportUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
+  reporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetType?: Prisma.EnumReportTargetTypeFieldUpdateOperationsInput | $Enums.ReportTargetType
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -326,7 +326,7 @@ export type ReportUncheckedUpdateInput = {
 
 export type ReportCreateManyInput = {
   id?: string
-  reporterId: string
+  reporterId?: string | null
   targetType: $Enums.ReportTargetType
   targetId: string
   reason: string
@@ -349,7 +349,7 @@ export type ReportUpdateManyMutationInput = {
 
 export type ReportUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
+  reporterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetType?: Prisma.EnumReportTargetTypeFieldUpdateOperationsInput | $Enums.ReportTargetType
   targetId?: Prisma.StringFieldUpdateOperationsInput | string
   reason?: Prisma.StringFieldUpdateOperationsInput | string
@@ -508,7 +508,7 @@ export type ReportScalarWhereInput = {
   OR?: Prisma.ReportScalarWhereInput[]
   NOT?: Prisma.ReportScalarWhereInput | Prisma.ReportScalarWhereInput[]
   id?: Prisma.StringFilter<"Report"> | string
-  reporterId?: Prisma.StringFilter<"Report"> | string
+  reporterId?: Prisma.StringNullableFilter<"Report"> | string | null
   targetType?: Prisma.EnumReportTargetTypeFilter<"Report"> | $Enums.ReportTargetType
   targetId?: Prisma.StringFilter<"Report"> | string
   reason?: Prisma.StringFilter<"Report"> | string
@@ -574,7 +574,7 @@ export type ReportSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -587,7 +587,7 @@ export type ReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -600,7 +600,7 @@ export type ReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }, ExtArgs["result"]["report"]>
 
 export type ReportSelectScalar = {
@@ -617,23 +617,23 @@ export type ReportSelectScalar = {
 
 export type ReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "targetType" | "targetId" | "reason" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["report"]>
 export type ReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }
 export type ReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }
 export type ReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  reporter?: boolean | Prisma.Report$reporterArgs<ExtArgs>
 }
 
 export type $ReportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Report"
   objects: {
-    reporter: Prisma.$UserPayload<ExtArgs>
+    reporter: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    reporterId: string
+    reporterId: string | null
     targetType: $Enums.ReportTargetType
     targetId: string
     reason: string
@@ -1035,7 +1035,7 @@ readonly fields: ReportFieldRefs;
  */
 export interface Prisma__ReportClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  reporter<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  reporter<T extends Prisma.Report$reporterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Report$reporterArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1472,6 +1472,25 @@ export type ReportDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Reports to delete.
    */
   limit?: number
+}
+
+/**
+ * Report.reporter
+ */
+export type Report$reporterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

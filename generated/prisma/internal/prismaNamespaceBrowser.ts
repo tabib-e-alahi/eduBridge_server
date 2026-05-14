@@ -68,6 +68,7 @@ export const ModelName = {
   Lesson: 'Lesson',
   LessonProgress: 'LessonProgress',
   LearningPath: 'LearningPath',
+  LessonResource: 'LessonResource',
   LiveClass: 'LiveClass',
   Mentor: 'Mentor',
   Message: 'Message',
@@ -343,6 +344,18 @@ export const LearningPathScalarFieldEnum = {
 } as const
 
 export type LearningPathScalarFieldEnum = (typeof LearningPathScalarFieldEnum)[keyof typeof LearningPathScalarFieldEnum]
+
+
+export const LessonResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  url: 'url',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LessonResourceScalarFieldEnum = (typeof LessonResourceScalarFieldEnum)[keyof typeof LessonResourceScalarFieldEnum]
 
 
 export const LiveClassScalarFieldEnum = {

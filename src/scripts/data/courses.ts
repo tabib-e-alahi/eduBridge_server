@@ -8,6 +8,7 @@ interface LessonSeed {
   content: string;
   duration: string;
   videoUrl: string;
+  resources?: { title: string; url: string }[];
 }
 
 interface CourseSeed {
@@ -33,12 +34,17 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 1,
     lessons: [
-      { title: 'Introduction to Next.js 15', slug: 'introduction-to-nextjs-15', content: 'Welcome! In this lesson we cover the Next.js 15 ecosystem, project setup, and key differences from earlier versions.', duration: '25 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'App Router Deep Dive', slug: 'app-router-deep-dive', content: 'Explore the App Router architecture, file-based routing, layouts, loading states, and error boundaries.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Server Components & Actions', slug: 'server-components-actions', content: 'Learn how React Server Components work inside Next.js and how to use Server Actions for mutations.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Data Fetching Strategies', slug: 'data-fetching-strategies', content: 'Compare static generation, server-side rendering, and incremental static regeneration with real examples.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Authentication & Authorization', slug: 'authentication-authorization', content: 'Implement secure authentication flows using middleware, sessions, and role-based access control.', duration: '50 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Deployment & Optimization', slug: 'deployment-optimization', content: 'Deploy to Vercel, optimize images, fonts, and bundles, and set up monitoring for production.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Introduction to Next.js 15', slug: 'introduction-to-nextjs-15', content: 'Welcome! In this lesson we cover the Next.js 15 ecosystem, project setup, and key differences from earlier versions.', duration: '25 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Lecture Slides', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }, { title: 'Starter Code', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+
+      { title: 'App Router Deep Dive', slug: 'app-router-deep-dive', content: 'Explore the App Router architecture, file-based routing, layouts, loading states, and error boundaries.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Routing Cheat Sheet', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+
+      { title: 'Server Components & Actions', slug: 'server-components-actions', content: 'Learn how React Server Components work inside Next.js and how to use Server Actions for mutations.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Actions Demo', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+
+      { title: 'Data Fetching Strategies', slug: 'data-fetching-strategies', content: 'Compare static generation, server-side rendering, and incremental static regeneration with real examples.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Data Fetching Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+
+      { title: 'Authentication & Authorization', slug: 'authentication-authorization', content: 'Implement secure authentication flows using middleware, sessions, and role-based access control.', duration: '50 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Routing Cheat Sheet', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+
+      { title: 'Deployment & Optimization', slug: 'deployment-optimization', content: 'Deploy to Vercel, optimize images, fonts, and bundles, and set up monitoring for production.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Deployment Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -51,11 +57,11 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 2,
     lessons: [
-      { title: 'Event Loop & Async Patterns', slug: 'event-loop-async-patterns', content: 'Understand the Node.js event loop, libuv, and advanced asynchronous patterns like async iterators.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Microservices Architecture', slug: 'microservices-architecture', content: 'Design and implement microservices with message queues, API gateways, and service discovery.', duration: '55 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Database Design Patterns', slug: 'database-design-patterns', content: 'Master repository pattern, unit of work, CQRS, and connection pooling for production databases.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Caching Strategies', slug: 'caching-strategies', content: 'Implement in-memory caching, Redis integration, cache invalidation, and CDN strategies.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Error Handling & Logging', slug: 'error-handling-logging', content: 'Build robust error handling with custom error classes, structured logging, and distributed tracing.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Event Loop & Async Patterns', slug: 'event-loop-async-patterns', content: 'Understand the Node.js event loop, libuv, and advanced asynchronous patterns like async iterators.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Event Loop Demo', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Microservices Architecture', slug: 'microservices-architecture', content: 'Design and implement microservices with message queues, API gateways, and service discovery.', duration: '55 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Microservices Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Database Design Patterns', slug: 'database-design-patterns', content: 'Master repository pattern, unit of work, CQRS, and connection pooling for production databases.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Database Design Patterns', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Caching Strategies', slug: 'caching-strategies', content: 'Implement in-memory caching, Redis integration, cache invalidation, and CDN strategies.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Caching Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Error Handling & Logging', slug: 'error-handling-logging', content: 'Build robust error handling with custom error classes, structured logging, and distributed tracing.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Error Handling Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -68,10 +74,10 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 3,
     lessons: [
-      { title: 'Advanced Types & Generics', slug: 'advanced-types-generics', content: 'Master conditional types, mapped types, template literal types, and generic constraints.', duration: '50 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Type Guards & Narrowing', slug: 'type-guards-narrowing', content: 'Learn discriminated unions, user-defined type guards, assertion functions, and exhaustiveness checking.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Decorators & Metadata', slug: 'decorators-metadata', content: 'Explore the decorator proposal, reflect-metadata, and building your own decorator library.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Module System & Declaration Files', slug: 'module-system-declaration-files', content: 'Understand module resolution, declaration merging, ambient modules, and publishing typed libraries.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Advanced Types & Generics', slug: 'advanced-types-generics', content: 'Master conditional types, mapped types, template literal types, and generic constraints.', duration: '50 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Advanced Types Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Type Guards & Narrowing', slug: 'type-guards-narrowing', content: 'Learn discriminated unions, user-defined type guards, assertion functions, and exhaustiveness checking.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Type Guards Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Decorators & Metadata', slug: 'decorators-metadata', content: 'Explore the decorator proposal, reflect-metadata, and building your own decorator library.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Decorators Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Module System & Declaration Files', slug: 'module-system-declaration-files', content: 'Understand module resolution, declaration merging, ambient modules, and publishing typed libraries.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Module System Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -84,11 +90,11 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 1,
     categoryIndex: 1,
     lessons: [
-      { title: 'React Fundamentals', slug: 'react-fundamentals', content: 'Set up your development environment, understand JSX, and create your first React component.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Components & Props', slug: 'components-props', content: 'Learn to build reusable components, pass data with props, and compose complex UIs.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'State Management with useState', slug: 'state-management-usestate', content: 'Manage component state, handle user input, and understand React re-rendering.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Hooks in Depth', slug: 'hooks-in-depth', content: 'Master useEffect, useRef, useContext, useMemo, and useCallback for performant apps.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Building Your First App', slug: 'building-your-first-app', content: 'Put it all together by building a task manager app with routing, state, and API integration.', duration: '60 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'React Fundamentals', slug: 'react-fundamentals', content: 'Set up your development environment, understand JSX, and create your first React component.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'React Fundamentals Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Components & Props', slug: 'components-props', content: 'Learn to build reusable components, pass data with props, and compose complex UIs.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Components & Props Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'State Management with useState', slug: 'state-management-usestate', content: 'Manage component state, handle user input, and understand React re-rendering.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'State Management Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Hooks in Depth', slug: 'hooks-in-depth', content: 'Master useEffect, useRef, useContext, useMemo, and useCallback for performant apps.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Hooks in Depth Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Building Your First App', slug: 'building-your-first-app', content: 'Put it all together by building a task manager app with routing, state, and API integration.', duration: '60 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Building Your First App Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -101,11 +107,11 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 1,
     categoryIndex: 0,
     lessons: [
-      { title: 'HTML & CSS Foundations', slug: 'html-css-foundations', content: 'Build semantic HTML pages and style them with modern CSS including Flexbox and Grid.', duration: '50 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'JavaScript Essentials', slug: 'javascript-essentials', content: 'Learn variables, functions, DOM manipulation, async/await, and ES6+ features.', duration: '55 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Frontend with React', slug: 'frontend-with-react', content: 'Build interactive frontends with React components, hooks, and client-side routing.', duration: '60 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Backend with Node.js & Express', slug: 'backend-with-nodejs-express', content: 'Create REST APIs, handle middleware, and connect to databases with Prisma.', duration: '55 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Database & Deployment', slug: 'database-deployment', content: 'Design PostgreSQL schemas, write migrations, and deploy your full-stack app.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'HTML & CSS Foundations', slug: 'html-css-foundations', content: 'Build semantic HTML pages and style them with modern CSS including Flexbox and Grid.', duration: '50 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'HTML & CSS Foundations Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'JavaScript Essentials', slug: 'javascript-essentials', content: 'Learn variables, functions, DOM manipulation, async/await, and ES6+ features.', duration: '55 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'JavaScript Essentials Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Frontend with React', slug: 'frontend-with-react', content: 'Build interactive frontends with React components, hooks, and client-side routing.', duration: '60 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Frontend with React Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Backend with Node.js & Express', slug: 'backend-with-nodejs-express', content: 'Create REST APIs, handle middleware, and connect to databases with Prisma.', duration: '55 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Backend with Node.js & Express Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Database & Deployment', slug: 'database-deployment', content: 'Design PostgreSQL schemas, write migrations, and deploy your full-stack app.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Database & Deployment Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -118,10 +124,10 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 4,
     lessons: [
-      { title: 'Design Thinking Process', slug: 'design-thinking-process', content: 'Understand empathize, define, ideate, prototype, and test — the five stages of design thinking.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Wireframing & Prototyping', slug: 'wireframing-prototyping', content: 'Create low-fidelity wireframes and interactive prototypes using industry-standard tools.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Color Theory & Typography', slug: 'color-theory-typography', content: 'Choose effective color palettes, font pairings, and build visual hierarchy.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Building Design Systems', slug: 'building-design-systems', content: 'Create reusable component libraries, tokens, and documentation for scalable design.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Design Thinking Process', slug: 'design-thinking-process', content: 'Understand empathize, define, ideate, prototype, and test — the five stages of design thinking.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Design Thinking Process Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Wireframing & Prototyping', slug: 'wireframing-prototyping', content: 'Create low-fidelity wireframes and interactive prototypes using industry-standard tools.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Wireframing & Prototyping Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Color Theory & Typography', slug: 'color-theory-typography', content: 'Choose effective color palettes, font pairings, and build visual hierarchy.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Color Theory & Typography Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Building Design Systems', slug: 'building-design-systems', content: 'Create reusable component libraries, tokens, and documentation for scalable design.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Building Design Systems Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -134,11 +140,11 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 1,
     categoryIndex: 5,
     lessons: [
-      { title: 'SEO Fundamentals', slug: 'seo-fundamentals', content: 'Learn on-page SEO, keyword research, technical SEO, and link building strategies.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Content Marketing Strategy', slug: 'content-marketing-strategy', content: 'Create a content calendar, write engaging blog posts, and measure content ROI.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Social Media Marketing', slug: 'social-media-marketing', content: 'Build brand presence across platforms, create viral content, and engage communities.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Paid Advertising', slug: 'paid-advertising', content: 'Run effective Google Ads and social media ad campaigns with proper targeting and budgeting.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Analytics & Reporting', slug: 'analytics-reporting', content: 'Track KPIs with Google Analytics, build dashboards, and make data-driven decisions.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'SEO Fundamentals', slug: 'seo-fundamentals', content: 'Learn on-page SEO, keyword research, technical SEO, and link building strategies.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'SEO Fundamentals Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Content Marketing Strategy', slug: 'content-marketing-strategy', content: 'Create a content calendar, write engaging blog posts, and measure content ROI.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Content Marketing Strategy Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Social Media Marketing', slug: 'social-media-marketing', content: 'Build brand presence across platforms, create viral content, and engage communities.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Social Media Marketing Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Paid Advertising', slug: 'paid-advertising', content: 'Run effective Google Ads and social media ad campaigns with proper targeting and budgeting.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Paid Advertising Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Analytics & Reporting', slug: 'analytics-reporting', content: 'Track KPIs with Google Analytics, build dashboards, and make data-driven decisions.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Analytics & Reporting Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -151,10 +157,10 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 6,
     lessons: [
-      { title: 'Python for Data Analysis', slug: 'python-for-data-analysis', content: 'Set up your Python environment and learn essential syntax for data work.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Pandas Essentials', slug: 'pandas-essentials', content: 'Load, clean, filter, and transform data using Pandas DataFrames.', duration: '45 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Data Visualization', slug: 'data-visualization', content: 'Create charts, graphs, and interactive plots with Matplotlib and Seaborn.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Real-World Analysis Project', slug: 'real-world-analysis-project', content: 'Analyze a real dataset end-to-end: cleaning, exploration, visualization, and reporting.', duration: '60 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Python for Data Analysis', slug: 'python-for-data-analysis', content: 'Set up your Python environment and learn essential syntax for data work.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Python for Data Analysis Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Pandas Essentials', slug: 'pandas-essentials', content: 'Load, clean, filter, and transform data using Pandas DataFrames.', duration: '45 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Pandas Essentials Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Data Visualization', slug: 'data-visualization', content: 'Create charts, graphs, and interactive plots with Matplotlib and Seaborn.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Data Visualization Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Real-World Analysis Project', slug: 'real-world-analysis-project', content: 'Analyze a real dataset end-to-end: cleaning, exploration, visualization, and reporting.', duration: '60 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Real-World Analysis Project Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -167,10 +173,10 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 1,
     categoryIndex: 7,
     lessons: [
-      { title: 'Building a Strong Resume', slug: 'building-a-strong-resume', content: 'Craft an ATS-friendly resume that highlights your skills and experience effectively.', duration: '25 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Technical Interview Prep', slug: 'technical-interview-prep', content: 'Practice coding problems, system design questions, and behavioral interview techniques.', duration: '50 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Networking & Personal Branding', slug: 'networking-personal-branding', content: 'Build your online presence, contribute to open source, and grow your professional network.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Salary Negotiation', slug: 'salary-negotiation', content: 'Research market rates, negotiate offers, and understand equity and benefits packages.', duration: '25 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'Building a Strong Resume', slug: 'building-a-strong-resume', content: 'Craft an ATS-friendly resume that highlights your skills and experience effectively.', duration: '25 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Building a Strong Resume Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Technical Interview Prep', slug: 'technical-interview-prep', content: 'Practice coding problems, system design questions, and behavioral interview techniques.', duration: '50 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Technical Interview Prep Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Networking & Personal Branding', slug: 'networking-personal-branding', content: 'Build your online presence, contribute to open source, and grow your professional network.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Networking & Personal Branding Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Salary Negotiation', slug: 'salary-negotiation', content: 'Research market rates, negotiate offers, and understand equity and benefits packages.', duration: '25 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Salary Negotiation Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
   {
@@ -183,10 +189,10 @@ export const coursesData: CourseSeed[] = [
     instructorIndex: 0,
     categoryIndex: 0,
     lessons: [
-      { title: 'CSS Custom Properties & Functions', slug: 'css-custom-properties-functions', content: 'Master CSS variables, calc(), clamp(), and modern CSS functions for dynamic styling.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Advanced Grid & Subgrid', slug: 'advanced-grid-subgrid', content: 'Build complex responsive layouts with CSS Grid, subgrid, and container queries.', duration: '40 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Keyframe Animations', slug: 'keyframe-animations', content: 'Create smooth animations with @keyframes, timing functions, and animation composition.', duration: '35 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
-      { title: 'Scroll-Driven Animations', slug: 'scroll-driven-animations', content: 'Implement modern scroll-triggered animations using the Scroll Timeline API.', duration: '30 min', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' },
+      { title: 'CSS Custom Properties & Functions', slug: 'css-custom-properties-functions', content: 'Master CSS variables, calc(), clamp(), and modern CSS functions for dynamic styling.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'CSS Custom Properties & Functions Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Advanced Grid & Subgrid', slug: 'advanced-grid-subgrid', content: 'Build complex responsive layouts with CSS Grid, subgrid, and container queries.', duration: '40 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Advanced Grid & Subgrid Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Keyframe Animations', slug: 'keyframe-animations', content: 'Create smooth animations with @keyframes, timing functions, and animation composition.', duration: '35 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Keyframe Animations Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
+      { title: 'Scroll-Driven Animations', slug: 'scroll-driven-animations', content: 'Implement modern scroll-triggered animations using the Scroll Timeline API.', duration: '30 min', videoUrl: 'https://youtu.be/FTiwIVxWC00?si=FwaqRCqThU1pibYD', resources: [{ title: 'Scroll-Driven Animations Guide', url: 'https://drive.google.com/drive/folders/1B02if9XC1WNGcfWIeHTz-fiKkAYXzN4k?usp=sharing' }] },
     ],
   },
 ];

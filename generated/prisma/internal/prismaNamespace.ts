@@ -401,6 +401,7 @@ export const ModelName = {
   Lesson: 'Lesson',
   LessonProgress: 'LessonProgress',
   LearningPath: 'LearningPath',
+  LessonResource: 'LessonResource',
   LiveClass: 'LiveClass',
   Mentor: 'Mentor',
   Message: 'Message',
@@ -430,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "aIConversation" | "aIMessage" | "aIRequestLog" | "assignment" | "assignmentSubmission" | "user" | "account" | "session" | "verification" | "blog" | "course" | "savedCourse" | "courseCategory" | "enrollment" | "lesson" | "lessonProgress" | "learningPath" | "liveClass" | "mentor" | "message" | "notification" | "systemSetting" | "order" | "payment" | "profile" | "quiz" | "quizQuestion" | "quizAttempt" | "report" | "auditLog" | "review"
+    modelProps: "aIConversation" | "aIMessage" | "aIRequestLog" | "assignment" | "assignmentSubmission" | "user" | "account" | "session" | "verification" | "blog" | "course" | "savedCourse" | "courseCategory" | "enrollment" | "lesson" | "lessonProgress" | "learningPath" | "lessonResource" | "liveClass" | "mentor" | "message" | "notification" | "systemSetting" | "order" | "payment" | "profile" | "quiz" | "quizQuestion" | "quizAttempt" | "report" | "auditLog" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1689,6 +1690,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.LearningPathCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.LearningPathCountAggregateOutputType> | number
+        }
+      }
+    }
+    LessonResource: {
+      payload: Prisma.$LessonResourcePayload<ExtArgs>
+      fields: Prisma.LessonResourceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LessonResourceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LessonResourceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        findFirst: {
+          args: Prisma.LessonResourceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LessonResourceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        findMany: {
+          args: Prisma.LessonResourceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>[]
+        }
+        create: {
+          args: Prisma.LessonResourceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        createMany: {
+          args: Prisma.LessonResourceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LessonResourceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>[]
+        }
+        delete: {
+          args: Prisma.LessonResourceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        update: {
+          args: Prisma.LessonResourceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        deleteMany: {
+          args: Prisma.LessonResourceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LessonResourceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LessonResourceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>[]
+        }
+        upsert: {
+          args: Prisma.LessonResourceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LessonResourcePayload>
+        }
+        aggregate: {
+          args: Prisma.LessonResourceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLessonResource>
+        }
+        groupBy: {
+          args: Prisma.LessonResourceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonResourceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LessonResourceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LessonResourceCountAggregateOutputType> | number
         }
       }
     }
@@ -3012,6 +3087,18 @@ export const LearningPathScalarFieldEnum = {
 export type LearningPathScalarFieldEnum = (typeof LearningPathScalarFieldEnum)[keyof typeof LearningPathScalarFieldEnum]
 
 
+export const LessonResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  url: 'url',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LessonResourceScalarFieldEnum = (typeof LessonResourceScalarFieldEnum)[keyof typeof LessonResourceScalarFieldEnum]
+
+
 export const LiveClassScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -3598,6 +3685,7 @@ export type GlobalOmitConfig = {
   lesson?: Prisma.LessonOmit
   lessonProgress?: Prisma.LessonProgressOmit
   learningPath?: Prisma.LearningPathOmit
+  lessonResource?: Prisma.LessonResourceOmit
   liveClass?: Prisma.LiveClassOmit
   mentor?: Prisma.MentorOmit
   message?: Prisma.MessageOmit

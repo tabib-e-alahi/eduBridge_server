@@ -160,6 +160,12 @@ async function main() {
             duration: lesson.duration,
             videoUrl: lesson.videoUrl,
             order: index + 1,
+            resources: {
+              create: lesson.resources?.map(r => ({
+                title: r.title,
+                url: r.url
+              })) || []
+            }
           })),
         },
       },

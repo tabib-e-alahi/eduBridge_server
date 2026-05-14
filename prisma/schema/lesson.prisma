@@ -9,6 +9,7 @@ model Lesson {
   courseId       String
   course         Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessonProgress LessonProgress[]
+  resources      LessonResource[]
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 
@@ -37,4 +38,13 @@ model LearningPath {
   steps       Json     // Full roadmap data
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+model LessonResource {
+  id        String   @id @default(uuid())
+  title     String
+  url       String
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

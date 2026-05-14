@@ -125,6 +125,7 @@ const getCourseProgressFromDB = async (userId: string, courseIdentifier: string)
         include: {
           lessons: {
             orderBy: { order: 'asc' },
+            include: { resources: true },
           },
         },
       },

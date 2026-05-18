@@ -145,6 +145,42 @@ const getRelatedCourses = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMySavedCourses = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await CourseService.getMySavedCoursesFromDB(userId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Saved courses retrieved successfully',
+    data: result,
+  });
+});
+
+const toggleSaveCourse = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const { courseId } = req.body;
+  const result = await CourseService.toggleSaveCourseInDB(userId, courseId);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: result.saved ? 'Course saved successfully' : 'Course unsaved successfully',
+    data: result,
+  });
+});
+
+const submitCourseForReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = (req as any).user.id;
+  const result = await CourseService.submitCourseForReview(id as string, userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course submitted for review successfully',
+    data: result,
+  });
+});
+
 export const CourseController = {
   createCourse,
   getMyCourses,
@@ -152,6 +188,9 @@ export const CourseController = {
   getAllCourses,
   getCourseBySlug,
   getRelatedCourses,
+  getMySavedCourses,
+  toggleSaveCourse,
+  submitCourseForReview,
   updateCourse,
   deleteCourse,
 };

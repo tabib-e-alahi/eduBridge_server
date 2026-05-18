@@ -1,0 +1,15 @@
+
+> edubridge_backend@1.0.0 dev
+> tsx watch src/server.ts
+
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Connected to the database successfully.
+Server is running on port 5051
+3:34:09 PM [tsx] change in ./src\modules\dashboard\dashboard.service.ts Rerunning...
+c◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+Connected to the database successfully.
+Server is running on port 5051
+4:34:01 PM [tsx] change in ./src\modules\ai\ai.service.ts Restarting...
+c◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+Connected to the database successfully.
+Server is running on port 5051

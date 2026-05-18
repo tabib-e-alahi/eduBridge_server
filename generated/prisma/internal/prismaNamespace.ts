@@ -2999,6 +2999,11 @@ export const CourseScalarFieldEnum = {
   duration: 'duration',
   level: 'level',
   status: 'status',
+  completionCriteria: 'completionCriteria',
+  tags: 'tags',
+  language: 'language',
+  whatYouWillLearn: 'whatYouWillLearn',
+  requirements: 'requirements',
   instructorId: 'instructorId',
   categoryId: 'categoryId',
   createdAt: 'createdAt',
@@ -3054,6 +3059,8 @@ export const LessonScalarFieldEnum = {
   videoUrl: 'videoUrl',
   duration: 'duration',
   order: 'order',
+  isFree: 'isFree',
+  isPublished: 'isPublished',
   courseId: 'courseId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3210,6 +3217,11 @@ export const ProfileScalarFieldEnum = {
   website: 'website',
   linkedIn: 'linkedIn',
   github: 'github',
+  expertise: 'expertise',
+  websiteUrl: 'websiteUrl',
+  linkedinUrl: 'linkedinUrl',
+  youtubeUrl: 'youtubeUrl',
+  isPublic: 'isPublic',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

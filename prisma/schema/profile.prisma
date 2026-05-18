@@ -1,17 +1,21 @@
 model Profile {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio       String?  @db.Text
-  avatarUrl     String?
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio            String?  @db.Text
+  avatarUrl      String?
   avatarPublicId String?
-  headline      String?
-  skills    String[]
-  location  String?
-  website   String?
-  linkedIn  String?
-  github    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  headline       String?
+  skills         String[]
+  location       String?
+  website        String?
+  linkedIn       String?
+  github         String?
+  expertise      String[]
+  websiteUrl     String?
+  linkedinUrl    String?
+  youtubeUrl     String?
+  isPublic       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
-

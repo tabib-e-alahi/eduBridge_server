@@ -194,6 +194,60 @@ const getRelatedCoursesFromDB = async (courseId: string) => {
   return result;
 };
 
+const getMySavedCoursesFromDB = async (userId: string) => {
+  const result = await prisma.savedCourse.findMany({
+    where: { userId },
+    include: {
+      course: {
+        include: {
+          category: true,
+          instructor: { select: { name: true } },
+          _count: { select: { enrollments: true, reviews: true } },
+        },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+  return result;
+};
+
+const toggleSaveCourseInDB = async (userId: string, courseId: string) => {
+  const existing = await prisma.savedCourse.findUnique({
+    where: { userId_courseId: { userId, courseId } },
+  });
+
+  if (existing) {
+    await prisma.savedCourse.delete({
+      where: { userId_courseId: { userId, courseId } },
+    });
+    return { saved: false };
+  } else {
+    await prisma.savedCourse.create({
+      data: { userId, courseId },
+    });
+    return { saved: true };
+  }
+};
+
+const submitCourseForReview = async (courseId: string, instructorId: string) => {
+  const course = await prisma.course.findFirst({
+    where: { id: courseId, instructorId },
+    include: { lessons: true, category: true },
+  });
+
+  if (!course) throw new Error('Course not found');
+  if (course.status !== 'DRAFT') throw new Error('Only draft courses can be submitted');
+  if (!course.title || !course.description) throw new Error('Course must have a title and description');
+  if (!course.lessons.length) throw new Error('Course must have at least one lesson');
+  if (!course.thumbnailUrl) throw new Error('Course must have a thumbnail');
+  if (!course.categoryId) throw new Error('Course must have a category');
+
+  return prisma.course.update({
+    where: { id: courseId },
+    data: { status: 'IN_REVIEW' },
+  });
+};
+
 export const CourseService = {
   createCourseIntoDB,
   getAllCoursesFromDB,
@@ -201,6 +255,9 @@ export const CourseService = {
   getMyCoursesFromDB,
   getCourseByIdFromDB,
   getRelatedCoursesFromDB,
+  getMySavedCoursesFromDB,
+  toggleSaveCourseInDB,
+  submitCourseForReview,
   updateCourseInDB,
   deleteCourseFromDB,
 };

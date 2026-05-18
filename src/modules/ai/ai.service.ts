@@ -1,7 +1,29 @@
-import { geminiModel } from '../../lib/ai';
+import { GEMINI_MODEL_NAME, geminiModel } from '../../lib/ai';
 import { prisma } from '../../lib/prisma';
 
 // --- Helpers ---
+
+type GenerateQuizPayload = {
+  topic: string;
+  difficulty?: string;
+  count?: number;
+  courseId?: string;
+  saveToDb?: boolean;
+};
+
+type GeneratedQuizQuestion = {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  explanation?: string;
+};
+
+type GeneratedQuizData = {
+  quizTitle: string;
+  questions: GeneratedQuizQuestion[];
+  raw?: string;
+  parseError?: boolean;
+};
 
 /**
  * Sanitize user input before prompt interpolation.
@@ -25,7 +47,7 @@ const logAIRequest = async (
   feature: string,
   promptTokens: number = 0,
   completionTokens: number = 0,
-  model: string = 'gemini-1.5-flash'
+  model: string = GEMINI_MODEL_NAME
 ) => {
   return await prisma.aIRequestLog.create({
     data: {
@@ -47,6 +69,18 @@ const extractTokenUsage = (result: any) => {
     promptTokens: usage?.promptTokenCount || 0,
     completionTokens: usage?.candidatesTokenCount || 0,
   };
+};
+
+const cleanJsonText = (text: string) => text.replace(/```json|```/g, '').trim();
+
+const parseJsonResponse = <T>(text: string): T | { raw: string; parseError: true } => {
+  const cleanedText = cleanJsonText(text);
+
+  try {
+    return JSON.parse(cleanedText) as T;
+  } catch {
+    return { raw: cleanedText, parseError: true };
+  }
 };
 
 // --- Service Functions ---
@@ -123,10 +157,20 @@ const getCourseRecommendations = async (userId: string, interests: string[], lev
   return data;
 };
 
-const generateQuiz = async (userId: string, topic: string, difficulty: string = 'Medium', count: number = 5) => {
-  const sanitizedTopic = sanitizeInput(topic);
-  const sanitizedDifficulty = sanitizeInput(difficulty);
-  const safeCount = Math.min(Math.max(Number(count) || 5, 1), 20);
+const generateQuiz = async (
+  userId: string,
+  topicOrPayload: string | GenerateQuizPayload,
+  difficulty: string = 'Medium',
+  count: number = 5
+) => {
+  const payload =
+    typeof topicOrPayload === 'string'
+      ? { topic: topicOrPayload, difficulty, count }
+      : topicOrPayload;
+
+  const sanitizedTopic = sanitizeInput(payload.topic || '');
+  const sanitizedDifficulty = sanitizeInput(payload.difficulty || 'Medium');
+  const safeCount = Math.min(Math.max(Number(payload.count) || 5, 1), 20);
 
   const prompt = `Generate a quiz about ${sanitizedTopic} with ${safeCount} questions at ${sanitizedDifficulty} difficulty.
   Return ONLY a JSON object:
@@ -145,10 +189,163 @@ const generateQuiz = async (userId: string, topic: string, difficulty: string = 
   const result = await geminiModel.generateContent(prompt);
   const { promptTokens, completionTokens } = extractTokenUsage(result);
   const text = result.response.text();
-  const quizData = JSON.parse(text.replace(/```json|```/g, '').trim());
+  const quizData = parseJsonResponse<GeneratedQuizData>(text);
 
   await logAIRequest(userId, 'quiz-generator', promptTokens, completionTokens);
-  return quizData;
+
+  if ('parseError' in quizData || !payload.saveToDb) {
+    return quizData;
+  }
+
+  if (!payload.courseId) {
+    return quizData;
+  }
+
+  const course = await prisma.course.findFirst({
+    where: { id: payload.courseId, instructorId: userId },
+    select: { id: true },
+  });
+
+  if (!course) {
+    throw new Error('Course not found');
+  }
+
+  const savedQuiz = await prisma.quiz.create({
+    data: {
+      title: quizData.quizTitle,
+      courseId: payload.courseId,
+      questions: {
+        create: quizData.questions.map(question => ({
+          question: question.question,
+          options: question.options,
+          correctAnswer: question.correctAnswer,
+          explanation: question.explanation ?? null,
+        })),
+      },
+    },
+    include: { questions: true },
+  });
+
+  return { ...quizData, savedQuiz };
+};
+
+const generateCourseOutline = async (userId: string, payload: any) => {
+  const topic = sanitizeInput(payload.topic || '');
+  const targetAudience = sanitizeInput(payload.targetAudience || '');
+  const durationWeeks = Number(payload.durationWeeks) || 8;
+  const level = sanitizeInput(payload.level || 'Beginner');
+
+  const prompt = `You are an expert instructional designer. Create a complete course outline for:
+  - Topic: "${topic}"
+  - Target Audience: "${targetAudience}"
+  - Duration: ${durationWeeks} weeks
+  - Level: "${level}"
+  
+  Return ONLY valid JSON:
+  {
+    "courseTitle": string,
+    "courseDescription": string,
+    "learningObjectives": string[],
+    "modules": [
+      {
+        "moduleNumber": number,
+        "title": string,
+        "description": string,
+        "lessons": [
+          { "lessonNumber": number, "title": string, "duration": string, "objectives": string[] }
+        ]
+      }
+    ],
+    "assessmentStrategy": string,
+    "prerequisites": string[]
+  }`;
+
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse(result.response.text());
+
+  await logAIRequest(userId, 'course-outline-generator', promptTokens, completionTokens);
+  return data;
+};
+
+const generateLessonDescription = async (userId: string, payload: any) => {
+  const lessonTitle = sanitizeInput(payload.lessonTitle || '');
+  const keyConcepts = sanitizeInput(payload.keyConcepts || '');
+
+  const prompt = `Write an engaging, informative lesson description for an online course lesson:
+  - Lesson Title: "${lessonTitle}"
+  - Key Concepts: ${keyConcepts}
+  
+  Return ONLY valid JSON:
+  {
+    "description": string,
+    "whatYouWillLearn": string[],
+    "estimatedTime": string
+  }`;
+
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse(result.response.text());
+
+  await logAIRequest(userId, 'lesson-description', promptTokens, completionTokens);
+  return data;
+};
+
+const analyzeInstructorEngagement = async (userId: string) => {
+  const courses = await prisma.course.findMany({
+    where: { instructorId: userId, status: 'PUBLISHED' },
+    include: {
+      enrollments: {
+        include: {
+          lessonProgress: { where: { isCompleted: true } },
+          user: { select: { name: true, email: true } },
+        },
+      },
+      lessons: { select: { id: true } },
+      _count: { select: { reviews: true } },
+    },
+  });
+
+  const courseData = courses.map(course => ({
+    title: course.title,
+    enrollmentCount: course.enrollments.length,
+    avgProgress:
+      course.enrollments.length > 0
+        ? course.enrollments.reduce((sum, enrollment) => sum + enrollment.progress, 0) /
+          course.enrollments.length
+        : 0,
+    atRiskStudents: course.enrollments
+      .filter(enrollment => enrollment.progress < 20)
+      .map(enrollment => ({
+        name: enrollment.user.name,
+        email: enrollment.user.email,
+        progress: enrollment.progress,
+      })),
+    lessonCount: course.lessons.length,
+    reviewCount: course._count.reviews,
+  }));
+
+  const prompt = `Analyze this instructor's course engagement data and provide actionable insights:
+  ${JSON.stringify(courseData)}
+  
+  Return ONLY valid JSON:
+  {
+    "overallEngagementScore": number,
+    "summary": string,
+    "courseInsights": [{ "courseTitle": string, "engagementScore": number, "insight": string, "recommendation": string }],
+    "topRecommendations": string[],
+    "atRiskAlert": string
+  }`;
+
+  const result = await geminiModel.generateContent(prompt);
+  const { promptTokens, completionTokens } = extractTokenUsage(result);
+  const data = parseJsonResponse<Record<string, unknown>>(result.response.text());
+  const atRiskStudents = courseData.flatMap(course =>
+    course.atRiskStudents.map(student => ({ ...student, course: course.title }))
+  );
+
+  await logAIRequest(userId, 'engagement-analyzer', promptTokens, completionTokens);
+  return { ...data, atRiskStudents };
 };
 
 const chatWithAI = async (userId: string, payload: any) => {
@@ -304,6 +501,9 @@ export const AIService = {
   generateLearningPath,
   getCourseRecommendations,
   generateQuiz,
+  generateCourseOutline,
+  generateLessonDescription,
+  analyzeInstructorEngagement,
   chatWithAI,
   analyzeProgress,
   getConversations,

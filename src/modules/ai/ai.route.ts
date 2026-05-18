@@ -35,6 +35,33 @@ router.post(
 );
 
 router.post(
+  '/instructor/generate-quiz',
+  requirePermission(PERMISSIONS.AI_QUIZ_USE),
+  validateRequest(AIValidations.quizGeneratorSchema),
+  AIController.generateInstructorQuiz
+);
+
+router.post(
+  '/instructor/generate-outline',
+  requirePermission(PERMISSIONS.AI_ROADMAP_USE),
+  validateRequest(AIValidations.courseOutlineSchema),
+  AIController.generateCourseOutline
+);
+
+router.post(
+  '/instructor/generate-lesson-description',
+  requirePermission(PERMISSIONS.AI_ROADMAP_USE),
+  validateRequest(AIValidations.lessonDescriptionSchema),
+  AIController.generateLessonDescription
+);
+
+router.get(
+  '/instructor/engagement-analysis',
+  requirePermission(PERMISSIONS.ANALYTICS_VIEW),
+  AIController.analyzeInstructorEngagement
+);
+
+router.post(
   '/chat',
   requirePermission(PERMISSIONS.AI_TUTOR_USE),
   validateRequest(AIValidations.aiChatSchema),

@@ -1,12 +1,7 @@
-import {
-  __toESM,
-  require_main
-} from "./chunk-UUJ3CLGP.mjs";
-
 // src/config/index.ts
-var import_dotenv = __toESM(require_main(), 1);
+import dotenv from "dotenv";
 import path from "path";
-import_dotenv.default.config({ path: path.join(process.cwd(), ".env") });
+dotenv.config({ path: path.join(process.cwd(), ".env") });
 var envConfig = {
   NODE_ENV: process.env.NODE_ENV || "development",
   PORT: Number(process.env.PORT) || 5e3,

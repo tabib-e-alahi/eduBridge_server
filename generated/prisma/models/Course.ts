@@ -28,10 +28,12 @@ export type AggregateCourse = {
 
 export type CourseAvgAggregateOutputType = {
   price: number | null
+  completionCriteria: number | null
 }
 
 export type CourseSumAggregateOutputType = {
   price: number | null
+  completionCriteria: number | null
 }
 
 export type CourseMinAggregateOutputType = {
@@ -45,6 +47,8 @@ export type CourseMinAggregateOutputType = {
   duration: string | null
   level: string | null
   status: $Enums.CourseStatus | null
+  completionCriteria: number | null
+  language: string | null
   instructorId: string | null
   categoryId: string | null
   createdAt: Date | null
@@ -62,6 +66,8 @@ export type CourseMaxAggregateOutputType = {
   duration: string | null
   level: string | null
   status: $Enums.CourseStatus | null
+  completionCriteria: number | null
+  language: string | null
   instructorId: string | null
   categoryId: string | null
   createdAt: Date | null
@@ -81,6 +87,11 @@ export type CourseCountAggregateOutputType = {
   duration: number
   level: number
   status: number
+  completionCriteria: number
+  tags: number
+  language: number
+  whatYouWillLearn: number
+  requirements: number
   instructorId: number
   categoryId: number
   createdAt: number
@@ -91,10 +102,12 @@ export type CourseCountAggregateOutputType = {
 
 export type CourseAvgAggregateInputType = {
   price?: true
+  completionCriteria?: true
 }
 
 export type CourseSumAggregateInputType = {
   price?: true
+  completionCriteria?: true
 }
 
 export type CourseMinAggregateInputType = {
@@ -108,6 +121,8 @@ export type CourseMinAggregateInputType = {
   duration?: true
   level?: true
   status?: true
+  completionCriteria?: true
+  language?: true
   instructorId?: true
   categoryId?: true
   createdAt?: true
@@ -125,6 +140,8 @@ export type CourseMaxAggregateInputType = {
   duration?: true
   level?: true
   status?: true
+  completionCriteria?: true
+  language?: true
   instructorId?: true
   categoryId?: true
   createdAt?: true
@@ -144,6 +161,11 @@ export type CourseCountAggregateInputType = {
   duration?: true
   level?: true
   status?: true
+  completionCriteria?: true
+  tags?: true
+  language?: true
+  whatYouWillLearn?: true
+  requirements?: true
   instructorId?: true
   categoryId?: true
   createdAt?: true
@@ -250,6 +272,11 @@ export type CourseGroupByOutputType = {
   duration: string | null
   level: string
   status: $Enums.CourseStatus
+  completionCriteria: number
+  tags: string[]
+  language: string
+  whatYouWillLearn: string[]
+  requirements: string[]
   instructorId: string
   categoryId: string
   createdAt: Date
@@ -292,6 +319,11 @@ export type CourseWhereInput = {
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
   status?: Prisma.EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFilter<"Course"> | number
+  tags?: Prisma.StringNullableListFilter<"Course">
+  language?: Prisma.StringFilter<"Course"> | string
+  whatYouWillLearn?: Prisma.StringNullableListFilter<"Course">
+  requirements?: Prisma.StringNullableListFilter<"Course">
   instructorId?: Prisma.StringFilter<"Course"> | string
   categoryId?: Prisma.StringFilter<"Course"> | string
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
@@ -321,6 +353,11 @@ export type CourseOrderByWithRelationInput = {
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  whatYouWillLearn?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -353,6 +390,11 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
   status?: Prisma.EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFilter<"Course"> | number
+  tags?: Prisma.StringNullableListFilter<"Course">
+  language?: Prisma.StringFilter<"Course"> | string
+  whatYouWillLearn?: Prisma.StringNullableListFilter<"Course">
+  requirements?: Prisma.StringNullableListFilter<"Course">
   instructorId?: Prisma.StringFilter<"Course"> | string
   categoryId?: Prisma.StringFilter<"Course"> | string
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
@@ -382,6 +424,11 @@ export type CourseOrderByWithAggregationInput = {
   duration?: Prisma.SortOrderInput | Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  whatYouWillLearn?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -409,6 +456,11 @@ export type CourseScalarWhereWithAggregatesInput = {
   duration?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null
   level?: Prisma.StringWithAggregatesFilter<"Course"> | string
   status?: Prisma.EnumCourseStatusWithAggregatesFilter<"Course"> | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatWithAggregatesFilter<"Course"> | number
+  tags?: Prisma.StringNullableListFilter<"Course">
+  language?: Prisma.StringWithAggregatesFilter<"Course"> | string
+  whatYouWillLearn?: Prisma.StringNullableListFilter<"Course">
+  requirements?: Prisma.StringNullableListFilter<"Course">
   instructorId?: Prisma.StringWithAggregatesFilter<"Course"> | string
   categoryId?: Prisma.StringWithAggregatesFilter<"Course"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string
@@ -428,6 +480,11 @@ export type CourseCreateInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -455,6 +512,11 @@ export type CourseUncheckedCreateInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -482,6 +544,11 @@ export type CourseUpdateInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -509,6 +576,11 @@ export type CourseUncheckedUpdateInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -536,6 +608,11 @@ export type CourseCreateManyInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -555,6 +632,11 @@ export type CourseUpdateManyMutationInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -572,6 +654,11 @@ export type CourseUncheckedUpdateManyInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -614,6 +701,11 @@ export type CourseCountOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  language?: Prisma.SortOrder
+  whatYouWillLearn?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -622,6 +714,7 @@ export type CourseCountOrderByAggregateInput = {
 
 export type CourseAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
 }
 
 export type CourseMaxOrderByAggregateInput = {
@@ -635,6 +728,8 @@ export type CourseMaxOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -652,6 +747,8 @@ export type CourseMinOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   instructorId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -660,6 +757,7 @@ export type CourseMinOrderByAggregateInput = {
 
 export type CourseSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  completionCriteria?: Prisma.SortOrder
 }
 
 export type CourseCreateNestedOneWithoutAssignmentsInput = {
@@ -726,6 +824,18 @@ export type CourseCreategalleryPublicIdsInput = {
   set: string[]
 }
 
+export type CourseCreatetagsInput = {
+  set: string[]
+}
+
+export type CourseCreatewhatYouWillLearnInput = {
+  set: string[]
+}
+
+export type CourseCreaterequirementsInput = {
+  set: string[]
+}
+
 export type CourseUpdategalleryUrlsInput = {
   set?: string[]
   push?: string | string[]
@@ -746,6 +856,21 @@ export type FloatFieldUpdateOperationsInput = {
 
 export type EnumCourseStatusFieldUpdateOperationsInput = {
   set?: $Enums.CourseStatus
+}
+
+export type CourseUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type CourseUpdatewhatYouWillLearnInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type CourseUpdaterequirementsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type CourseCreateNestedOneWithoutSavedByInput = {
@@ -901,6 +1026,11 @@ export type CourseCreateWithoutAssignmentsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -927,6 +1057,11 @@ export type CourseUncheckedCreateWithoutAssignmentsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -969,6 +1104,11 @@ export type CourseUpdateWithoutAssignmentsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -995,6 +1135,11 @@ export type CourseUncheckedUpdateWithoutAssignmentsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1021,6 +1166,11 @@ export type CourseCreateWithoutInstructorInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CourseCategoryCreateNestedOneWithoutCoursesInput
@@ -1047,6 +1197,11 @@ export type CourseUncheckedCreateWithoutInstructorInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1102,6 +1257,11 @@ export type CourseScalarWhereInput = {
   duration?: Prisma.StringNullableFilter<"Course"> | string | null
   level?: Prisma.StringFilter<"Course"> | string
   status?: Prisma.EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFilter<"Course"> | number
+  tags?: Prisma.StringNullableListFilter<"Course">
+  language?: Prisma.StringFilter<"Course"> | string
+  whatYouWillLearn?: Prisma.StringNullableListFilter<"Course">
+  requirements?: Prisma.StringNullableListFilter<"Course">
   instructorId?: Prisma.StringFilter<"Course"> | string
   categoryId?: Prisma.StringFilter<"Course"> | string
   createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string
@@ -1121,6 +1281,11 @@ export type CourseCreateWithoutSavedByInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1147,6 +1312,11 @@ export type CourseUncheckedCreateWithoutSavedByInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1189,6 +1359,11 @@ export type CourseUpdateWithoutSavedByInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1215,6 +1390,11 @@ export type CourseUncheckedUpdateWithoutSavedByInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1241,6 +1421,11 @@ export type CourseCreateWithoutCategoryInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1267,6 +1452,11 @@ export type CourseUncheckedCreateWithoutCategoryInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1319,6 +1509,11 @@ export type CourseCreateWithoutEnrollmentsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1345,6 +1540,11 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1387,6 +1587,11 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1413,6 +1618,11 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1439,6 +1649,11 @@ export type CourseCreateWithoutLessonsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1465,6 +1680,11 @@ export type CourseUncheckedCreateWithoutLessonsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1507,6 +1727,11 @@ export type CourseUpdateWithoutLessonsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1533,6 +1758,11 @@ export type CourseUncheckedUpdateWithoutLessonsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1559,6 +1789,11 @@ export type CourseCreateWithoutLiveClassesInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1585,6 +1820,11 @@ export type CourseUncheckedCreateWithoutLiveClassesInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1627,6 +1867,11 @@ export type CourseUpdateWithoutLiveClassesInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1653,6 +1898,11 @@ export type CourseUncheckedUpdateWithoutLiveClassesInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1679,6 +1929,11 @@ export type CourseCreateWithoutOrdersInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1705,6 +1960,11 @@ export type CourseUncheckedCreateWithoutOrdersInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1747,6 +2007,11 @@ export type CourseUpdateWithoutOrdersInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1773,6 +2038,11 @@ export type CourseUncheckedUpdateWithoutOrdersInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1799,6 +2069,11 @@ export type CourseCreateWithoutQuizzesInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1825,6 +2100,11 @@ export type CourseUncheckedCreateWithoutQuizzesInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1867,6 +2147,11 @@ export type CourseUpdateWithoutQuizzesInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -1893,6 +2178,11 @@ export type CourseUncheckedUpdateWithoutQuizzesInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1919,6 +2209,11 @@ export type CourseCreateWithoutReviewsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   instructor: Prisma.UserCreateNestedOneWithoutCoursesInput
@@ -1945,6 +2240,11 @@ export type CourseUncheckedCreateWithoutReviewsInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   categoryId: string
   createdAt?: Date | string
@@ -1987,6 +2287,11 @@ export type CourseUpdateWithoutReviewsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -2013,6 +2318,11 @@ export type CourseUncheckedUpdateWithoutReviewsInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2039,6 +2349,11 @@ export type CourseCreateManyInstructorInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2057,6 +2372,11 @@ export type CourseUpdateWithoutInstructorInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CourseCategoryUpdateOneRequiredWithoutCoursesNestedInput
@@ -2083,6 +2403,11 @@ export type CourseUncheckedUpdateWithoutInstructorInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2109,6 +2434,11 @@ export type CourseUncheckedUpdateManyWithoutInstructorInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2127,6 +2457,11 @@ export type CourseCreateManyCategoryInput = {
   duration?: string | null
   level?: string
   status?: $Enums.CourseStatus
+  completionCriteria?: number
+  tags?: Prisma.CourseCreatetagsInput | string[]
+  language?: string
+  whatYouWillLearn?: Prisma.CourseCreatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseCreaterequirementsInput | string[]
   instructorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2145,6 +2480,11 @@ export type CourseUpdateWithoutCategoryInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   instructor?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
@@ -2171,6 +2511,11 @@ export type CourseUncheckedUpdateWithoutCategoryInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2197,6 +2542,11 @@ export type CourseUncheckedUpdateManyWithoutCategoryInput = {
   duration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   level?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
+  completionCriteria?: Prisma.FloatFieldUpdateOperationsInput | number
+  tags?: Prisma.CourseUpdatetagsInput | string[]
+  language?: Prisma.StringFieldUpdateOperationsInput | string
+  whatYouWillLearn?: Prisma.CourseUpdatewhatYouWillLearnInput | string[]
+  requirements?: Prisma.CourseUpdaterequirementsInput | string[]
   instructorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2309,6 +2659,11 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   duration?: boolean
   level?: boolean
   status?: boolean
+  completionCriteria?: boolean
+  tags?: boolean
+  language?: boolean
+  whatYouWillLearn?: boolean
+  requirements?: boolean
   instructorId?: boolean
   categoryId?: boolean
   createdAt?: boolean
@@ -2339,6 +2694,11 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   duration?: boolean
   level?: boolean
   status?: boolean
+  completionCriteria?: boolean
+  tags?: boolean
+  language?: boolean
+  whatYouWillLearn?: boolean
+  requirements?: boolean
   instructorId?: boolean
   categoryId?: boolean
   createdAt?: boolean
@@ -2360,6 +2720,11 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   duration?: boolean
   level?: boolean
   status?: boolean
+  completionCriteria?: boolean
+  tags?: boolean
+  language?: boolean
+  whatYouWillLearn?: boolean
+  requirements?: boolean
   instructorId?: boolean
   categoryId?: boolean
   createdAt?: boolean
@@ -2381,13 +2746,18 @@ export type CourseSelectScalar = {
   duration?: boolean
   level?: boolean
   status?: boolean
+  completionCriteria?: boolean
+  tags?: boolean
+  language?: boolean
+  whatYouWillLearn?: boolean
+  requirements?: boolean
   instructorId?: boolean
   categoryId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnailUrl" | "thumbnailPublicId" | "galleryUrls" | "galleryPublicIds" | "price" | "duration" | "level" | "status" | "instructorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnailUrl" | "thumbnailPublicId" | "galleryUrls" | "galleryPublicIds" | "price" | "duration" | "level" | "status" | "completionCriteria" | "tags" | "language" | "whatYouWillLearn" | "requirements" | "instructorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   instructor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CourseCategoryDefaultArgs<ExtArgs>
@@ -2437,6 +2807,11 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     duration: string | null
     level: string
     status: $Enums.CourseStatus
+    completionCriteria: number
+    tags: string[]
+    language: string
+    whatYouWillLearn: string[]
+    requirements: string[]
     instructorId: string
     categoryId: string
     createdAt: Date
@@ -2886,6 +3261,11 @@ export interface CourseFieldRefs {
   readonly duration: Prisma.FieldRef<"Course", 'String'>
   readonly level: Prisma.FieldRef<"Course", 'String'>
   readonly status: Prisma.FieldRef<"Course", 'CourseStatus'>
+  readonly completionCriteria: Prisma.FieldRef<"Course", 'Float'>
+  readonly tags: Prisma.FieldRef<"Course", 'String[]'>
+  readonly language: Prisma.FieldRef<"Course", 'String'>
+  readonly whatYouWillLearn: Prisma.FieldRef<"Course", 'String[]'>
+  readonly requirements: Prisma.FieldRef<"Course", 'String[]'>
   readonly instructorId: Prisma.FieldRef<"Course", 'String'>
   readonly categoryId: Prisma.FieldRef<"Course", 'String'>
   readonly createdAt: Prisma.FieldRef<"Course", 'DateTime'>

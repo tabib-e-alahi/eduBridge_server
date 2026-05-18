@@ -20,8 +20,8 @@ const uploadImage = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'Image uploaded successfully',
     data: {
-      url: file.path, // Cloudinary URL
-      publicId: file.filename, // Cloudinary public ID
+      url: file.cloudinaryUrl,
+      publicId: file.cloudinaryPublicId,
     },
   });
 });
@@ -29,7 +29,7 @@ const uploadImage = catchAsync(async (req: Request, res: Response) => {
 const deleteImage = catchAsync(async (req: Request, res: Response) => {
   const { publicId } = req.params;
   const uploadService = (await import('../../utils/upload.service')).default;
-  
+
   const result = await uploadService.deleteImage(publicId as string);
 
   if (!result) {

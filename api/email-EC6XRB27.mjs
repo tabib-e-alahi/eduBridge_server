@@ -1,7 +1,6 @@
 import {
   config_default
-} from "./chunk-E2FAVKNM.mjs";
-import "./chunk-UUJ3CLGP.mjs";
+} from "./chunk-Y6NVD232.mjs";
 
 // src/lib/email.ts
 import nodemailer from "nodemailer";
@@ -91,18 +90,6 @@ var EmailService = {
       <a href="${verificationUrl}" class="button">Verify Email Address</a>
       <p>This link will expire in 24 hours.</p>
       <p>If you did not create an account, you can safely ignore this email.</p>
-    `;
-    return sendEmail(to, title, generateHTML(content, title));
-  },
-  async sendPasswordResetEmail(to, token) {
-    const title = "Reset Your Password";
-    const resetUrl = `${config_default.FRONTEND_URL}/reset-password?token=${token}`;
-    console.log(`[EmailService] Password Reset Link for ${to}: ${resetUrl}`);
-    const content = `
-      <p>You requested a password reset. Click the button below to set a new password:</p>
-      <a href="${resetUrl}" class="button">Reset Password</a>
-      <p>This link will expire in 1 hour.</p>
-      <p>If you did not request this, please ignore this email and ensure your account is secure.</p>
     `;
     return sendEmail(to, title, generateHTML(content, title));
   },

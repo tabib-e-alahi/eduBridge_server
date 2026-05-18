@@ -18,6 +18,12 @@ router.get(
 );
 
 router.get(
+  '/instructor/earnings',
+  requirePermission(PERMISSIONS.ANALYTICS_VIEW),
+  DashboardController.getInstructorEarnings
+);
+
+router.get(
   '/admin',
   requirePermission(PERMISSIONS.ANALYTICS_VIEW_ALL),
   DashboardController.getAdminDashboard

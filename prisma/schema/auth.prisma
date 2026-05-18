@@ -1,35 +1,35 @@
 model User {
-  id              String           @id @default(uuid())
-  email           String           @unique
-  name            String?
-  emailVerified   Boolean          @default(false)
-  image           String?
-  imagePublicId   String?
-  role            Role             @default(STUDENT)
-  status          UserStatus       @default(ACTIVE)
-  password        String?
-  profile         Profile?
-  mentorProfile   Mentor?
-  enrollments     Enrollment[]
-  savedCourses    SavedCourse[]
-  reviews         Review[]
-  blogs           Blog[]
-  quizAttempts    QuizAttempt[]
-  learningPaths   LearningPath[]
-  aiConversations AIConversation[]
-  notifications   Notification[]
-  auditLogs       AuditLog[]
-  aiRequestLogs   AIRequestLog[]
-  accounts        Account[]
-  sessions            Session[]
-  sentMessages        Message[]        @relation("SentMessages")
-  receivedMessages    Message[]        @relation("ReceivedMessages")
-  submissions         AssignmentSubmission[] @relation("StudentSubmissions")
-  reports             Report[]         @relation("Reporter")
-  orders              Order[]
-  createdAt           DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  courses         Course[]
+  id               String                 @id @default(uuid())
+  email            String                 @unique
+  name             String?
+  emailVerified    Boolean                @default(false)
+  image            String?
+  imagePublicId    String?
+  role             Role                   @default(STUDENT)
+  status           UserStatus             @default(ACTIVE)
+  password         String?
+  profile          Profile?
+  mentorProfile    Mentor?
+  enrollments      Enrollment[]
+  savedCourses     SavedCourse[]
+  reviews          Review[]
+  blogs            Blog[]
+  quizAttempts     QuizAttempt[]
+  learningPaths    LearningPath[]
+  aiConversations  AIConversation[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  aiRequestLogs    AIRequestLog[]
+  accounts         Account[]
+  sessions         Session[]
+  sentMessages     Message[]              @relation("SentMessages")
+  receivedMessages Message[]              @relation("ReceivedMessages")
+  submissions      AssignmentSubmission[] @relation("StudentSubmissions")
+  reports          Report[]               @relation("Reporter")
+  orders           Order[]
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+  courses          Course[]
 
   @@index([email])
   @@index([role])

@@ -89,7 +89,29 @@ const getUserDashboardData = async (userId: string) => {
 };
 
 const getInstructorDashboardData = async (userId: string) => {
-  const [myCourses, recentReviews, totalEnrollments, recentEnrollments, revenueData] = await Promise.all([
+  const now = new Date();
+  const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  const [
+    myCourses,
+    recentReviews,
+    totalEnrollments,
+    recentEnrollments,
+    revenueData,
+    currentMonthRevenue,
+    lastMonthRevenue,
+    currentMonthStudents,
+    lastMonthStudents,
+    currentMonthReviews,
+    lastMonthReviews,
+    currentMonthRating,
+    lastMonthRating,
+    atRiskCount,
+    profile,
+    aiUsageCount,
+  ] = await Promise.all([
     prisma.course.findMany({
       where: { instructorId: userId },
       include: {
@@ -124,6 +146,73 @@ const getInstructorDashboardData = async (userId: string) => {
         status: 'SUCCESS'
       },
       _sum: { amount: true },
+    }),
+    prisma.order.aggregate({
+      where: {
+        course: { instructorId: userId },
+        status: 'SUCCESS',
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart },
+      },
+      _sum: { amount: true },
+    }),
+    prisma.order.aggregate({
+      where: {
+        course: { instructorId: userId },
+        status: 'SUCCESS',
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart },
+      },
+      _sum: { amount: true },
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart },
+      },
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart },
+      },
+    }),
+    prisma.review.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart },
+      },
+    }),
+    prisma.review.count({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart },
+      },
+    }),
+    prisma.review.aggregate({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: currentMonthStart, lt: nextMonthStart },
+      },
+      _avg: { rating: true },
+    }),
+    prisma.review.aggregate({
+      where: {
+        course: { instructorId: userId },
+        createdAt: { gte: lastMonthStart, lt: currentMonthStart },
+      },
+      _avg: { rating: true },
+    }),
+    prisma.enrollment.count({
+      where: {
+        course: { instructorId: userId },
+        progress: { lt: 10 },
+      },
+    }),
+    prisma.profile.findUnique({
+      where: { userId },
+      select: { id: true, bio: true, expertise: true },
+    }),
+    prisma.aIRequestLog.count({
+      where: { userId },
     }),
   ]);
 
@@ -183,6 +272,30 @@ const getInstructorDashboardData = async (userId: string) => {
       avgRating: Number(avgRating.toFixed(1)),
       totalReviews: totalReviewCount,
       totalRevenue: revenueData._sum.amount || 0,
+      comparisons: {
+        revenue: {
+          currentMonth: currentMonthRevenue._sum.amount || 0,
+          lastMonth: lastMonthRevenue._sum.amount || 0,
+        },
+        students: {
+          currentMonth: currentMonthStudents,
+          lastMonth: lastMonthStudents,
+        },
+        reviews: {
+          currentMonth: currentMonthReviews,
+          lastMonth: lastMonthReviews,
+        },
+        rating: {
+          currentMonth: Number((currentMonthRating._avg.rating || 0).toFixed(1)),
+          lastMonth: Number((lastMonthRating._avg.rating || 0).toFixed(1)),
+        },
+      },
+      atRiskCount,
+      onboarding: {
+        hasProfile: Boolean(profile?.bio || profile?.expertise?.length),
+        hasCourse: myCourses.length > 0,
+        hasAIExplored: aiUsageCount > 0,
+      },
     },
     coursePerformance: myCourses.map(c => {
       const rating = c.reviews.length > 0 
@@ -200,6 +313,104 @@ const getInstructorDashboardData = async (userId: string) => {
       ratingDistribution: ratingDist,
       completionRates: completionData
     }
+  };
+};
+
+const getInstructorEarningsData = async (userId: string) => {
+  const orders = await prisma.order.findMany({
+    where: {
+      course: { instructorId: userId },
+      status: 'SUCCESS',
+    },
+    include: {
+      course: { select: { id: true, title: true, price: true, status: true } },
+      user: { select: { name: true, email: true } },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const PLATFORM_FEE = 0.2;
+  const totalGross = orders.reduce((sum, order) => sum + order.amount, 0);
+  const totalNet = totalGross * (1 - PLATFORM_FEE);
+  const now = new Date();
+
+  const thisMonthGross = orders
+    .filter(order => {
+      const orderDate = new Date(order.createdAt);
+      return (
+        orderDate.getMonth() === now.getMonth() &&
+        orderDate.getFullYear() === now.getFullYear()
+      );
+    })
+    .reduce((sum, order) => sum + order.amount, 0);
+
+  const monthlyEarnings = Array.from({ length: 12 }, (_, index) => {
+    const date = new Date(now.getFullYear(), now.getMonth() - (11 - index), 1);
+    const monthOrders = orders.filter(order => {
+      const orderDate = new Date(order.createdAt);
+      return (
+        orderDate.getMonth() === date.getMonth() &&
+        orderDate.getFullYear() === date.getFullYear()
+      );
+    });
+    const gross = monthOrders.reduce((sum, order) => sum + order.amount, 0);
+
+    return {
+      month: date.toLocaleString('default', { month: 'short', year: '2-digit' }),
+      gross: Number(gross.toFixed(2)),
+      net: Number((gross * (1 - PLATFORM_FEE)).toFixed(2)),
+    };
+  });
+
+  const courseMap = new Map<
+    string,
+    { title: string; price: number; students: number; gross: number; status: string }
+  >();
+
+  for (const order of orders) {
+    if (!courseMap.has(order.courseId)) {
+      courseMap.set(order.courseId, {
+        title: order.course.title,
+        price: order.course.price,
+        students: 0,
+        gross: 0,
+        status: order.course.status,
+      });
+    }
+
+    const course = courseMap.get(order.courseId);
+    if (course) {
+      course.students += 1;
+      course.gross += order.amount;
+    }
+  }
+
+  const courseEarnings = Array.from(courseMap.values()).map(course => ({
+    ...course,
+    gross: Number(course.gross.toFixed(2)),
+    fee: Number((course.gross * PLATFORM_FEE).toFixed(2)),
+    net: Number((course.gross * (1 - PLATFORM_FEE)).toFixed(2)),
+  }));
+
+  return {
+    stats: {
+      totalGross: Number(totalGross.toFixed(2)),
+      totalNet: Number(totalNet.toFixed(2)),
+      thisMonthGross: Number(thisMonthGross.toFixed(2)),
+      thisMonthNet: Number((thisMonthGross * (1 - PLATFORM_FEE)).toFixed(2)),
+      pendingPayouts: Number(totalNet.toFixed(2)),
+      platformFeePercent: PLATFORM_FEE * 100,
+    },
+    monthlyEarnings,
+    courseEarnings,
+    recentTransactions: orders.slice(0, 50).map(order => ({
+      studentName: order.user.name,
+      studentEmail: order.user.email,
+      courseTitle: order.course.title,
+      amount: order.amount,
+      date: order.createdAt,
+      status: order.status,
+    })),
   };
 };
 
@@ -322,5 +533,6 @@ const getAdminDashboardData = async () => {
 export const DashboardService = {
   getUserDashboardData,
   getInstructorDashboardData,
+  getInstructorEarningsData,
   getAdminDashboardData,
 };

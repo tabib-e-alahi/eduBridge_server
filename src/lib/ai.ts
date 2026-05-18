@@ -4,7 +4,9 @@ import envConfig from '../config';
 // Initialize the Gemini API
 const genAI = new GoogleGenerativeAI(envConfig.GEMINI_API_KEY || '');
 
-export const geminiModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+export const GEMINI_MODEL_NAME = 'gemini-2.5-flash';
+
+export const geminiModel = genAI.getGenerativeModel({ model: GEMINI_MODEL_NAME });
 
 export const generateAIResponse = async (prompt: string) => {
   try {

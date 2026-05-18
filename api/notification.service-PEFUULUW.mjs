@@ -1,7 +1,6 @@
 import {
   notification_service_default
-} from "./chunk-F74YTD2S.mjs";
-import "./chunk-UUJ3CLGP.mjs";
+} from "./chunk-3IWMRWQB.mjs";
 export {
   notification_service_default as default
 };

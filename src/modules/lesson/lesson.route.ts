@@ -3,34 +3,43 @@ import { LessonController } from './lesson.controller';
 import auth from '../../middlewares/auth';
 import { PERMISSIONS } from '../../config/permissions';
 import validateRequest from '../../middlewares/validateRequest';
-import { z } from 'zod';
 import { requirePermission } from '../../middlewares/permission';
+import { LessonValidations } from './lesson.validation';
 
 const router: Router = Router();
-
-const lessonSchema = z.object({
-  body: z.object({
-    title: z.string('Title is required'),
-    slug: z.string('Slug is required'),
-    content: z.string().optional(),
-    videoUrl: z.string().optional(),
-    duration: z.string().optional(),
-    order: z.number('Order is required'),
-    courseId: z.string('Course ID is required'),
-  }),
-});
 
 router.post(
   '/',
   requirePermission(PERMISSIONS.LESSON_CREATE),
-  validateRequest(lessonSchema),
+  validateRequest(LessonValidations.createLessonZodSchema),
   LessonController.createLesson
+);
+
+router.patch(
+  '/reorder',
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest(LessonValidations.reorderLessonsZodSchema),
+  LessonController.reorderLessons
+);
+
+router.get(
+  '/:id',
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  LessonController.getLessonById
 );
 
 router.patch(
   '/:id',
   requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest(LessonValidations.updateLessonZodSchema),
   LessonController.updateLesson
+);
+
+router.patch(
+  '/:id/full',
+  requirePermission(PERMISSIONS.LESSON_UPDATE),
+  validateRequest(LessonValidations.updateLessonFullZodSchema),
+  LessonController.updateLessonFull
 );
 
 router.delete(

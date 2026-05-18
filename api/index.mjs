@@ -1,14 +1,13 @@
 import {
   notification_service_default,
   prisma
-} from "./chunk-F74YTD2S.mjs";
+} from "./chunk-3IWMRWQB.mjs";
 import {
   upload_service_default
-} from "./chunk-MCSTWC3T.mjs";
+} from "./chunk-UMC2Z43O.mjs";
 import {
   config_default
-} from "./chunk-E2FAVKNM.mjs";
-import "./chunk-UUJ3CLGP.mjs";
+} from "./chunk-Y6NVD232.mjs";
 
 // src/app.ts
 import express16 from "express";
@@ -24,17 +23,13 @@ var auth = betterAuth({
     // or "mysql", "postgresql", ...etc
   }),
   emailAndPassword: {
-    enabled: true,
-    sendResetPassword: async ({ user, token }) => {
-      const EmailService = (await import("./email-EZ4YT45S.mjs")).default;
-      await EmailService.sendPasswordResetEmail(user.email, token);
-    }
+    enabled: true
   },
   emailVerification: {
     enabled: true,
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, token }) => {
-      const EmailService = (await import("./email-EZ4YT45S.mjs")).default;
+      const EmailService = (await import("./email-EC6XRB27.mjs")).default;
       await EmailService.sendVerificationEmail(user.email, token);
     }
   },
@@ -72,7 +67,7 @@ var auth = betterAuth({
           return { data: user };
         },
         after: async (user) => {
-          const EmailService = (await import("./email-EZ4YT45S.mjs")).default;
+          const EmailService = (await import("./email-EC6XRB27.mjs")).default;
           await EmailService.sendWelcomeEmail(user.email, user.name || "Learner");
         }
       }
@@ -403,7 +398,7 @@ var generateLearningPath = async (userId, payload) => {
       steps: roadmapData
     }
   });
-  const NotificationService = (await import("./notification.service-Y4CYNPIF.mjs")).default;
+  const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
   NotificationService.notifyLearningPathGenerated(userId, roadmapData.roadmapTitle);
   return learningPath;
 };
@@ -957,7 +952,7 @@ var updateCourseInDB = async (id, payload) => {
     data: payload
   });
   if (payload.status === "PUBLISHED") {
-    const NotificationService = (await import("./notification.service-Y4CYNPIF.mjs")).default;
+    const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
     NotificationService.notifyNewCoursePublished(result.title);
   }
   return result;
@@ -1600,8 +1595,8 @@ var enrollInCourseInDB = async (userId, courseId) => {
       user: true
     }
   });
-  const NotificationService = (await import("./notification.service-Y4CYNPIF.mjs")).default;
-  const EmailService = (await import("./email-EZ4YT45S.mjs")).default;
+  const NotificationService = (await import("./notification.service-PEFUULUW.mjs")).default;
+  const EmailService = (await import("./email-EC6XRB27.mjs")).default;
   NotificationService.notifyEnrollmentSuccess(userId, result.course.title);
   EmailService.sendEnrollmentConfirmation(result.user.email, result.user.name || "Learner", result.course.title);
   return result;
@@ -2391,16 +2386,14 @@ var uploadImage = catchAsync_default(async (req, res) => {
     success: true,
     message: "Image uploaded successfully",
     data: {
-      url: file.path,
-      // Cloudinary URL
-      publicId: file.filename
-      // Cloudinary public ID
+      url: file.cloudinaryUrl,
+      publicId: file.cloudinaryPublicId
     }
   });
 });
 var deleteImage = catchAsync_default(async (req, res) => {
   const { publicId } = req.params;
-  const uploadService = (await import("./upload.service-XF3RAJHJ.mjs")).default;
+  const uploadService = (await import("./upload.service-NN5BW2H2.mjs")).default;
   const result = await uploadService.deleteImage(publicId);
   if (!result) {
     return sendResponse_default(res, {
@@ -2427,7 +2420,7 @@ var router10 = Router10();
 router10.post(
   "/image",
   requireAuth,
-  upload_service_default.single("image"),
+  ...upload_service_default.single("image"),
   UploadController.uploadImage
 );
 router10.delete(

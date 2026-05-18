@@ -97,19 +97,6 @@ const EmailService = {
     return sendEmail(to, title, generateHTML(content, title));
   },
 
-  async sendPasswordResetEmail(to: string, token: string) {
-    const title = 'Reset Your Password';
-    const resetUrl = `${envConfig.FRONTEND_URL}/reset-password?token=${token}`;
-    console.log(`[EmailService] Password Reset Link for ${to}: ${resetUrl}`);
-    const content = `
-      <p>You requested a password reset. Click the button below to set a new password:</p>
-      <a href="${resetUrl}" class="button">Reset Password</a>
-      <p>This link will expire in 1 hour.</p>
-      <p>If you did not request this, please ignore this email and ensure your account is secure.</p>
-    `;
-    return sendEmail(to, title, generateHTML(content, title));
-  },
-
   async sendEnrollmentConfirmation(to: string, name: string, courseTitle: string) {
     const title = 'Enrollment Confirmed! 🎓';
     const content = `

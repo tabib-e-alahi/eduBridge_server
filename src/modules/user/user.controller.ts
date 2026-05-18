@@ -51,9 +51,36 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateInstructorProfile = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await UserService.updateInstructorProfile(userId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Instructor profile updated successfully',
+    data: result,
+  });
+});
+
+const getStudentProgressForInstructor = catchAsync(async (req: Request, res: Response) => {
+  const instructorId = (req as any).user.id;
+  const { studentId } = req.params;
+  const result = await UserService.getStudentProgressForInstructor(instructorId, studentId as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student progress retrieved successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   getAllUsers,
   getSingleUser,
   getMyProfile,
   updateMyProfile,
+  updateInstructorProfile,
+  getStudentProgressForInstructor,
 };

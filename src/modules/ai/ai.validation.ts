@@ -21,6 +21,24 @@ const quizGeneratorSchema = z.object({
     topic: z.string('Topic is required'),
     difficulty: z.enum(['Easy', 'Medium', 'Hard']).optional(),
     count: z.number().min(1).max(20).optional(),
+    courseId: z.string().optional(),
+    saveToDb: z.boolean().optional(),
+  }),
+});
+
+const courseOutlineSchema = z.object({
+  body: z.object({
+    topic: z.string('Topic is required').min(1),
+    targetAudience: z.string('Target audience is required').min(1),
+    durationWeeks: z.number().min(1).max(52).optional(),
+    level: z.string().optional(),
+  }),
+});
+
+const lessonDescriptionSchema = z.object({
+  body: z.object({
+    lessonTitle: z.string('Lesson title is required').min(1),
+    keyConcepts: z.string('Key concepts are required').min(1),
   }),
 });
 
@@ -40,6 +58,8 @@ export const AIValidations = {
   learningPathSchema,
   courseRecommendationsSchema,
   quizGeneratorSchema,
+  courseOutlineSchema,
+  lessonDescriptionSchema,
   aiChatSchema,
   progressAnalyzerSchema,
 };

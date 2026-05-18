@@ -18,6 +18,8 @@ import { AdminRoutes } from '../modules/admin/admin.route';
 import { MentorRoutes } from '../modules/mentor/mentor.route';
 import { SupportRoutes } from '../modules/support/support.route';
 import { ReviewRoutes } from '../modules/review/review.route';
+import { BlogRoutes } from '../modules/blog/blog.route';
+import { QuizRoutes } from '../modules/quiz/quiz.route';
 
 const router : Router = Router();
 
@@ -41,6 +43,10 @@ const moduleRoutes = [
   {
     path: '/lessons',
     route: LessonRoutes,
+  },
+  {
+    path: '/quizzes',
+    route: QuizRoutes,
   },
   {
     path: '/enrollments',
@@ -93,6 +99,10 @@ const moduleRoutes = [
   {
     path: '/reviews',
     route: ReviewRoutes,
+  },
+  {
+    path: '/blogs',
+    route: BlogRoutes,
   },
 ];
 

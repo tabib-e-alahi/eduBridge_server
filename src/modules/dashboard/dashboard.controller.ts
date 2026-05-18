@@ -28,6 +28,18 @@ const getInstructorDashboard = catchAsync(async (req: Request, res: Response) =>
   });
 });
 
+const getInstructorEarnings = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await DashboardService.getInstructorEarningsData(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Instructor earnings data retrieved successfully',
+    data: result,
+  });
+});
+
 const getAdminDashboard = catchAsync(async (req: Request, res: Response) => {
   const result = await DashboardService.getAdminDashboardData();
 
@@ -42,5 +54,6 @@ const getAdminDashboard = catchAsync(async (req: Request, res: Response) => {
 export const DashboardController = {
   getUserDashboard,
   getInstructorDashboard,
+  getInstructorEarnings,
   getAdminDashboard,
 };

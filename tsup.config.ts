@@ -7,6 +7,7 @@ export default defineConfig({
   clean: true,
   outDir: 'api',
   bundle: true,
+  external: ['dotenv'],
   outExtension() {
     return { js: `.mjs` };
   }

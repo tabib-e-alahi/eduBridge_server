@@ -73,10 +73,24 @@ const createAnnouncement = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const sendCourseAnnouncement = catchAsync(async (req: Request, res: Response) => {
+  const instructorId = (req as any).user.id;
+  const { courseId, title, message } = req.body;
+  const result = await NotificationService.sendCourseAnnouncement(instructorId, courseId, { title, message });
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Course announcement sent successfully',
+    data: result,
+  });
+});
+
 export const NotificationController = {
   getMyNotifications,
   markRead,
   markAllRead,
   deleteNotification,
   createAnnouncement,
+  sendCourseAnnouncement,
 };

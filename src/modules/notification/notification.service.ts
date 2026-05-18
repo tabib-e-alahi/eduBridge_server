@@ -8,6 +8,7 @@ export type NotificationType =
   | 'course_published'
   | 'review_submitted'
   | 'admin_announcement'
+  | 'ANNOUNCEMENT'
   | 'course_approval'
   | 'account_security';
 
@@ -54,6 +55,40 @@ const NotificationService = {
     const users = await prisma.user.findMany({ select: { id: true } });
     const userIds = users.map((u) => u.id);
     return this.broadcast(userIds, title, message, 'admin_announcement');
+  },
+
+  /**
+   * Send a course announcement to every active student in an instructor-owned course.
+   */
+  async sendCourseAnnouncement(instructorId: string, courseId: string, payload: { title: string; message: string }) {
+    const course = await prisma.course.findFirst({
+      where: { id: courseId, instructorId },
+      select: { id: true, title: true },
+    });
+
+    if (!course) {
+      throw new Error('Course not found');
+    }
+
+    const enrollments = await prisma.enrollment.findMany({
+      where: { courseId, status: 'ACTIVE' },
+      select: { userId: true },
+    });
+
+    const notifications = enrollments.map(enrollment => ({
+      userId: enrollment.userId,
+      title: `${course.title}: ${payload.title}`,
+      message: payload.message,
+      type: 'ANNOUNCEMENT',
+    }));
+
+    if (!notifications.length) {
+      return { sent: 0 };
+    }
+
+    await prisma.notification.createMany({ data: notifications });
+
+    return { sent: notifications.length };
   },
 
   /**

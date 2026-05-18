@@ -45,6 +45,54 @@ const generateQuiz = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const generateInstructorQuiz = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await AIService.generateQuiz(userId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Instructor quiz generated successfully',
+    data: result,
+  });
+});
+
+const generateCourseOutline = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await AIService.generateCourseOutline(userId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Course outline generated successfully',
+    data: result,
+  });
+});
+
+const generateLessonDescription = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await AIService.generateLessonDescription(userId, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Lesson description generated successfully',
+    data: result,
+  });
+});
+
+const analyzeInstructorEngagement = catchAsync(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+  const result = await AIService.analyzeInstructorEngagement(userId);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Instructor engagement analysis completed',
+    data: result,
+  });
+});
+
 const chatWithAI = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
 
@@ -112,6 +160,10 @@ export const AIController = {
   generateLearningPath,
   getCourseRecommendations,
   generateQuiz,
+  generateInstructorQuiz,
+  generateCourseOutline,
+  generateLessonDescription,
+  analyzeInstructorEngagement,
   chatWithAI,
   analyzeProgress,
   getConversations,
